@@ -1,14 +1,14 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import ErrorPage from './common-pages/ErrorPage'
 import RutaProtegida from './components/RutaProtegida'
-import LandingPage from './landing-page/LandingPage'
-import LandingPageSections from './landing-page/LandingPageSections'
-import Dashboard from './pages/Dashboard'
-import DashboardIndex from './pages/DashboardIndex'
-import DashboardNegocio from './pages/DashboardNegocios'
-import ErrorPage from './pages/ErrorPage'
-import Funcionalidades from './pages/Funcionalidades'
-import Ingreso from './pages/Ingreso'
-import Registro from './pages/Registro'
+import Funcionalidades from './LandingPage/Funcionalidades'
+import Ingreso from './LandingPage/Ingreso'
+import LandingPage from './LandingPage/LandingPage'
+import LandingPageSections from './LandingPage/LandingPageSections'
+import Registro from './LandingPage/Registro'
+import Dashboard from './PrivateZone/Dashboard'
+import DashboardIndex from './PrivateZone/DashboardIndex'
+import DashboardNegocio from './PrivateZone/DashboardNegocios'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
