@@ -19,7 +19,7 @@ import {
     VStack
 } from '@chakra-ui/react'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import { FcBusiness, FcHome, FcMoneyTransfer } from 'react-icons/fc'
+import { FcBusiness, FcHome } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
 
@@ -27,7 +27,6 @@ import { NavLink, Outlet } from 'react-router-dom'
 const LinkItems = [
     { name: 'Inicio', icon: FcHome, href: '/dashboard' },
     { name: 'Negocios', icon: FcBusiness, href: 'negocios' },
-    { name: 'Créditos', icon: FcMoneyTransfer, href: 'creditos' },
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
 ]
 
