@@ -1,56 +1,56 @@
 # Ignorar node_modules en ambas carpetas
-/previplus-frontend/node_modules
-/previplus-backend/node_modules
+/frontend/node_modules
+/backend/node_modules
 
 # Ignorar package-lock.json si no deseas subirlo (opcional)
-/previplus-frontend/package-lock.json
-/previplus-backend/package-lock.json
+/frontend/package-lock.json
+/backend/package-lock.json
 
 # Ignorar logs en ambas carpetas
-/previplus-frontend/npm-debug.log*
-/previplus-frontend/yarn-debug.log*
-/previplus-frontend/yarn-error.log*
-/previplus-backend/npm-debug.log*
-/previplus-backend/yarn-debug.log*
-/previplus-backend/yarn-error.log*
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
 
 # Ignorar archivos de entorno
-/previplus-frontend/.env
-/previplus-frontend/.env.local
-/previplus-frontend/.env.development.local
-/previplus-frontend/.env.test.local
-/previplus-frontend/.env.production.local
-/previplus-backend/.env
-/previplus-backend/.env.local
-/previplus-backend/.env.development.local
-/previplus-backend/.env.test.local
-/previplus-backend/.env.production.local
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+/backend/.env
+/backend/.env.local
+/backend/.env.development.local
+/backend/.env.test.local
+/backend/.env.production.local
 
 # Ignorar directorios de compilación o producción (puede variar según tu configuración)
-/previplus-frontend/dist
-/previplus-frontend/build
-/previplus-backend/dist
-/previplus-backend/build
+/frontend/dist
+/frontend/build
+/backend/dist
+/backend/build
 
 # Ignorar caches de compilación y herramientas (como Webpack, Parcel)
-/previplus-frontend/.cache
-/previplus-frontend/webpack-cache
-/previplus-frontend/.parcel-cache
-/previplus-backend/.cache
-/previplus-backend/webpack-cache
-/previplus-backend/.parcel-cache
+/frontend/.cache
+/frontend/webpack-cache
+/frontend/.parcel-cache
+/backend/.cache
+/backend/webpack-cache
+/backend/.parcel-cache
 
 # Ignorar cobertura de tests (Jest, nyc)
-/previplus-frontend/coverage
-/previplus-frontend/.nyc_output
-/previplus-backend/coverage
-/previplus-backend/.nyc_output
+/frontend/coverage
+/frontend/.nyc_output
+/backend/coverage
+/backend/.nyc_output
 
 # Ignorar configuraciones específicas de los editores
-/previplus-frontend/.vscode/
-/previplus-frontend/.idea/
-/previplus-backend/.vscode/
-/previplus-backend/.idea/
+/frontend/.vscode/
+/frontend/.idea/
+/backend/.vscode/
+/backend/.idea/
 
 # Archivos de logs globales
 logs
