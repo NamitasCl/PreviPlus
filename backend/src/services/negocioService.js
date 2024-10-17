@@ -24,9 +24,9 @@ class NegocioService {
             .leftJoinAndSelect("negocio.usuario", "usuario") // Hacemos el join con la tabla de usuario
             .select([
                 "negocio.id",
-                "negocio.nombre",
-                "negocio.direccion",
-                "negocio.rut_empresa",
+                "negocio.name",
+                "negocio.address",
+                "negocio.rut",
             ]) // Seleccionamos solo los campos que queremos
             .where("usuario.id = :usuarioId", { usuarioId })
             .getMany();
