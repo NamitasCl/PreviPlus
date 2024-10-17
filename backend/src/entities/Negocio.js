@@ -9,16 +9,20 @@ module.exports = new EntitySchema({
             type: "int",
             generated: true
         },
-        nombre: {
+        name: {
             type: "varchar",
             nullable: false
         },
-        direccion: {
+        address: {
             type: "varchar",
             nullable: true
         },
-        rut_empresa: {
+        rut: {
             type: "varchar",
+            nullable: false
+        },
+        isActive: {
+            type: 'bool',
             nullable: false
         }
     },
