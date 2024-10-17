@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Box, Button, Flex, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
 
 const negociosData = [
@@ -11,11 +11,16 @@ const negociosData = [
 const DashboardNegocio = () => {
     return (
         <Box p={5}>
-            <Heading as="h2" size="lg" mb={5}>
-                Mis Negocios
-            </Heading>
+            <Flex justifyContent={'space-between'}>
+                <Heading as="h2" size="lg" mb={5}>
+                    Mis Negocios
+                </Heading>
+                <Button variant={'solid'} colorScheme='blue'>
+                    Añadir negocio
+                </Button>
+            </Flex>
             <TableContainer>
-                <Table size={'lg'} variant="simple" colorScheme='blue' width="auto" maxWidth="100%">
+                <Table size={'lg'} variant="simple" colorScheme='blue' maxWidth="100%">
                     <Thead>
                         <Tr>
                             <Th>RUT</Th>

@@ -9,6 +9,8 @@ import Registro from './LandingPage/Registro'
 import Dashboard from './PrivateZone/Dashboard'
 import DashboardIndex from './PrivateZone/DashboardIndex'
 import DashboardNegocio from './PrivateZone/DashboardNegocios'
+import Perfil from './PrivateZone/Perfil'
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +23,7 @@ const router = createBrowserRouter(
       <Route path='/registro' element={<Registro />} />
       <Route path='/dashboard' element={<RutaProtegida element={Dashboard} />}>
         <Route index element={<DashboardIndex />} />
+        <Route path='perfil' element={<RutaProtegida element={Perfil} />} />
         <Route path='negocios' element={<RutaProtegida element={DashboardNegocio} />} />
       </Route>
       <Route path='*' element={<ErrorPage />} />
