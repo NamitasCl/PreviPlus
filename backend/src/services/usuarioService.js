@@ -46,9 +46,9 @@ class UsuarioService {
         const passwordMatch = await bcrypt.compare(userData.password, obtainedUserData.password)
 
         if (!passwordMatch) throw Error('Contraseña incorrecta')
-
-        const token = jwt.sign(userData, process.env.SECRET_WORD, { expiresIn: '1h' })
-        return token
+        delete obtainedUserData.password;
+        const token = jwt.sign(obtainedUserData, process.env.SECRET_WORD, { expiresIn: '1h' })
+        return { token, obtainedUserData }
     }
 
     // Método para obtener todos los usuarios

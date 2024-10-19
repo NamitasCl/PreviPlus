@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usuarioService = require("../services/usuarioService");
+const verifyJwt = require('../middlewares/authenticateJWT')
 
 // Ruta para obtener todos los usuarios
 router.get("/", async (req, res) => {
@@ -11,6 +12,12 @@ router.get("/", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+//Obtener datos del usuario en refresco del frontend
+router.get('/me', verifyJwt, async (req, res) => {
+
+    res.status(200).json(req.user)
+})
 
 // Ruta para obtener un usuario por ID
 router.get("/:id", async (req, res) => {
@@ -39,24 +46,24 @@ router.post("/", async (req, res) => {
 //Ruta para autenticar un usuario
 router.post('/login', async (req, res) => {
     try {
-        const token = await usuarioService.login(req.body)
+        const login = await usuarioService.login(req.body)
 
-        res.cookie('token-cookie', token, {
+        res.cookie('token', login.token, {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
-            maxAge: 1000 * 60 * 3
+            maxAge: 1000 * 60 * 60,
+            path: "/"
         })
 
-        res.status(200).json({ isAuthenticated: true })
+        delete login.token
+
+        const userData = login.obtainedUserData
+
+        res.status(200).json(userData)
     } catch (error) {
         res.status(401).json({ error: error.message })
     }
-})
-
-//Prueba cookies
-router.post('/prueba-cookie', async (req, res) => {
-    console.log('Cookie:', req.cookies)
 })
 
 // Ruta para actualizar un usuario

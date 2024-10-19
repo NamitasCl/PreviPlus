@@ -24,7 +24,7 @@ export default function ErrorPage() {
                 bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
                 color="white"
                 variant="solid">
-                <NavLink to={'/dashboard'} >
+                <NavLink to={'/'} >
                     Ir al inicio
                 </NavLink>
             </Button>

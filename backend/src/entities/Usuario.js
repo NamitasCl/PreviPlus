@@ -9,6 +9,18 @@ module.exports = new EntitySchema({
             type: "int",
             generated: true
         },
+        name: {
+            type: "varchar",
+            nullable: false
+        },
+        firstLastName: {
+            type: "varchar",
+            nullable: false
+        },
+        secondLastName: {
+            type: "varchar",
+            nullable: false
+        },
         username: {
             type: "varchar",
             unique: true

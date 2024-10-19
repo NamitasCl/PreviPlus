@@ -22,6 +22,7 @@ import { BsFillPeopleFill } from 'react-icons/bs'
 import { FcBusiness, FcHome } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
+import { useUserAuth } from '../contexto/UserContext'
 
 
 const LinkItems = [
@@ -116,6 +117,9 @@ const NavItem2 = ({ to, icon, children, ...rest }) => {
 }
 
 const MobileNav = ({ onOpen, ...rest }) => {
+
+    const { user } = useUserAuth();
+
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -151,16 +155,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             <HStack>
                                 <Avatar
                                     size={'sm'}
-                                    name='Usuario Generico'
+                                    name={user ? `${user.name} ${user.firstLastName}` : 'Error de carga'}
                                 />
                                 <VStack
                                     display={{ base: 'none', md: 'flex' }}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2">
-                                    <Text fontSize="sm">Usuario Genérico</Text>
+                                    <Text fontSize="sm">{user ? `${user.name} ${user.firstLastName}` : 'Error de carga'}</Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        Administrador
+                                        {user.role ? `${user.role}` : 'Error de carga'}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -188,7 +192,7 @@ const Dashboard = () => {
 
     return (
 
-        <Box maxW={'1400px'} minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+        <Box maxW={'1400px'} minH="100vh" >
 
             <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
             <Drawer

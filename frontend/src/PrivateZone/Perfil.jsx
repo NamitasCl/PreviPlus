@@ -1,13 +1,12 @@
-import { Box, Divider, Heading, Stat, StatGroup, StatLabel, StatNumber, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Heading, Stat, StatGroup, StatLabel, StatNumber, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUserAuth } from '../contexto/UserContext';
 
 const Perfil = () => {
+
+    const { user } = useUserAuth()
     // Estado inicial con datos mockup
-    const [usuario, setUsuario] = useState({
-        nombre_usuario: "enzoramirez",
-        email: "enzo.ramirez@ejemplo.com",
-        saldo_creditos: 100.00
-    });
 
     const [negocios, setNegocios] = useState([
         {
@@ -54,6 +53,16 @@ const Perfil = () => {
     }, []);
     */
 
+    const navigate = useNavigate();
+
+    const BlankDivider = ({ verticalMargin }) => {
+        return (
+            <div style={{ marginTop: verticalMargin, marginBottom: verticalMargin }}></div>
+        )
+    }
+
+
+
     return (
         <Box maxW="1200px" mx="auto" p={6}>
             <Heading as="h1" size="xl" mb={6}>
@@ -61,13 +70,13 @@ const Perfil = () => {
             </Heading>
 
             {/* Datos personales */}
-            <Box bg="gray.100" p={4} borderRadius="md" mb={6}>
+            <Box p={4} borderRadius="md" mb={6}>
                 <Heading as="h2" size="lg" mb={4}>
                     Datos Personales
                 </Heading>
-                <Text><strong>Nombre de Usuario:</strong> {usuario.nombre_usuario}</Text>
-                <Text><strong>Email:</strong> {usuario.email}</Text>
-                <Text><strong>Créditos disponibles:</strong> {usuario.saldo_creditos}</Text>
+                <Text><strong>Nombre de Usuario:</strong> {user.name} {user.firstLastName} {user.secondLastName} </Text>
+                <Text><strong>Email:</strong> {user.email}</Text>
+                <Text><strong>Créditos disponibles:</strong> {user.credits}</Text>
             </Box>
 
             {/* Estadísticas */}
@@ -82,17 +91,17 @@ const Perfil = () => {
                 </Stat>
                 <Stat>
                     <StatLabel>Créditos disponibles</StatLabel>
-                    <StatNumber>{usuario.saldo_creditos}</StatNumber>
+                    <StatNumber>{user.credits}</StatNumber>
                 </Stat>
             </StatGroup>
 
-            <Divider mb={6} />
+            <BlankDivider verticalMargin={'50px'} />
 
             {/* Lista de Negocios */}
             <Heading as="h2" size="lg" mb={4}>
                 Negocios
             </Heading>
-            <Table variant="striped" colorScheme="teal">
+            <Table variant="simple" colorScheme="teal">
                 <Thead>
                     <Tr>
                         <Th>RUT Empresa</Th>
@@ -111,7 +120,7 @@ const Perfil = () => {
                 </Tbody>
             </Table>
 
-            <Divider my={6} />
+            <BlankDivider verticalMargin={'50px'} />
 
             {/* Lista de Archivos Previred */}
             <Heading as="h2" size="lg" mb={4}>
@@ -120,7 +129,7 @@ const Perfil = () => {
             {archivosPrevired.length === 0 ? (
                 <Text>No se han creado archivos Previred.</Text>
             ) : (
-                <Table variant="striped" colorScheme="teal">
+                <Table variant="simple" colorScheme="teal">
                     <Thead>
                         <Tr>
                             <Th>ID</Th>

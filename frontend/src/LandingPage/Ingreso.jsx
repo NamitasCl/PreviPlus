@@ -12,9 +12,9 @@ import {
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react'
-import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useUserAuth } from '../contexto/UserContext'
 
 export default function Ingreso() {
 
@@ -25,6 +25,11 @@ export default function Ingreso() {
 
     const navigate = useNavigate()
     const toast = useToast()
+    const { user, login } = useUserAuth();
+
+    useEffect(() => {
+        if (user) navigate("/dashboard")
+    }, [])
 
     const handleChange = (e) => {
         setFormData(prevState => ({
@@ -35,12 +40,9 @@ export default function Ingreso() {
 
     const handleSubmit = async () => {
 
-        const response = await axios.post('http://localhost:3000/api/usuarios/login', formData, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true,
-        }).catch(error => {
+        const response = login(formData)
+
+        if (!response) {
             toast({
                 title: 'Inicio de sesión fallido',
                 description: 'Porfavor, inténtelo nuevamente',
@@ -48,14 +50,9 @@ export default function Ingreso() {
                 duration: 4000,
                 colorScheme: 'red'
             })
-        })
-
-
-        if (response.data.isAuthenticated) {
+        } else {
             navigate('/dashboard')
         }
-
-
     }
 
     return (
