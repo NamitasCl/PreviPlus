@@ -5,7 +5,7 @@ require("dotenv").config();  // Cargar las variables de entorno desde el archivo
 // Importar las entidades
 const Usuario = require("./entities/Usuario.js");
 const Negocio = require("./entities/Negocio.js");
-const CompraCredito = require("./entities/CompraCredito.js");
+const CompraCredito = require("./entities/Creditos.js");
 const Trabajador = require("./entities/Trabajador.js");
 const InformacionLaboral = require("./entities/InformacionLaboral.js");
 const HistorialRemuneracion = require("./entities/HisotrialRemuneracion.js");

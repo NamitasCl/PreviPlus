@@ -37,7 +37,7 @@ module.exports = new EntitySchema({
             type: "decimal",
             precision: 10,
             scale: 2,
-            default: 0.00
+            default: 0.00  // Saldo actual
         }
     },
     relations: {
@@ -46,8 +46,8 @@ module.exports = new EntitySchema({
             type: "one-to-many",
             inverseSide: "usuario"
         },
-        comprasCreditos: {
-            target: "CompraCredito",
+        Creditos: {  // Relacionado con las transacciones de crédito
+            target: "Creditos",
             type: "one-to-many",
             inverseSide: "usuario"
         }
