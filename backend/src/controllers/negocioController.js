@@ -14,8 +14,11 @@ router.get("/", async (req, res) => {
 
 // Ruta para obtener negocios por usuario
 router.get("/:usuarioId", async (req, res) => {
+
+    const usuarioId = parseInt(req.params.usuarioId)
+
     try {
-        const negociosUsuario = await negocioService.obtenerNegocioPorUsuario(req.params.usuarioId);
+        const negociosUsuario = await negocioService.obtenerNegocioPorUsuario(usuarioId);
         if (negociosUsuario) {
             res.json(negociosUsuario);
         } else {

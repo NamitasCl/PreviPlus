@@ -46,8 +46,10 @@ class NegocioService {
 
     //Method to get workers by business
     async obtenerTrabajadoresPorNegocio(idNegocio) {
+
         return await this.trabajadorRepository.find({
-            where: { negocioId: idNegocio },
+            where: { negocio: { id: idNegocio } },
+            relations: ['negocio']
         });
     }
 }

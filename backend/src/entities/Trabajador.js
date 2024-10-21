@@ -39,18 +39,12 @@ module.exports = new EntitySchema({
             type: "varchar",
             nullable: false
         },
-        negocioId: {
-            type: "int",
-            nullable: false
-        }
     },
     relations: {
         negocio: {
             target: "Negocio",
             type: "many-to-one",
-            joinColumn: true,
             joinColumn: { name: "negocioid", referencedColumnName: "id" }, // nombre de la columna en la tabla trabajador y nombre de la columna en la tabla negocio
-            joinColumn: true,
             onDelete: "CASCADE"
         },
         informacionLaboral: {

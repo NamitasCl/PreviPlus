@@ -93,6 +93,32 @@ class UsuarioService {
             throw new Error("Usuario no encontrado");
         }
     }
+
+    // Método en el servicio de usuarios
+    async obtenerUsuarioConEstadisticas(idUsuario) {
+        const usuario = await this.usuarioRepository.findOne({
+            where: { id: idUsuario },
+            relations: ['negocios', 'negocios.trabajadores'], // Relacionamos los negocios y trabajadores
+        });
+
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        // Calculamos las estadísticas
+        const totalNegocios = usuario.negocios.length;
+        const totalTrabajadores = usuario.negocios.reduce((count, negocio) => {
+            return count + negocio.trabajadores.length;
+        }, 0);
+
+        return (
+            {
+                totalNegocios,
+                totalTrabajadores,
+                // Puedes añadir más estadísticas si es necesario
+            }
+        );
+    }
 }
 
 module.exports = new UsuarioService();

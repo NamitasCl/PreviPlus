@@ -18,18 +18,14 @@ class NegocioService {
     }
 
     // Método para obtener negocios por usuario
-    async obtenerNegocioPorUsuario(usuarioId) {
-        return await this.negocioRepository
-            .createQueryBuilder("negocio")
-            .leftJoinAndSelect("negocio.usuario", "usuario") // Hacemos el join con la tabla de usuario
-            .select([
-                "negocio.id",
-                "negocio.name",
-                "negocio.address",
-                "negocio.rut",
-            ]) // Seleccionamos solo los campos que queremos
-            .where("usuario.id = :usuarioId", { usuarioId })
-            .getMany();
+    async obtenerNegocioPorUsuario(id) {
+        console.log(id)
+        const respuesta = await this.negocioRepository.find(
+            {
+                where: { usuario: { id: id } },
+            }
+        );
+        return respuesta
     }
 
     // Método para actualizar un negocio

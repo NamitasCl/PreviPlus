@@ -66,6 +66,19 @@ router.post('/login', async (req, res) => {
     }
 })
 
+router.post("/logout", (req, res) => {
+
+    // Intenta borrar la cookie 'token'
+    res.clearCookie('token', {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false, // Cambia a true si estás usando HTTPS
+        path: '/', // Debe coincidir con el 'path' usado al crear la cookie
+    });
+
+    res.status(200).json({ message: 'Logout exitoso' });
+});
+
 // Ruta para actualizar un usuario
 router.put("/:id", async (req, res) => {
     try {
@@ -81,6 +94,19 @@ router.delete("/:id", async (req, res) => {
     try {
         const mensaje = await usuarioService.eliminarUsuario(req.params.id);
         res.status(200).json({ message: mensaje });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Ruta para obtener las estadísticas de un usuario
+router.get("/stats/:usuarioId", async (req, res) => {
+    const usuarioId = parseInt(req.params.usuarioId)
+    try {
+        const usuarioConEstadisticas = await usuarioService.obtenerUsuarioConEstadisticas(usuarioId);
+        res.status(200).json(usuarioConEstadisticas);
+        // Puedes añadir más código para obtener las estadísticas adicionales
+        // Si no hay estadísticas adicionales, puedes omitir la sección catch
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

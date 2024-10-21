@@ -27,9 +27,10 @@ router.get("/:rutTrabajador", async (req, res) => {
 });
 
 //Path to get workers  by business
-router.get("/business/:rutNegocio", async (req, res) => {
+router.get("/business/:negocioId", async (req, res) => {
+    const negocioId = parseInt(req.params.negocioId)
     try {
-        const trabajadores = await trabajadorService.obtenerTrabajadoresPorNegocio(req.params.rutNegocio)
+        const trabajadores = await trabajadorService.obtenerTrabajadoresPorNegocio(negocioId)
         if (trabajadores) {
             res.json(trabajadores);
         } else {
