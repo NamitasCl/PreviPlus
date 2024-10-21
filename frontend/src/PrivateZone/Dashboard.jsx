@@ -18,6 +18,7 @@ import {
     useDisclosure,
     VStack
 } from '@chakra-ui/react'
+import PropTypes from 'prop-types'
 import { BsFillPeopleFill } from 'react-icons/bs'
 import { FcBusiness, FcHome } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
@@ -28,6 +29,7 @@ import { useUserAuth } from '../contexto/UserContext'
 const LinkItems = [
     { name: 'Inicio', icon: FcHome, href: '/dashboard' },
     { name: 'Negocios', icon: FcBusiness, href: 'negocios' },
+    { name: 'Archivos Previred', icon: FcBusiness, href: 'previred' },
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
 ]
 
@@ -81,6 +83,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
     )
 }
 
+SidebarContent.propTypes = {
+    onClose: PropTypes.func.isRequired
+}
+
 const NavItem2 = ({ to, icon, children, ...rest }) => {
     return (
         <Box
@@ -116,9 +122,15 @@ const NavItem2 = ({ to, icon, children, ...rest }) => {
     )
 }
 
+NavItem2.propTypes = {
+    to: PropTypes.string.isRequired,
+    icon: PropTypes.element,
+    children: PropTypes.node.isRequired,
+}
+
 const MobileNav = ({ onOpen, ...rest }) => {
 
-    const { user } = useUserAuth();
+    const { user, logout } = useUserAuth();
 
     return (
         <Flex
@@ -164,7 +176,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     ml="2">
                                     <Text fontSize="sm">{user ? `${user.name} ${user.firstLastName}` : 'Error de carga'}</Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        {user.role ? `${user.role}` : 'Error de carga'}
+                                        `Administrador (Cambiar)`
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -178,13 +190,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             <MenuItem>Perfil</MenuItem>
                             <MenuItem>Créditos</MenuItem>
                             <MenuDivider />
-                            <MenuItem>Cerrar sesión</MenuItem>
+                            <MenuItem onClick={logout}>Cerrar sesión</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
             </HStack>
         </Flex>
     )
+}
+
+MobileNav.propTypes = {
+    onOpen: PropTypes.func.isRequired,
 }
 
 const Dashboard = () => {

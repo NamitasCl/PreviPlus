@@ -29,7 +29,7 @@ export default function Ingreso() {
 
     useEffect(() => {
         if (user) navigate("/dashboard")
-    }, [])
+    }, [navigate, user])
 
     const handleChange = (e) => {
         setFormData(prevState => ({

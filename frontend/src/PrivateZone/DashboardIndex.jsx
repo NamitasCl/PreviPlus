@@ -1,63 +1,98 @@
-import { Box, Heading, Stat, StatGroup, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Heading, Spinner, Stat, StatGroup, StatHelpText, StatLabel, StatNumber, useColorModeValue } from '@chakra-ui/react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useUserAuth } from '../contexto/UserContext';
+import DashboardInformacionAdicional from './DashboardInformacionAdicional';
 
-const userStats = {
-    negocios: 5,
-    archivosPrevired: 12,
-    creditosRestantes: 50
-};
-
-// Este es el componente que actuará como página principal del Dashboard
 const DashboardIndex = () => {
-    return (
-        <Box p={5}>
-            <Heading as="h2" size="lg" mb={5}>
-                Resumen de tu cuenta
-            </Heading>
-            <StatGroup gap={10} flexDirection={{ base: 'column', md: 'row' }}>
-                <Stat
-                    backgroundColor={'blue.100'}
-                    px={4}
-                    py={6}
-                    borderRadius={20}
-                    width={{ base: 'full' }}
-                >
-                    <StatLabel fontSize={'lg'}>Negocios creados</StatLabel>
-                    <StatNumber fontSize={'6xl'} fontWeight={'bold'}>{userStats.negocios}</StatNumber>
-                    <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Negocios asociados a tu cuenta</StatHelpText>
-                </Stat>
+    const { user, loading } = useUserAuth(); // Ahora incluimos 'loading'
+    const [userStats, setUserStats] = useState(null);
 
-                <Stat
-                    backgroundColor={'blue.100'}
-                    px={4}
-                    py={6}
-                    borderRadius={20}
-                    width={{ base: 'full' }}
-                >
-                    <StatLabel fontSize={'lg'}>Archivos Previred realizados</StatLabel>
-                    <StatNumber fontSize={'6xl'} fontWeight={'bold'}>{userStats.archivosPrevired}</StatNumber>
-                    <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Cantidad total de archivos generados</StatHelpText>
-                </Stat>
+    const statBgColor = useColorModeValue('gray.100', 'gray.700');
+    const statTextColor = useColorModeValue('gray.800', 'gray.100');
+    const headingColor = useColorModeValue('gray.900', 'gray.50');
+    const shadowColor = useColorModeValue('lg', 'dark-lg');
 
-                <Stat
-                    backgroundColor={'blue.100'}
-                    px={4}
-                    py={6}
-                    borderRadius={20}
-                    width={{ base: 'full' }}
-                >
-                    <StatLabel fontSize={'lg'}>Créditos restantes</StatLabel>
-                    <StatNumber fontSize={'6xl'} fontWeight={'bold'}>{userStats.creditosRestantes}</StatNumber>
-                    <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Saldo de créditos disponibles</StatHelpText>
-                </Stat>
-            </StatGroup>
+    useEffect(() => {
+        const fetchUserStats = async () => {
+            if (user && user.id) {  // Solo intentamos obtener las estadísticas si 'user.id' está disponible
+                const response = await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`);
+                setUserStats(response.data);
+            }
+        };
 
-            {/* Información adicional */}
-            <Box mt={8}>
-                <Heading as="h2" size="lg" mb={3}>Información adicional</Heading>
-                <p>En este panel, puedes administrar tus negocios, generar archivos de Previred y gestionar tus créditos. Mantente al tanto de tus actividades recientes.</p>
+        if (!loading) {  // Solo hacemos la consulta cuando la autenticación ha terminado (loading === false)
+            fetchUserStats();
+        }
+    }, [user, loading]); // La dependencia de 'loading' asegura que se espere hasta que el usuario esté listo
+
+    if (loading) {
+        return (
+            <Box p={5} textAlign="center">
+                <Spinner size="xl" />
+                <Heading as="h2" size="lg" mt={5}>Cargando...</Heading>
             </Box>
-        </Box>
+        );
+    }
+
+    return (
+        <>
+            {userStats && (
+                <Box p={5}>
+                    <Heading as="h2" size="lg" mb={5} color={headingColor}>
+                        Resumen de tu cuenta
+                    </Heading>
+
+                    {/* Grupo de estadísticas */}
+                    <StatGroup gap={10} flexDirection={{ base: 'column', md: 'row' }} justifyContent="space-around">
+                        <Stat
+                            backgroundColor={statBgColor}
+                            px={6}
+                            py={8}
+                            borderRadius={20}
+                            width={{ base: 'full', md: '30%' }}
+                            boxShadow={shadowColor}
+                            color={statTextColor}
+                        >
+                            <StatLabel fontSize={'lg'}>Negocios creados</StatLabel>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.totalNegocios}</StatNumber>
+                            <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Negocios asociados a tu cuenta</StatHelpText>
+                        </Stat>
+
+                        <Stat
+                            backgroundColor={statBgColor}
+                            px={6}
+                            py={8}
+                            borderRadius={20}
+                            width={{ base: 'full', md: '30%' }}
+                            boxShadow={shadowColor}
+                            color={statTextColor}
+                        >
+                            <StatLabel fontSize={'lg'}>Trabajadores agregados</StatLabel>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.totalTrabajadores}</StatNumber>
+                            <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Cantidad total de trabajadores</StatHelpText>
+                        </Stat>
+
+                        <Stat
+                            backgroundColor={statBgColor}
+                            px={6}
+                            py={8}
+                            borderRadius={20}
+                            width={{ base: 'full', md: '30%' }}
+                            boxShadow={shadowColor}
+                            color={statTextColor}
+                        >
+                            <StatLabel fontSize={'lg'}>Créditos restantes</StatLabel>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.credits}</StatNumber>
+                            <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Saldo de créditos disponibles</StatHelpText>
+                        </Stat>
+                    </StatGroup>
+
+                    {/* Información adicional */}
+                    <DashboardInformacionAdicional />
+                </Box>
+            )}
+        </>
     );
 };
 

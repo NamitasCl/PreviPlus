@@ -6,9 +6,11 @@ import Ingreso from './LandingPage/Ingreso'
 import LandingPage from './LandingPage/LandingPage'
 import LandingPageSections from './LandingPage/LandingPageSections'
 import Registro from './LandingPage/Registro'
+import ArchivosPrevired from './PrivateZone/ArchivosPrevired'
 import Dashboard from './PrivateZone/Dashboard'
 import DashboardIndex from './PrivateZone/DashboardIndex'
 import DashboardNegocio from './PrivateZone/DashboardNegocios'
+import NegocioView from './PrivateZone/NegocioView'
 import Perfil from './PrivateZone/Perfil'
 
 
@@ -24,7 +26,10 @@ const router = createBrowserRouter(
       <Route path='/dashboard' element={<RutaProtegida element={Dashboard} />}>
         <Route index element={<DashboardIndex />} />
         <Route path='perfil' element={<RutaProtegida element={Perfil} />} />
-        <Route path='negocios' element={<RutaProtegida element={DashboardNegocio} />} />
+        <Route path='negocios' element={<RutaProtegida element={DashboardNegocio} />}>
+          <Route path=':id' element={<RutaProtegida element={NegocioView} />} />
+        </Route>
+        <Route path='previred' element={<RutaProtegida element={ArchivosPrevired} />} />
       </Route>
       <Route path='*' element={<ErrorPage />} />
     </>

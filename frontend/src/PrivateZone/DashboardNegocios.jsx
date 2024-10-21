@@ -1,58 +1,159 @@
-import { Badge, Box, Button, Flex, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import React from 'react';
+import { CheckCircleIcon } from '@chakra-ui/icons';
+import { Badge, Box, Button, Flex, Heading, IconButton, List, ListIcon, ListItem, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { useUserAuth } from '../contexto/UserContext';
+import NegocioView from './NegocioView';
 
-const negociosData = [
-    { id: 1, rut_empresa: '76123456-7', nombre: 'Negocio A', direccion: 'Calle Falsa 123', isActive: true },
-    { id: 2, rut_empresa: '77123456-7', nombre: 'Negocio B', direccion: 'Avenida Siempreviva 742', isActive: false },
-    { id: 3, rut_empresa: '78123456-7', nombre: 'Negocio C', direccion: 'Calle los Olivos 10', isActive: true }
-];
+const DescripcionNegocios = () => {
+    return (
+        <Box p={5} bg="gray.50" borderRadius="lg" boxShadow="md" mb={6}>
+            <Heading as="h2" size="lg" mb={4} color="teal.600">
+                Bienvenido al espacio de gestión de negocios
+            </Heading>
+            <Text fontSize="lg" mb={4}>
+                Aquí podrás <strong>administrar todos los negocios</strong> que has creado de manera simple y eficiente.
+                En esta sección, tendrás la posibilidad de <strong>añadir y gestionar trabajadores</strong>,
+                <strong>modificar los datos</strong> clave de cada negocio, y mantener al día toda la información relacionada con tus actividades.
+            </Text>
 
-// Componente que lista los negocios del usuario
+            <Stack spacing={3} mb={4}>
+                <Text fontSize="md">
+                    Con solo unos clics, puedes:
+                </Text>
+                <List spacing={3}>
+                    <ListItem>
+                        <ListIcon as={CheckCircleIcon} color="teal.500" />
+                        <strong>Añadir trabajadores</strong> a tus negocios para mantener el registro de tu equipo actualizado.
+                    </ListItem>
+                    <ListItem>
+                        <ListIcon as={CheckCircleIcon} color="teal.500" />
+                        <strong>Editar detalles</strong> del negocio como la dirección, RUT o nombre comercial.
+                    </ListItem>
+                    <ListItem>
+                        <ListIcon as={CheckCircleIcon} color="teal.500" />
+                        <strong>Gestionar la actividad</strong> de cada negocio para asegurarte de que todo está funcionando como debe.
+                    </ListItem>
+                </List>
+            </Stack>
+
+            <Text fontSize="lg">
+                Este es el centro neurálgico para organizar tus negocios y hacer crecer tu operación de manera ordenada y eficiente.
+                ¡Comienza a gestionar tus negocios ahora y mantén todo bajo control!
+            </Text>
+        </Box>
+    );
+};
+
+
+
 const DashboardNegocio = () => {
+    const { user } = useUserAuth();
+    const [negocios, setNegocios] = useState(null);
+    const [negocioSeleccionado, setNegocioSeleccionado] = useState(null);
+
+    // Mueve useColorModeValue fuera de cualquier callback
+    const tableBgColor = useColorModeValue('gray.200', 'gray.700');
+    const tableHoverColor = useColorModeValue('gray.50', 'gray.800');
+    const headingColor = useColorModeValue('blue.600', 'blue.300');
+
+    useEffect(() => {
+        const fetchNegocios = async () => {
+            await axios.get(`http://localhost:3000/api/negocios/${user.id}`)
+                .then(response => {
+                    setNegocios(response.data);
+                })
+                .catch(error => {
+                    console.error("Error en negocio:", error);
+                });
+        };
+
+        if (user.id) fetchNegocios();
+    }, [user.id]);
+
+    const onView = (negocioSeleccionado) => {
+        setNegocioSeleccionado(negocioSeleccionado);
+    };
+    const onDelete = () => { }; // Función que se ejecuta al hacer clic en el botón de borrar
+    const onEdit = () => { }; // Función que se ejecuta al hacer clic en el botón de editar
+
     return (
         <Box p={5}>
-            <Flex justifyContent={'space-between'}>
-                <Heading as="h2" size="lg" mb={5}>
-                    Mis Negocios
-                </Heading>
-                <Button variant={'solid'} colorScheme='blue'>
-                    Añadir negocio
-                </Button>
-            </Flex>
-            <TableContainer>
-                <Table size={'lg'} variant="simple" colorScheme='blue' maxWidth="100%">
-                    <Thead>
-                        <Tr>
-                            <Th>RUT</Th>
-                            <Th>Nombre</Th>
-                            <Th>Dirección</Th>
-                            <Th>Activa</Th>
-                            <Th>Acciones</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {negociosData.map(negocio => (
-                            <Tr key={negocio.id}>
-                                <Td>{negocio.rut_empresa}</Td>
-                                <Td>{negocio.nombre}</Td>
-                                <Td>{negocio.direccion}</Td>
-                                <Td>{negocio.isActive ? <Badge px={2} borderRadius={5} variant={'solid'} colorScheme='green'>Activa</Badge> : <Badge px={2} borderRadius={5} variant={'solid'} colorScheme='red'>Inactiva</Badge>}</Td>
-                                <Td>
-                                    <Button colorScheme="blue" size="sm" mr={2} onClick={() => onView(negocio.id)}>
-                                        Ver
-                                    </Button>
-                                    <Button colorScheme="yellow" size="sm" mr={2} onClick={() => onEdit(negocio.id)}>
-                                        Editar
-                                    </Button>
-                                    <Button colorScheme="red" size="sm" onClick={() => onDelete(negocio.id)}>
-                                        Borrar
-                                    </Button>
-                                </Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </TableContainer>
+            {negocioSeleccionado ? (
+                <NegocioView negocio={negocioSeleccionado} back={setNegocioSeleccionado} />
+            ) : (
+                <>
+                    <Flex justifyContent={'space-between'} mb={5}>
+                        <Heading as="h2" size="lg" fontWeight="bold" color={headingColor}>
+                            Mis Negocios
+                        </Heading>
+
+                        <Button leftIcon={<FaPlus />} colorScheme='blue'>
+                            Añadir negocio
+                        </Button>
+                    </Flex>
+                    <DescripcionNegocios />
+
+                    <TableContainer boxShadow="md" borderRadius="lg">
+                        <Table size={'lg'} colorScheme="blue" maxWidth="100%">
+                            <Thead bg={tableBgColor}>
+                                <Tr>
+                                    <Th>RUT</Th>
+                                    <Th>Nombre</Th>
+                                    <Th>Dirección</Th>
+                                    <Th>Estado</Th>
+                                    <Th textAlign="center">Acciones</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {negocios && negocios.map(negocio => (
+                                    <Tr key={negocio.id} _hover={{ bg: tableHoverColor }}>
+                                        <Td>{negocio.rut}</Td>
+                                        <Td>{negocio.name}</Td>
+                                        <Td>{negocio.address}</Td>
+                                        <Td>
+                                            {negocio.isActive ? (
+                                                <Badge px={2} borderRadius={5} colorScheme="green">Activa</Badge>
+                                            ) : (
+                                                <Badge px={2} borderRadius={5} colorScheme="red">Inactiva</Badge>
+                                            )}
+                                        </Td>
+                                        <Td textAlign="center">
+                                            <IconButton
+                                                icon={<FaEye />}
+                                                colorScheme="blue"
+                                                variant="outline"
+                                                size="sm"
+                                                mr={2}
+                                                onClick={() => onView(negocio)}
+                                                aria-label="Ver detalles"
+                                            />
+                                            <IconButton
+                                                icon={<FaEdit />}
+                                                colorScheme="yellow"
+                                                variant="outline"
+                                                size="sm"
+                                                mr={2}
+                                                onClick={() => onEdit(negocio.id)}
+                                                aria-label="Editar"
+                                            />
+                                            <IconButton
+                                                icon={<FaTrashAlt />}
+                                                colorScheme="red"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => onDelete(negocio.id)}
+                                                aria-label="Eliminar"
+                                            />
+                                        </Td>
+                                    </Tr>
+                                ))}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                </>
+            )}
         </Box>
     );
 };
