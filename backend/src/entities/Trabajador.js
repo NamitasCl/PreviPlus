@@ -18,24 +18,28 @@ module.exports = new EntitySchema({
             length: 1,
             nullable: false
         },
-        apellido_paterno: {
+        patlastname: {
             type: "varchar",
             nullable: false
         },
-        apellido_materno: {
+        matlastname: {
             type: "varchar",
             nullable: true
         },
-        nombres: {
+        names: {
             type: "varchar",
             nullable: false
         },
-        sexo: {
+        genre: {
             type: "char",
             length: 1,
             nullable: false
         },
-        nacionalidad: {
+        nationality: {
+            type: "varchar",
+            nullable: false
+        },
+        negocioId: {
             type: "int",
             nullable: false
         }
@@ -44,6 +48,8 @@ module.exports = new EntitySchema({
         negocio: {
             target: "Negocio",
             type: "many-to-one",
+            joinColumn: true,
+            joinColumn: { name: "negocioid", referencedColumnName: "id" }, // nombre de la columna en la tabla trabajador y nombre de la columna en la tabla negocio
             joinColumn: true,
             onDelete: "CASCADE"
         },

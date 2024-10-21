@@ -50,12 +50,6 @@ module.exports = new EntitySchema({
             scale: 2,
             nullable: true
         },
-        monto_ges: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true
-        },
         cotizacion_isl: {
             type: "decimal",
             precision: 10,
@@ -79,19 +73,24 @@ module.exports = new EntitySchema({
             precision: 10,
             scale: 2,
             nullable: true
-        }
+        },
+
     },
     relations: {
         trabajador: {
             target: "Trabajador",
             type: "many-to-one",
-            joinColumn: true,
+            joinColumn: {
+                name: "trabajador_id",
+            },
             onDelete: "CASCADE"
         },
         informacionLaboral: {
             target: "InformacionLaboral",
             type: "many-to-one",
-            joinColumn: true,
+            joinColumn: {
+                name: "informacion_laboral_id"  // Nombre de la columna explícitamente definido
+            },
             onDelete: "CASCADE"
         }
     }
