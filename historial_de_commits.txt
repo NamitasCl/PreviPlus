@@ -1,0 +1,114 @@
+commit 2434ce12f0933d041b759ffc609542d978e68965
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Sat Oct 19 01:35:50 2024 -0300
+
+    Se agregan archivos README.md y CHAGELOG.md con las especificaciones del proyecto Previplus para continuar su edición
+
+commit 97267902a1d54927477fb10ee0901ee778cfac42
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Sat Oct 19 00:18:46 2024 -0300
+
+    Se agregan modificaciones para formar la nueva rama de desarrollo
+
+commit 5a2014c83711876d65fa0d3edf1e2ac350c98c57
+Merge: 54d54f3 416e8c6
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Thu Oct 17 17:04:41 2024 -0300
+
+    Merge branch 'backend'
+    Se hace merge por modificaciones para el funcionamiento de la aplicacion
+
+commit 54d54f382662593bd8f96a8c347d67ec1ba2de2f
+Merge: 70ec2cb 74065ab
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Thu Oct 17 17:04:14 2024 -0300
+
+    Se arreglaron problemas de divergencia entre archivos
+
+commit 416e8c69b08e8bb4fcf30b33d5d6a32e70ac8a1f
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Thu Oct 17 17:00:29 2024 -0300
+
+    Se ha modificado archivos de manejo de entidad Negocio y servicio de negocio
+
+commit 74065ab9a05fa39daad1b13e91d6d6bd932ee8c1
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Thu Oct 17 16:37:05 2024 -0300
+
+    Se modifico Dashboard.jsx
+
+commit 70ec2cbfcd91df9c43a6519f966fe2c60527b7b8
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Thu Oct 17 16:30:38 2024 -0300
+
+    Se modifico Dashboard.jsx
+
+commit d452fbb5813354a18e9b2d97f087af17e3d88d77
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 16:51:17 2024 -0300
+
+    Modificación del App.jsx por cambio de rutas
+
+commit 1ee69bca859bd82affa0a1b0c9f2a06fd716c9d0
+Author: E. Ramirez <63020574+NamitasCl@users.noreply.github.com>
+Date:   Thu Oct 17 16:29:11 2024 -0300
+
+    Delete frontend/src/PrivateZone/UserProfile.jsx
+    
+    Se borra archivo
+
+commit 46ca82c38634148416989b65ab51994aa6f34ecb
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 18:39:09 2024 -0300
+
+    Se modifico .gitignore
+
+commit b3987b5216780950d5319cdca2495174f7229a51
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 18:35:54 2024 -0300
+
+    Se agrega archivo .gitignore a frontend
+
+commit cebfb95fd7a2570c39e30dd9cbf4619c49caaa16
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 18:14:37 2024 -0300
+
+    Agrega Perfil.jsx y modifica otros archivos
+
+commit 9e5f087c42b272ea3ffd0ce5bd2bd9be7c6ca8fb
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 16:51:17 2024 -0300
+
+    Modificación del App.jsx por cambio de rutas
+
+commit 6c9eea41263896b5d3847bbc63a5a6cc269566de
+Merge: 7f75eb4 4f7c7af
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 15:35:55 2024 -0300
+
+    Merge branch 'frontend'
+    Se une rama frontend a main para continuar trabajo por features
+
+commit a2d2ec1a006ddc73ea3e8fdc57a4a5f87efde52a
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 15:23:18 2024 -0300
+
+    Se incia repositorio backend con ORM funcionando, sistema de inicio de sesion y registro de usuarios funcionando y endpoints en general para hacer operaciones CRUD en usuarios y negocios
+
+commit 6ed79275ba658292223c8fd257d03ca83266dd82
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 15:20:00 2024 -0300
+
+    Añadí el archivo .gitignore a rama backend
+
+commit 4f7c7af55ae465a55bacdf9cec439a38258e51cc
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 15:04:16 2024 -0300
+
+    Inicialización del frontend con Landing, Zona Privada, Login y Register, ademas de componente ZonaProtegida que permite filtrar usuarios identificados o no
+
+commit 66479e8eaedf6b3c8ddef587875d90a6f9077927
+Author: Enzo Ramirez <enzo.ramirezs@icloud.com>
+Date:   Tue Oct 15 14:38:40 2024 -0300
+
+    Inicialización del repositorio Previplus

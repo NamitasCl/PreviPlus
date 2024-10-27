@@ -51,6 +51,7 @@
 /frontend/.idea/
 /backend/.vscode/
 /backend/.idea/
+/frontend/.vite/
 
 # Archivos de logs globales
 logs

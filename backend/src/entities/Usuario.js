@@ -11,23 +11,25 @@ module.exports = new EntitySchema({
         },
         name: {
             type: "varchar",
-            nullable: false
+            nullable: true,
         },
         firstLastName: {
             type: "varchar",
-            nullable: false
+            nullable: true,
         },
         secondLastName: {
             type: "varchar",
-            nullable: false
+            nullable: true,
         },
         username: {
             type: "varchar",
-            unique: true
+            unique: true,
+            nullable: false
         },
         email: {
             type: "varchar",
-            unique: true
+            unique: true,
+            nullable: false,
         },
         password: {
             type: "varchar",
