@@ -1,10 +1,11 @@
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import { Badge, Box, Button, Flex, Heading, IconButton, List, ListIcon, ListItem, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Badge, Box, Flex, Heading, IconButton, List, ListIcon, ListItem, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa';
 import { useUserAuth } from '../contexto/UserContext';
 import NegocioView from './NegocioView';
+import AddNegocio from './AddNegocio';
 
 const DescripcionNegocios = () => {
     return (
@@ -53,19 +54,18 @@ const DashboardNegocio = () => {
     const [negocios, setNegocios] = useState(null);
     const [negocioSeleccionado, setNegocioSeleccionado] = useState(null);
 
-    // Mueve useColorModeValue fuera de cualquier callback
     const tableBgColor = useColorModeValue('gray.200', 'gray.700');
     const tableHoverColor = useColorModeValue('gray.50', 'gray.800');
     const headingColor = useColorModeValue('blue.600', 'blue.300');
 
     useEffect(() => {
         const fetchNegocios = async () => {
-            await axios.get(`http://localhost:3000/api/negocios/${user.id}`)
+            await axios.get(`http://localhost:3000/api/negocios/${user.id}`, { withCredentials: true })
                 .then(response => {
                     setNegocios(response.data);
                 })
                 .catch(error => {
-                    console.error("Error en negocio:", error);
+                    console.log("Error en negocio:", error);
                 });
         };
 
@@ -78,6 +78,10 @@ const DashboardNegocio = () => {
     const onDelete = () => { }; // Función que se ejecuta al hacer clic en el botón de borrar
     const onEdit = () => { }; // Función que se ejecuta al hacer clic en el botón de editar
 
+    const handleNegocioAdded = (newNegocio) => {
+        setNegocios(prevNegocios => [...prevNegocios, newNegocio]);
+    };
+
     return (
         <Box p={5}>
             {negocioSeleccionado ? (
@@ -89,9 +93,7 @@ const DashboardNegocio = () => {
                             Mis Negocios
                         </Heading>
 
-                        <Button leftIcon={<FaPlus />} colorScheme='blue'>
-                            Añadir negocio
-                        </Button>
+                        <AddNegocio onNegocioAdded={handleNegocioAdded} />
                     </Flex>
                     <DescripcionNegocios />
 

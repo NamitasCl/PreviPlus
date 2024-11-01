@@ -1,7 +1,6 @@
 import {
     Avatar,
     Box,
-    Button,
     Flex,
     Heading,
     IconButton,
@@ -20,6 +19,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa';
+import AddTrabajador from './AddTrabajador';
 
 const TrabajadoresList = ({ negocioId }) => {
 
@@ -44,6 +44,10 @@ const TrabajadoresList = ({ negocioId }) => {
     const onEdit = () => { }
     const onDelete = () => { }
 
+    const handleTrabajadorAdded = (newTrabajador) => {
+        setTrabajadores(prevTrabajadores => [...prevTrabajadores, newTrabajador]);
+    };
+
     return (
         <Box
             p={5}
@@ -56,9 +60,7 @@ const TrabajadoresList = ({ negocioId }) => {
                 <Heading as="h2" size="lg" fontWeight="bold">
                     Trabajadores del Negocio
                 </Heading>
-                <Button variant={'solid'} colorScheme="blue">
-                    Añadir trabajador
-                </Button>
+                <AddTrabajador negocioId={negocioId} onTrabajadorAdded={handleTrabajadorAdded} />
             </Flex>
 
             <TableContainer borderRadius="md" boxShadow="md">
