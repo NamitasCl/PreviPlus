@@ -1,4 +1,7 @@
+require("dotenv").config();  // Cargar variables de entorno, incluido NODE_ENV
 const { EntitySchema } = require("typeorm");
+
+const isTestEnv = process.env.NODE_ENV === 'test';
 
 module.exports = new EntitySchema({
     name: "Negocio",
@@ -22,7 +25,7 @@ module.exports = new EntitySchema({
             nullable: false
         },
         isActive: {
-            type: 'bool',
+            type: isTestEnv ? 'integer' : 'bool', // Usar INTEGER para SQLite en pruebas
             nullable: false
         }
     },

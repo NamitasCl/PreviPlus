@@ -3,6 +3,7 @@ const AppDataSource = require("../datasource");
 const Usuario = require("../entities/Usuario");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const ValidationError = require('../errors/validationError');
 
 
 class UsuarioService {
@@ -12,44 +13,56 @@ class UsuarioService {
 
     // Método para crear un usuario
     async crearUsuario(datos) {
+        const { username, email, password } = datos;
 
-        //TODO:
-        /*
-            - Verificar los datos entregados
-            - Encriptar la contraseña con bcrypt
-            **/
-        const { username, email } = datos
+        // Validación de campos obligatorios
+        if (!username || !email || !password) {
+            throw new ValidationError("Todos los campos (username, email, password) son obligatorios.");
+        }
 
-        const existeMail = await this.obtenerUsuarioPorEmail(email)
-        const existeUsuario = await this.obtenerUsuarioPorUsuario(username)
+        // Validación de existencia de email y usuario
+        const emailExists = await this.obtenerUsuarioPorEmail(email);
+        const usernameExists = await this.obtenerUsuarioPorUsuario(username);
 
-        if (existeMail) throw new Error("Correo electrónico ya existe.")
-        if (existeUsuario) throw new Error("Usuario ya existe.")
+        if (emailExists) throw new ValidationError("Correo electrónico ya existe.");
+        if (usernameExists) throw new ValidationError("Usuario ya existe.");
 
-        const password = await bcrypt.hash(datos.password, 10)
+        // Encriptar la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Crear y guardar nuevo usuario
         const newUser = {
             username,
             email,
-            password
-        }
+            password: hashedPassword,
+        };
 
         const nuevoUsuario = this.usuarioRepository.create(newUser);
         return await this.usuarioRepository.save(nuevoUsuario);
-
     }
 
-    //Método para autenticar un usuario
+    // Método para autenticar un usuario
     async login(userData) {
-        const obtainedUserData = await this.obtenerUsuarioPorEmail(userData.email)
+        const obtainedUserData = await this.obtenerUsuarioPorEmail(userData.email);
 
-        const passwordMatch = await bcrypt.compare(userData.password, obtainedUserData.password)
+        // Verificar si el usuario existe
+        if (!obtainedUserData) throw new Error('Usuario no encontrado');
 
-        if (!passwordMatch) throw Error('Contraseña incorrecta')
+        // Verificar si el usuario tiene una contraseña registrada
+        if (!obtainedUserData.password) throw new Error('Contraseña no configurada para el usuario');
+
+        const passwordMatch = await bcrypt.compare(userData.password, obtainedUserData.password);
+
+        if (!passwordMatch) throw new Error('Contraseña incorrecta');
+
+        // Excluye la contraseña del objeto obtenido antes de firmar el token
         delete obtainedUserData.password;
-        const token = jwt.sign(obtainedUserData, process.env.SECRET_WORD, { expiresIn: '1h' })
-        return { token, obtainedUserData }
+
+        const token = jwt.sign(obtainedUserData, process.env.SECRET_WORD, { expiresIn: '1h' });
+        return { token, obtainedUserData };
     }
+
+
 
     // Método para obtener todos los usuarios
     async obtenerUsuarios() {
@@ -121,4 +134,4 @@ class UsuarioService {
     }
 }
 
-module.exports = new UsuarioService();
+module.exports = UsuarioService; 

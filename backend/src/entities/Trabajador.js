@@ -1,4 +1,7 @@
+require("dotenv").config();  // Cargar variables de entorno, incluido NODE_ENV
 const { EntitySchema } = require("typeorm");
+
+const isTestEnv = process.env.NODE_ENV === 'test';
 
 module.exports = new EntitySchema({
     name: "Trabajador",
@@ -14,7 +17,7 @@ module.exports = new EntitySchema({
             nullable: false
         },
         dv: {
-            type: "char",
+            type: isTestEnv ? "varchar" : "char",
             length: 1,
             nullable: false
         },
@@ -30,8 +33,8 @@ module.exports = new EntitySchema({
             type: "varchar",
             nullable: false
         },
-        genre: {
-            type: "char",
+        sexo: {
+            type: isTestEnv ? "varchar" : "char",
             length: 1,
             nullable: false
         },

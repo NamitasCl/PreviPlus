@@ -1,15 +1,12 @@
-require('dotenv').config()
 const jwt = require('jsonwebtoken');
 
-
 const authenticateJWT = (req, res, next) => {
-    const token = req.cookies.token; // Obtenemos el token de las cookies
+    const token = req.cookies?.token || req.headers['authorization']?.split(' ')[1]; // Obtenemos el token desde cookies o headers
 
     if (!token) {
         return res.status(401).json({ message: 'No estás autenticado' });
     }
 
-    // Verificar el token
     jwt.verify(token, process.env.SECRET_WORD, (err, user) => {
         if (err) {
             return res.status(403).json({ message: 'Token no válido' });

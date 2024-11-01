@@ -50,4 +50,4 @@ class NegocioService {
     }
 }
 
-module.exports = new NegocioService();
+module.exports = NegocioService;
