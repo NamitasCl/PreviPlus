@@ -1,14 +1,28 @@
 const AppDataSource = require("../datasource");
 const Negocio = require("../entities/Negocio");
+const Usuario = require("../entities/Usuario");
 
 class NegocioService {
     constructor() {
         this.negocioRepository = AppDataSource.getRepository(Negocio);
+        this.usuarioRepository = AppDataSource.getRepository(Usuario);
     }
 
     // Método para crear un negocio
-    async crearNegocio(datos) {
-        const nuevoNegocio = this.negocioRepository.create(datos);
+    // Método para crear un nuevo negocio
+    async crearNegocio(negocioData, userId) {
+        // Obtener el usuario autenticado
+        const usuario = await this.usuarioRepository.findOneBy({ id: userId });
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        // Crear el negocio asociado al usuario
+        const nuevoNegocio = this.negocioRepository.create({
+            ...negocioData,
+            usuario: usuario
+        });
+
         return await this.negocioRepository.save(nuevoNegocio);
     }
 
@@ -19,10 +33,10 @@ class NegocioService {
 
     // Método para obtener negocios por usuario
     async obtenerNegocioPorUsuario(id) {
-        console.log(id)
         const respuesta = await this.negocioRepository.find(
             {
                 where: { usuario: { id: id } },
+                relations: ['usuario']
             }
         );
         return respuesta

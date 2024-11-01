@@ -1,11 +1,13 @@
 const request = require('supertest');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const AppDataSource = require('../src/datasource');
 const negocioRouter = require('../src/controllers/negocioController');
 const usuarioRouter = require('../src/controllers/usuarioController');
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser()); // Añadimos cookie-parser para manejar las cookies
 app.use('/negocios', negocioRouter);
 app.use('/usuarios', usuarioRouter);
 
@@ -26,42 +28,47 @@ beforeEach(async () => {
 });
 
 describe('Pruebas de Integración - NegocioController', () => {
-    let cookie;
+    let agent;
+    let userId;
 
     beforeEach(async () => {
+        // Creamos un agente de Supertest para manejar las cookies automáticamente
+        agent = request.agent(app);
+
         // Registrar y autenticar un usuario para obtener una cookie de autenticación
         const usuarioData = { username: 'usuario4', email: 'usuario4@example.com', password: 'password123' };
-        await request(app).post('/usuarios').send(usuarioData);
+        await agent.post('/usuarios').send(usuarioData);
 
-        const loginResponse = await request(app)
+        await agent
             .post('/usuarios/login')
             .send({ email: usuarioData.email, password: usuarioData.password });
 
-        cookie = loginResponse.headers['set-cookie'];
+        // Obtener el ID del usuario autenticado
+        const meResponse = await agent.get('/usuarios/me');
+        userId = meResponse.body.id;
     });
 
     test('debe crear un nuevo negocio asociado al usuario autenticado', async () => {
         const negocioData = { name: 'Nuevo Negocio', address: 'Dirección 123', rut: '12345678-9', isActive: true };
 
-        const response = await request(app)
+        const response = await agent
             .post('/negocios')
-            .set('Cookie', cookie)
             .send(negocioData)
             .expect(201);
 
         expect(response.body).toHaveProperty('id');
         expect(response.body.name).toBe(negocioData.name);
+        expect(response.body.usuario.id).toBe(userId); // Verificamos que el negocio esté asociado al usuario
     });
 
     test('debe obtener todos los negocios y responder con status 200', async () => {
         const negocioData1 = { name: 'Negocio 1', address: 'Dirección 1', rut: '11111111-1', isActive: true };
         const negocioData2 = { name: 'Negocio 2', address: 'Dirección 2', rut: '22222222-2', isActive: true };
-        await request(app).post('/negocios').set('Cookie', cookie).send(negocioData1);
-        await request(app).post('/negocios').set('Cookie', cookie).send(negocioData2);
+        await agent.post('/negocios').send(negocioData1);
+        await agent.post('/negocios').send(negocioData2);
 
-        const response = await request(app)
+        const response = await agent
             .get('/negocios')
-            .set('Cookie', cookie)
             .expect(200);
 
         expect(response.body.length).toBe(2);
@@ -69,11 +76,10 @@ describe('Pruebas de Integración - NegocioController', () => {
 
     test('debe obtener negocios por usuario', async () => {
         const negocioData = { name: 'Negocio Usuario', address: 'Dirección Usuario', rut: '33333333-3', isActive: true };
-        await request(app).post('/negocios').set('Cookie', cookie).send(negocioData);
+        await agent.post('/negocios').send(negocioData);
 
-        const response = await request(app)
-            .get('/negocios/1')
-            .set('Cookie', cookie)
+        const response = await agent
+            .get(`/negocios/${userId}`)
             .expect(200);
 
         expect(response.body.length).toBeGreaterThan(0);
@@ -88,6 +94,6 @@ describe('Pruebas de Integración - NegocioController', () => {
             .send(negocioData)
             .expect(401);
 
-        expect(response.body).toEqual({ message: 'Acceso no autorizado' });
+        expect(response.body).toEqual({ message: 'No estás autenticado' }); // Mensaje según el middleware
     });
 });

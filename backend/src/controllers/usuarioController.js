@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const usuarioService = require("../services/usuarioService");
-const verifyJwt = require('../middlewares/authenticateJWT')
+const UsuarioService = require("../services/usuarioService");
+const verifyJwt = require('../middlewares/authenticateJWT');
+const ValidationError = require("../errors/validationError");
+
+const usuarioService = new UsuarioService();
 
 // Ruta para obtener todos los usuarios
 router.get("/", async (req, res) => {
@@ -17,7 +20,8 @@ router.get("/", async (req, res) => {
 router.get('/me', verifyJwt, async (req, res) => {
 
     res.status(200).json(req.user)
-})
+
+});
 
 // Ruta para obtener un usuario por ID
 router.get("/:id", async (req, res) => {
@@ -36,8 +40,18 @@ router.get("/:id", async (req, res) => {
 // Ruta para crear un nuevo usuario
 router.post("/", async (req, res) => {
     try {
-        const nuevoUsuario = await usuarioService.crearUsuario(req.body);
-        res.status(201).json(nuevoUsuario);
+        const { username, email, password } = req.body;
+
+        // Validación de campos obligatorios
+        if (!username || !email || !password) {
+            throw new ValidationError("Todos los campos (username, email, password) son obligatorios.");
+        }
+        const nuevoUsuario = await usuarioService.crearUsuario({ username, email, password });
+        if (nuevoUsuario) {
+            res.status(201).json(nuevoUsuario);
+        } else {
+            ValidationError("Error al crear el usuario");
+        }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

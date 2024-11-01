@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateJWT = (req, res, next) => {
-    const token = req.cookies?.token || req.headers['authorization']?.split(' ')[1]; // Obtenemos el token desde cookies o headers
+    const token = req.cookies.token; // Obtenemos el token desde las cookies
 
     if (!token) {
         return res.status(401).json({ message: 'No estás autenticado' });

@@ -15,11 +15,6 @@ class UsuarioService {
     async crearUsuario(datos) {
         const { username, email, password } = datos;
 
-        // Validación de campos obligatorios
-        if (!username || !email || !password) {
-            throw new ValidationError("Todos los campos (username, email, password) son obligatorios.");
-        }
-
         // Validación de existencia de email y usuario
         const emailExists = await this.obtenerUsuarioPorEmail(email);
         const usernameExists = await this.obtenerUsuarioPorUsuario(username);

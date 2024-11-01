@@ -2,10 +2,11 @@ const request = require('supertest');
 const express = require('express');
 const AppDataSource = require('../src/datasource');
 const usuarioRouter = require('../src/controllers/usuarioController');
-const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use('/usuarios', usuarioRouter);
 
 beforeAll(async () => {
@@ -55,29 +56,29 @@ describe('Pruebas de Integración - UsuarioController', () => {
             .get('/usuarios/me')
             .expect(401);
 
-        expect(response.body).toEqual({ error: 'Acceso no autorizado' });
+        expect(response.body).toEqual({ message: 'No estás autenticado' });
     });
 
-    test('debe permitir el acceso a /me con token válido', async () => {
+    test('debe permitir el acceso a /me con token en cookie', async () => {
         const usuarioData = { username: 'usuario3', email: 'usuario3@example.com', password: 'password123' };
-        await request(app).post('/usuarios').send(usuarioData);
 
-        // Autenticación y obtención del token
-        const loginResponse = await request(app)
+        // Crea un agente de Supertest
+        const agent = request.agent(app);
+
+        // Registrar un nuevo usuario
+        await agent.post('/usuarios').send(usuarioData);
+
+        // Autenticar y establecer la cookie automáticamente en el agente
+        await agent
             .post('/usuarios/login')
-            .send({ email: usuarioData.email, password: usuarioData.password });
+            .send({ email: usuarioData.email, password: usuarioData.password })
+            .expect(200);
 
-        // Extrae el token del cuerpo de la respuesta
-        const token = loginResponse.body.token;
-
-        // Usa el token en la cabecera Authorization para la solicitud a /me
-        const meResponse = await request(app)
+        // Realizar la solicitud a /me usando el agente que ya tiene la cookie
+        const meResponse = await agent
             .get('/usuarios/me')
-            .set('Authorization', `Bearer ${token}`) // Aquí cambiamos a Authorization
             .expect(200);
 
         expect(meResponse.body.email).toBe(usuarioData.email);
     });
-
 });
-

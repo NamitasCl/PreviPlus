@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const negocioService = require("../services/negocioService");
+const NegocioService = require("../services/negocioService");
+const authenticateJWT = require('../middlewares/authenticateJWT');
+
+const negocioService = new NegocioService();
 
 // Ruta para obtener todos los usuarios
-router.get("/", async (req, res) => {
+router.get("/", authenticateJWT, async (req, res) => {
     try {
         const usuarios = await negocioService.obtenerNegocios();
         res.json(usuarios);
@@ -13,10 +16,11 @@ router.get("/", async (req, res) => {
 });
 
 // Ruta para obtener negocios por usuario
-router.get("/:usuarioId", async (req, res) => {
+router.get("/:usuarioId", authenticateJWT, async (req, res) => {
 
     const usuarioId = parseInt(req.params.usuarioId)
-
+    console.log(usuarioId)
+    
     try {
         const negociosUsuario = await negocioService.obtenerNegocioPorUsuario(usuarioId);
         if (negociosUsuario) {
@@ -30,7 +34,7 @@ router.get("/:usuarioId", async (req, res) => {
 });
 
 // Ruta para crear un nuevo negocio
-router.post("/", async (req, res) => {
+router.post("/", authenticateJWT, async (req, res) => {
     try {
         const nuevoNegocio = await negocioService.crearNegocio(req.body);
         res.status(201).json(nuevoNegocio);
@@ -40,7 +44,7 @@ router.post("/", async (req, res) => {
 });
 
 // Ruta para actualizar un negocio
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticateJWT, async (req, res) => {
     try {
         const negocioActualizado = await negocioService.actualizarNegocio(req.params.id, req.body);
         res.json(negocioActualizado);
@@ -50,7 +54,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Ruta para eliminar un negocio
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateJWT, async (req, res) => {
     try {
         const mensaje = await negocioService.eliminarNegocio(req.params.id);
         res.status(200).json({ message: mensaje });
