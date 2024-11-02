@@ -4,34 +4,21 @@ module.exports = new EntitySchema({
     name: "Salud",
     tableName: "salud",
     columns: {
-        id: {
-            primary: true,
-            type: "int",
-            generated: true
-        },
-        codigo_isapre: {
-            type: "int",
-            nullable: true
-        },
-        tasa_salud: {
-            type: "decimal",
-            precision: 5,
-            scale: 2,
-            nullable: true
-        },
-        adicional_ges: {
-            type: "decimal",
-            precision: 5,
-            scale: 2,
-            nullable: true
-        }
+        id: { primary: true, type: "int", generated: true },
+        codigoSalud: { type: "int", nullable: false, unique: true, comment: "Código de Fonasa o Isapre" },
+        nombre: { type: "varchar", length: 50, nullable: false, comment: "Nombre de Fonasa o Isapre" },
+        tipo: { type: "varchar", length: 10, nullable: false, comment: "Tipo de sistema: FONASA o ISAPRE" },
+        tasaFonasa: { type: "decimal", precision: 5, scale: 2, nullable: true, comment: "7% para Fonasa" },
+        cotizacionPactada: { type: "decimal", precision: 10, scale: 2, nullable: true, comment: "Monto del plan pactado con la Isapre (en UF o CLP)" },
+        tipoMoneda: { type: "varchar", length: 10, nullable: true, comment: "Tipo de moneda del plan pactado: UF o CLP" },
+        numeroFUN: { type: "varchar", length: 16, nullable: true, comment: "Número de contrato (FUN) en Isapre" },
+        adicionalGes: { type: "decimal", precision: 10, scale: 2, nullable: true, comment: "Monto adicional si el plan excede el 7%" }
     },
     relations: {
-        trabajador: {
-            target: "Trabajador",
-            type: "many-to-one",
-            joinColumn: true,
-            onDelete: "CASCADE"
+        informacionLaboral: {
+            target: "InformacionLaboral",
+            type: "one-to-many",
+            inverseSide: "salud"
         }
     }
 });

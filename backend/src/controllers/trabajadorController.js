@@ -1,18 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const trabajadorService = require("../services/trabajadorService");
+const TrabajadorService = require("../services/trabajadorService");
+const verifyJwt = require('../middlewares/authenticateJWT');
+const { check, validationResult } = require('express-validator');
 
-// Ruta para obtener todos los usuarios
+// Aplicar middleware de autenticación a todas las rutas
+router.use(verifyJwt);
+
+//Creo la instancia del servicio de trabajadores
+const trabajadorService = new TrabajadorService();
+
+// Ruta para obtener todos los trabajadores
 router.get("/", async (req, res) => {
     try {
-        const usuarios = await trabajadorService.obtenerTrabajadores();
-        res.json(usuarios);
+        const trabajadores = await trabajadorService.obtenerTrabajadores();
+        res.json(trabajadores);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// Ruta para obtener negocios por usuario
+// Ruta para obtener un trabajador por RUT
 router.get("/:rutTrabajador", async (req, res) => {
     try {
         const trabajador = await trabajadorService.obtenerTrabajadorPorRut(req.params.rutTrabajador);
@@ -26,12 +34,15 @@ router.get("/:rutTrabajador", async (req, res) => {
     }
 });
 
-//Path to get workers  by business
+// Ruta para obtener trabajadores por negocio
 router.get("/business/:negocioId", async (req, res) => {
-    const negocioId = parseInt(req.params.negocioId)
+    const negocioId = parseInt(req.params.negocioId);
+    if (isNaN(negocioId)) {
+        return res.status(400).json({ message: "El ID del negocio debe ser un número válido." });
+    }
     try {
-        const trabajadores = await trabajadorService.obtenerTrabajadoresPorNegocio(negocioId)
-        if (trabajadores) {
+        const trabajadores = await trabajadorService.obtenerTrabajadoresPorNegocio(negocioId);
+        if (trabajadores.length > 0) {
             res.json(trabajadores);
         } else {
             res.status(404).json({ message: "No hay trabajadores en este negocio" });
@@ -41,36 +52,68 @@ router.get("/business/:negocioId", async (req, res) => {
     }
 });
 
-// Path to create new worker.
-router.post("/", async (req, res) => {
-    try {
-        const newTrabajador = await trabajadorService.crearTrabajador(req.body);
-        res.json(newTrabajador);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Path to update worker.
-router.put("/:rutTrabajador", async (req, res) => {
-    try {
-        const updatedTrabajador = await trabajadorService.updateTrabajador(req.params.ruttrabajador, req.body);
-        if (updatedTrabajador) {
-            res.json(updatedTrabajador);
-        } else {
-            res.status(404).json({ message: "Trabajador no existe" });
+// Ruta para crear un nuevo trabajador
+router.post(
+    "/",
+    [
+        // Validación de campos
+        check('rut').notEmpty().withMessage('El RUT es obligatorio'),
+        check('dv').notEmpty().withMessage('El dígito verificador es obligatorio'),
+        check('patlastname').notEmpty().withMessage('El apellido paterno es obligatorio'),
+        check('names').notEmpty().withMessage('El nombre es obligatorio'),
+        check('genre').notEmpty().withMessage('El género es obligatorio'),
+        check('nationality').notEmpty().withMessage('La nacionalidad es obligatoria'),
+        check('negocioId').isInt().withMessage('El ID del negocio es obligatorio y debe ser un número entero'),
+    ],
+    async (req, res) => {
+        // Manejo de errores de validación
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errores: errors.array() });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
 
-// Path to delete worker.
+        try {
+            const newTrabajador = await trabajadorService.crearTrabajador(req.body);
+            res.status(201).json(newTrabajador);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+);
+
+// Ruta para actualizar un trabajador
+router.put(
+    "/:rutTrabajador",
+    [
+        // Validación de campos
+        check('rutTrabajador').notEmpty().withMessage('El RUT del trabajador es obligatorio en la ruta'),
+    ],
+    async (req, res) => {
+        // Manejo de errores de validación
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errores: errors.array() });
+        }
+
+        try {
+            const updatedTrabajador = await trabajadorService.updateTrabajador(req.params.rutTrabajador, req.body);
+            if (updatedTrabajador) {
+                res.json(updatedTrabajador);
+            } else {
+                res.status(404).json({ message: "Trabajador no existe" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+);
+
+// Ruta para eliminar un trabajador
 router.delete("/:rutTrabajador", async (req, res) => {
     try {
-        const deletedTrabajador = await trabajadorService.deleteTrabajador(req.params.rutTrabajador)
+        const deletedTrabajador = await trabajadorService.deleteTrabajador(req.params.rutTrabajador);
         if (deletedTrabajador) {
-            res.json(deletedTrabajador);
+            res.json({ message: "Trabajador eliminado exitosamente" });
         } else {
             res.status(404).json({ message: "Trabajador no existe" });
         }
@@ -78,6 +121,5 @@ router.delete("/:rutTrabajador", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 module.exports = router;

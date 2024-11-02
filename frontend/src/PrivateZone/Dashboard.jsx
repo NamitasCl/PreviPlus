@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import { FcBusiness, FcHome } from 'react-icons/fc'
+import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
@@ -29,7 +29,8 @@ import { useUserAuth } from '../contexto/UserContext'
 const LinkItems = [
     { name: 'Inicio', icon: FcHome, href: '/dashboard' },
     { name: 'Negocios', icon: FcBusiness, href: 'negocios' },
-    { name: 'Archivos Previred', icon: FcBusiness, href: 'previred' },
+    { name: 'Archivos Previred', icon: FcDocument, href: 'previred' },
+    { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' },
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
 ]
 
@@ -187,7 +188,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                         <MenuList
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Perfil</MenuItem>
+                            <MenuItem as={NavLink} to="perfil">Perfil</MenuItem>
                             <MenuItem>Créditos</MenuItem>
                             <MenuDivider />
                             <MenuItem onClick={logout}>Cerrar sesión</MenuItem>

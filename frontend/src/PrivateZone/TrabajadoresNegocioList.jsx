@@ -13,7 +13,8 @@ import {
     Thead,
     Tooltip,
     Tr,
-    useColorModeValue
+    useColorModeValue,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -28,17 +29,26 @@ const TrabajadoresList = ({ negocioId }) => {
     const bgColorThead = useColorModeValue('gray.200', 'gray.700');
     const bgColorHover = useColorModeValue('gray.50', 'gray.800');
 
+    const toast = useToast();
+
     useEffect(() => {
         const fetchTrabajadores = async () => {
-            await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`)
-                .then(response => setTrabajadores(response.data))
-                .catch(error => {
-                    console.error(error);
+            await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`, { withCredentials: true })
+                .then(response => {
+                    setTrabajadores(response.data);
+                })
+                .catch(() => {
+                    toast({
+                        title: "Error",
+                        description: "No hay trabajadores asociados a este negocio.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                    });
                 });
-
         }
         fetchTrabajadores();
-    }, [negocioId])
+    }, [negocioId, toast])
 
     const onView = () => { }
     const onEdit = () => { }

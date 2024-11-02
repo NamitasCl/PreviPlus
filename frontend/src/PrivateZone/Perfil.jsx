@@ -27,6 +27,7 @@ import {
     useToast,
     VStack
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 import { FaCreditCard } from "react-icons/fa";
 import { useUserAuth } from '../contexto/UserContext';
@@ -34,6 +35,7 @@ import { useUserAuth } from '../contexto/UserContext';
 const Perfil = () => {
     const { user } = useUserAuth();
 
+    const [password, setPassword] = useState({ new: '', confirm: '' })
     const [isEditing, setIsEditing] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
@@ -47,6 +49,56 @@ const Perfil = () => {
         toast({
             title: "Perfil actualizado",
             description: "Los cambios en tu perfil han sido guardados exitosamente.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        })
+    }
+
+    const handleChangePassword = async () => {
+
+        if (password.new !== password.confirm) {
+            toast({
+                title: "Contraseña incorrecta",
+                description: "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            })
+            return
+        }
+
+        const userWithNewPassword = { ...user, password: password.new }
+
+        await axios.put(`http://localhost:3000/api/usuarios/${user.id}/contrasena`, userWithNewPassword, { withCredentials: true })
+            .then(res => {
+                if (res.status === 204) {
+                    toast({
+                        title: "Cambio de contraseña",
+                        description: "Tu contraseña ha sido cambiada exitosamente.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    })
+                }
+            })
+            .catch(error => {
+                toast({
+                    title: "Error",
+                    description: "No se pudo cambiar tu contraseña. Por favor, inténtalo de nuevo.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                })
+                console.error("Error al cambiar contraseña:", error);
+            })
+
+    }
+
+    const handleDeleteAccount = async () => {
+        toast({
+            title: "Eliminación de cuenta",
+            description: "Tu cuenta ha sido eliminada exitosamente.",
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -125,8 +177,7 @@ const Perfil = () => {
                 <CardBody>
                     <HStack spacing={4} align="stretch">
                         <Button onClick={onOpen} variant="outline">Cambiar Contraseña</Button>
-                        <Button variant="outline">Actualizar Información de Facturación</Button>
-                        <Button variant="outline" colorScheme="red">Eliminar Cuenta</Button>
+                        <Button variant="outline" colorScheme="red" onClick={handleDeleteAccount}>Eliminar Cuenta</Button>
                     </HStack>
                 </CardBody>
             </Card>
@@ -139,21 +190,17 @@ const Perfil = () => {
                     <ModalBody>
                         <VStack spacing={4}>
                             <FormControl>
-                                <FormLabel>Contraseña Actual</FormLabel>
-                                <Input type="password" />
-                            </FormControl>
-                            <FormControl>
                                 <FormLabel>Nueva Contraseña</FormLabel>
-                                <Input type="password" />
+                                <Input type="password" onChange={e => setPassword({ new: e.target.value, confirm: password.confirm })} />
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Confirmar Nueva Contraseña</FormLabel>
-                                <Input type="password" />
+                                <Input type="password" onChange={e => setPassword({ new: password.new, confirm: e.target.value })} />
                             </FormControl>
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
+                        <Button colorScheme="blue" mr={3} onClick={handleChangePassword}>
                             Guardar Cambios
                         </Button>
                         <Button variant="ghost" onClick={onClose}>Cancelar</Button>

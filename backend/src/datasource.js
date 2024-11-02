@@ -13,6 +13,7 @@ const Salud = require("./entities/Salud.js");
 const AFP = require("./entities/AFP.js");
 const Mutualidad = require("./entities/Mutualidad.js");
 const Cesantia = require("./entities/Cesantia.js");
+const CCAF = require("./entities/CCAF.js");
 
 // Configuración condicional en función del entorno
 const isTestEnv = process.env.NODE_ENV === "test";
@@ -37,7 +38,8 @@ const AppDataSource = new DataSource({
         Salud,
         AFP,
         Mutualidad,
-        Cesantia
+        Cesantia,
+        CCAF
     ]
 });
 

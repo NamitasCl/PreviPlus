@@ -7,9 +7,12 @@ import LandingPage from './LandingPage/LandingPage'
 import LandingPageSections from './LandingPage/LandingPageSections'
 import Registro from './LandingPage/Registro'
 import ArchivosPrevired from './PrivateZone/ArchivosPrevired'
+import ComprarCreditos from './PrivateZone/ComprarCreditos'
+import Creditos from './PrivateZone/Creditos'
 import Dashboard from './PrivateZone/Dashboard'
 import DashboardIndex from './PrivateZone/DashboardIndex'
 import DashboardNegocio from './PrivateZone/DashboardNegocios'
+import HistorialComprasCredito from './PrivateZone/HistorialComprasCredito'
 import NegocioView from './PrivateZone/NegocioView'
 import Perfil from './PrivateZone/Perfil'
 
@@ -30,6 +33,12 @@ const router = createBrowserRouter(
           <Route path=':id' element={<RutaProtegida element={NegocioView} />} />
         </Route>
         <Route path='previred' element={<RutaProtegida element={ArchivosPrevired} />} />
+        <Route path='creditos' element={<RutaProtegida element={Creditos} />}>
+          <Route index element={<RutaProtegida element={ComprarCreditos} />} />
+          <Route path='historial-compras' element={<RutaProtegida element={HistorialComprasCredito} />} />
+        </Route>
+
+
       </Route>
       <Route path='*' element={<ErrorPage />} />
     </>

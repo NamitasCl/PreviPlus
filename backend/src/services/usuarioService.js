@@ -79,6 +79,16 @@ class UsuarioService {
         return await this.usuarioRepository.findOneBy({ username });
     }
 
+    //Método para actualizar la contraseña de un usuario
+    async actualizarContrasena(id, datosActualizados) {
+        const usuario = await this.obtenerUsuarioPorId(id);
+        if (usuario) {
+            usuario.password = await bcrypt.hash(datosActualizados.password, 10);
+            return await this.usuarioRepository.save(usuario);
+        } else {
+            throw new Error("Usuario no encontrado");
+        }
+    }
 
 
     // Método para actualizar un usuario

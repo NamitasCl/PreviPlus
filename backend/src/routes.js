@@ -6,11 +6,13 @@ const usuarioController = require("./controllers/usuarioController");
 const negocioController = require("./controllers/negocioController");
 const trabajadorController = require("./controllers/trabajadorController");
 const historialController = require("./controllers/historialRemuneracionesController");
+const creditosController = require("./controllers/creditosController");
 
 // Asignar las rutas a los controladores
 router.use("/usuarios", usuarioController);
 router.use("/negocios", negocioController)
 router.use("/trabajadores", trabajadorController)
 router.use("/historial", historialController)
+router.use("/creditos", creditosController)
 
 module.exports = router;

@@ -33,7 +33,7 @@ module.exports = new EntitySchema({
             type: "varchar",
             nullable: false
         },
-        sexo: {
+        genre: {
             type: isTestEnv ? "varchar" : "char",
             length: 1,
             nullable: false

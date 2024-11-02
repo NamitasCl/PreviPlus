@@ -2,6 +2,7 @@ const UsuarioService = require('../src/services/usuarioService');
 const AppDataSource = require('../src/datasource');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Usuario = require('../src/entities/Usuario');
 
 jest.mock('../src/datasource', () => ({
     getRepository: jest.fn()

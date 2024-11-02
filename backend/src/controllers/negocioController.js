@@ -19,8 +19,7 @@ router.get("/", authenticateJWT, async (req, res) => {
 router.get("/:usuarioId", authenticateJWT, async (req, res) => {
 
     const usuarioId = parseInt(req.params.usuarioId)
-    console.log(usuarioId)
-    
+
     try {
         const negociosUsuario = await negocioService.obtenerNegocioPorUsuario(usuarioId);
         if (negociosUsuario) {

@@ -1,4 +1,4 @@
-require("dotenv").config();  // Cargar variables de entorno, incluido NODE_ENV
+require("dotenv").config();  // Cargar variables de entorno
 const { EntitySchema } = require("typeorm");
 
 isTestEnv = process.env.NODE_ENV === 'test';
@@ -12,72 +12,82 @@ module.exports = new EntitySchema({
             type: "int",
             generated: true
         },
-        mes_remuneracion: {
-            type: isTestEnv ? "varchar" : "char",
+        mesRemuneracion: {
+            type: isTestEnv ? "varchar" : "char",  // Usar VARCHAR en modo de pruebas
             length: 6,
-            nullable: false
+            nullable: false,
+            comment: "Período en formato mmaaaa"
         },
-        sueldo_imponible: {
+        sueldoImponible: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: false
+            nullable: false,
+            comment: "Sueldo imponible del trabajador"
         },
-        cotizacion_obligatoria_afp: {
+        cotizacionObligatoriaAFP: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto de cotización obligatoria AFP"
         },
-        cotizacion_sis: {
+        cotizacionSIS: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto de cotización del seguro de invalidez y sobrevivencia"
         },
-        cotizacion_fonasa: {
+        cotizacionFonasa: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto de cotización Fonasa, 7% si corresponde"
         },
-        cotizacion_isapre: {
+        cotizacionIsapre: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto de cotización en una Isapre, si corresponde"
         },
-        cotizacion_adicional_isapre: {
+        cotizacionAdicionalIsapre: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto adicional en caso de que la Isapre exceda el 7% obligatorio"
         },
-        cotizacion_isl: {
+        cotizacionISL: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto cotización al seguro de accidentes del trabajo (ISL)"
         },
-        cotizacion_mutual: {
+        cotizacionMutual: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Monto de cotización a la mutualidad, si aplica"
         },
-        aporte_trabajador_cesantia: {
+        aporteTrabajadorCesantia: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Aporte del trabajador al seguro de cesantía (0.6% si aplica)"
         },
-        aporte_empleador_cesantia: {
+        aporteEmpleadorCesantia: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: true
+            nullable: true,
+            comment: "Aporte del empleador al seguro de cesantía (2.4% o 3% según tipo de contrato)"
         },
-
     },
     relations: {
         trabajador: {
@@ -86,15 +96,17 @@ module.exports = new EntitySchema({
             joinColumn: {
                 name: "trabajador_id",
             },
-            onDelete: "CASCADE"
+            onDelete: "CASCADE",
+            comment: "Identificación del trabajador al que pertenece este historial"
         },
         informacionLaboral: {
             target: "InformacionLaboral",
             type: "many-to-one",
             joinColumn: {
-                name: "informacion_laboral_id"  // Nombre de la columna explícitamente definido
+                name: "informacion_laboral_id"
             },
-            onDelete: "CASCADE"
+            onDelete: "CASCADE",
+            comment: "Relación con la información laboral vigente para el cálculo de la remuneración"
         }
     }
 });

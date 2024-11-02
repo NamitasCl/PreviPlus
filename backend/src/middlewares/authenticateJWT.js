@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateJWT = (req, res, next) => {
+    console.log("Token midd:", req.cookies.token);
+
     const token = req.cookies.token; // Obtenemos el token desde las cookies
 
     if (!token) {

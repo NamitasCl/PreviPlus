@@ -18,7 +18,7 @@ const DashboardNegocios = () => {
     useEffect(() => {
         const fetchNegocios = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/negocios/${user.id}`);
+                const response = await axios.get(`http://localhost:3000/api/negocios/${user.id}`, { withCredentials: true });
                 setNegocios(response.data);
             } catch (error) {
                 console.error('Error al obtener los negocios:', error);
@@ -37,7 +37,7 @@ const DashboardNegocios = () => {
         <Box p={5}>
             <Flex justifyContent={'space-between'} mb={6}>
                 <Heading as="h2" size="lg" color={tableTextColor}>
-                    Mis Negocios
+                    Archivos Previred
                 </Heading>
             </Flex>
 
@@ -74,15 +74,30 @@ const DashboardNegocios = () => {
                                             )}
                                         </Td>
                                         <Td>
-                                            <Button
-                                                colorScheme="teal"
-                                                size="sm"
-                                                bg={buttonBgColor}
-                                                color={buttonTextColor}
-                                                onClick={() => generarArchivoPrevired(negocio.id)}
-                                            >
-                                                Generar Archivos Previred
-                                            </Button>
+                                            {
+                                                user.credits > 0 ? (
+                                                    <Button
+                                                        colorScheme="teal"
+                                                        size="sm"
+                                                        bg={buttonBgColor}
+                                                        color={buttonTextColor}
+                                                        onClick={() => generarArchivoPrevired(negocio.id)}
+                                                    >
+                                                        Generar Archivos Previred
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        colorScheme="teal"
+                                                        size="sm"
+                                                        bg={buttonBgColor}
+                                                        color={buttonTextColor}
+                                                        onClick={() => generarArchivoPrevired(negocio.id)}
+                                                        disabled={true}
+                                                    >
+                                                        Generar Archivos Previred
+                                                    </Button>
+                                                )
+                                            }
                                         </Td>
                                     </Tr>
                                 )

@@ -94,10 +94,20 @@ router.post("/logout", (req, res) => {
 });
 
 // Ruta para actualizar un usuario
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyJwt, async (req, res) => {
     try {
         const usuarioActualizado = await usuarioService.actualizarUsuario(req.params.id, req.body);
         res.json(usuarioActualizado);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+//Ruta para cambiar la contraseña de un usuario
+router.put("/:id/contrasena", verifyJwt, async (req, res) => {
+    try {
+        const usuarioActualizado = await usuarioService.actualizarContrasena(req.params.id, req.body);
+        res.status(204).json(usuarioActualizado);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

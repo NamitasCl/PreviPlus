@@ -33,8 +33,9 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
         patlastname: '',
         matlastname: '',
         names: '',
-        sexo: '',
-        nationality: ''
+        genre: '',
+        nationality: '',
+        user: negocioId
     });
 
     const handleInputChange = (e) => {
@@ -49,7 +50,7 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
         e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:3000/api/trabajadores`,
-                { ...formData, negocioid: negocioId },
+                { ...formData, negocioId: negocioId },
                 { withCredentials: true }
             );
 
@@ -114,7 +115,7 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
                                 </Box>
                                 <FormControl isRequired>
                                     <FormLabel>Sexo</FormLabel>
-                                    <Select name="sexo" value={formData.sexo} onChange={handleInputChange} placeholder="Seleccione el sexo">
+                                    <Select name="genre" value={formData.sexo} onChange={handleInputChange} placeholder="Seleccione el sexo">
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </Select>
