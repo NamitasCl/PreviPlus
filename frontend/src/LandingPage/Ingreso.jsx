@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Checkbox,
     Flex,
     FormControl,
     FormLabel,
@@ -10,7 +9,7 @@ import {
     Stack,
     Text,
     useColorModeValue,
-    useToast,
+    useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -85,7 +84,6 @@ export default function Ingreso() {
                                 direction={{ base: 'column', sm: 'column' }}
                                 align={'start'}
                                 justify={'space-between'}>
-                                <Checkbox>Recuérdame</Checkbox>
                                 <Text color={'blue.400'}>Olvidó su contraseña?</Text>
                             </Stack>
                             <Button

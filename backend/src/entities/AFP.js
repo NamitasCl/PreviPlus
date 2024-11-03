@@ -1,3 +1,5 @@
+// AFP.js
+
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
@@ -5,10 +7,10 @@ module.exports = new EntitySchema({
     tableName: "afp",
     columns: {
         id: { primary: true, type: "int", generated: true },
-        codigoAFP: { type: "int", nullable: false, unique: true, comment: "Código único de la AFP" },
+        codigo_afp: { type: "int", nullable: false, unique: true, comment: "Código único de la AFP" },
         nombre: { type: "varchar", length: 50, nullable: false, comment: "Nombre de la AFP" },
-        tasaCotizacion: { type: "decimal", precision: 5, scale: 2, nullable: false, comment: "Tasa de cotización obligatoria" },
-        tasaSIS: { type: "decimal", precision: 5, scale: 2, nullable: false, comment: "Tasa de seguro de invalidez y sobrevivencia (SIS)" }
+        tasa_cotizacion: { type: "decimal", precision: 5, scale: 2, nullable: false, comment: "Tasa de cotización obligatoria" },
+        tasa_sis: { type: "decimal", precision: 5, scale: 2, nullable: false, comment: "Tasa de seguro de invalidez y sobrevivencia (SIS)" }
     },
     relations: {
         informacionLaboral: {

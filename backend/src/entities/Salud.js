@@ -1,3 +1,5 @@
+// Salud.js
+
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
@@ -5,14 +7,13 @@ module.exports = new EntitySchema({
     tableName: "salud",
     columns: {
         id: { primary: true, type: "int", generated: true },
-        codigoSalud: { type: "int", nullable: false, unique: true, comment: "Código de Fonasa o Isapre" },
+        codigo_salud: { type: "int", nullable: false, unique: true, comment: "Código de Fonasa o Isapre" },
         nombre: { type: "varchar", length: 50, nullable: false, comment: "Nombre de Fonasa o Isapre" },
-        tipo: { type: "varchar", length: 10, nullable: false, comment: "Tipo de sistema: FONASA o ISAPRE" },
-        tasaFonasa: { type: "decimal", precision: 5, scale: 2, nullable: true, comment: "7% para Fonasa" },
-        cotizacionPactada: { type: "decimal", precision: 10, scale: 2, nullable: true, comment: "Monto del plan pactado con la Isapre (en UF o CLP)" },
-        tipoMoneda: { type: "varchar", length: 10, nullable: true, comment: "Tipo de moneda del plan pactado: UF o CLP" },
-        numeroFUN: { type: "varchar", length: 16, nullable: true, comment: "Número de contrato (FUN) en Isapre" },
-        adicionalGes: { type: "decimal", precision: 10, scale: 2, nullable: true, comment: "Monto adicional si el plan excede el 7%" }
+        tasa_fonasa: { type: "decimal", precision: 5, scale: 2, nullable: true, comment: "7% para Fonasa" },
+        cotizacion_pactada: { type: "decimal", precision: 8, scale: 4, nullable: true, comment: "Monto del plan pactado con la Isapre (en UF o CLP)" },
+        tipo_moneda: { type: "varchar", length: 10, nullable: true, comment: "Tipo de moneda del plan pactado: 1: CLP o 2: UF" },
+        numero_fun: { type: "varchar", length: 16, nullable: true, comment: "Número de contrato (FUN) en Isapre" },
+        adicional_ges: { type: "decimal", precision: 10, scale: 2, nullable: true, comment: "Monto adicional si el plan excede el 7%" }
     },
     relations: {
         informacionLaboral: {

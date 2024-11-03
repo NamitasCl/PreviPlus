@@ -1,112 +1,63 @@
-require("dotenv").config();  // Cargar variables de entorno
+// HistorialRemuneracion.js
+
+require("dotenv").config();
 const { EntitySchema } = require("typeorm");
 
-isTestEnv = process.env.NODE_ENV === 'test';
+const isTestEnv = process.env.NODE_ENV === 'test';
 
 module.exports = new EntitySchema({
     name: "HistorialRemuneracion",
     tableName: "historial_remuneracion",
     columns: {
-        id: {
-            primary: true,
-            type: "int",
-            generated: true
-        },
-        mesRemuneracion: {
-            type: isTestEnv ? "varchar" : "char",  // Usar VARCHAR en modo de pruebas
-            length: 6,
-            nullable: false,
-            comment: "Período en formato mmaaaa"
-        },
-        sueldoImponible: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: false,
-            comment: "Sueldo imponible del trabajador"
-        },
-        cotizacionObligatoriaAFP: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto de cotización obligatoria AFP"
-        },
-        cotizacionSIS: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto de cotización del seguro de invalidez y sobrevivencia"
-        },
-        cotizacionFonasa: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto de cotización Fonasa, 7% si corresponde"
-        },
-        cotizacionIsapre: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto de cotización en una Isapre, si corresponde"
-        },
-        cotizacionAdicionalIsapre: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto adicional en caso de que la Isapre exceda el 7% obligatorio"
-        },
-        cotizacionISL: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto cotización al seguro de accidentes del trabajo (ISL)"
-        },
-        cotizacionMutual: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto de cotización a la mutualidad, si aplica"
-        },
-        aporteTrabajadorCesantia: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Aporte del trabajador al seguro de cesantía (0.6% si aplica)"
-        },
-        aporteEmpleadorCesantia: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Aporte del empleador al seguro de cesantía (2.4% o 3% según tipo de contrato)"
-        },
+        id: { primary: true, type: "int", generated: true },
+        diasTrabajados: { type: "int", nullable: true, comment: "Días trabajados en el mes" },
+        mesRemuneracion: { type: isTestEnv ? "varchar" : "char", length: 6, nullable: false, comment: "Formato: mmaaaa" },
+        sueldoImponible: { type: "int", nullable: false, comment: "Sueldo imponible del trabajador" },
+        cotizacionObligatoriaAFP: { type: "int", nullable: true, comment: "Monto cotización obligatoria AFP" },
+        cotizacionSIS: { type: "int", nullable: true, comment: "Monto cotización SIS" },
+        cotizacionFonasa: { type: "int", nullable: true, comment: "Monto cotización Fonasa" },
+        cotizacionIsapre: { type: "int", nullable: true, comment: "Monto cotización Isapre (7%)" },
+        cotizacionAdicionalIsapre: { type: "int", nullable: true, comment: "Monto adicional Isapre (sobre 7%)" },
+        cotizacionISL: { type: "int", nullable: true, comment: "Monto cotización ISL" },
+        cotizacionMutual: { type: "int", nullable: true, comment: "Monto cotización mutualidad" },
+        aporteTrabajadorCesantia: { type: "int", nullable: true, comment: "Aporte del trabajador al seguro de cesantía" },
+        aporteEmpleadorCesantia: { type: "int", nullable: true, comment: "Aporte del empleador al seguro de cesantía" },
+        // Campos de CCAF
+        creditosPersonalesCcaf: { type: "int", nullable: true, comment: "Créditos personales CCAF" },
+        descuentoDentalCcaf: { type: "int", nullable: true, comment: "Descuento dental CCAF" },
+        descuentoLeasingCcaf: { type: "int", nullable: true, comment: "Descuento leasing CCAF" },
+        descuentoSeguroVidaCcaf: { type: "int", nullable: true, comment: "Descuento seguro de vida CCAF" },
+        otrosDescuentosCcaf: { type: "int", nullable: true, comment: "Otros descuentos CCAF" },
+        cotizacionCcafNoIsapre: { type: "int", nullable: true, comment: "Cotización CCAF no Isapre" },
+        descuentoCargasFamiliaresCcaf: { type: "int", nullable: true, comment: "Descuento cargas familiares CCAF" }
     },
     relations: {
         trabajador: {
             target: "Trabajador",
             type: "many-to-one",
-            joinColumn: {
-                name: "trabajador_id",
-            },
-            onDelete: "CASCADE",
-            comment: "Identificación del trabajador al que pertenece este historial"
+            joinColumn: { name: "trabajador_id" },
+            inverseSide: "historialRemuneraciones",
+            onDelete: "CASCADE"
         },
         informacionLaboral: {
             target: "InformacionLaboral",
             type: "many-to-one",
-            joinColumn: {
-                name: "informacion_laboral_id"
-            },
-            onDelete: "CASCADE",
-            comment: "Relación con la información laboral vigente para el cálculo de la remuneración"
+            joinColumn: { name: "informacion_laboral_id" },
+            onDelete: "CASCADE"
+        },
+        ccaf: {
+            target: "CCAF",
+            type: "many-to-one",
+            joinColumn: { name: "ccaf_id" },
+            inverseSide: "historialRemuneraciones",
+            onDelete: "SET NULL"
+        },
+        mutualidad: {
+            target: "Mutualidad",
+            type: "many-to-one",
+            joinColumn: { name: "mutualidad_id" },
+            inverseSide: "historialRemuneraciones",
+            onDelete: "SET NULL"
         }
     }
 });

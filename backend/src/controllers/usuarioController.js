@@ -73,6 +73,7 @@ router.post('/login', async (req, res) => {
         delete login.token
 
         const userData = login.obtainedUserData
+        console.log(userData)
 
         res.status(200).json(userData)
     } catch (error) {

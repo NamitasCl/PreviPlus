@@ -119,9 +119,9 @@ const Perfil = () => {
                 <CardBody>
                     <VStack spacing={6} align="stretch">
                         <Flex alignItems="center" gap={4}>
-                            <Avatar size="xl" name={`${user.name} ${user.firstLastName}`} src={user.avatar} />
+                            <Avatar size="xl" name={`${user.name} ${user.firstlastname}`} src={user.avatar} />
                             <Box>
-                                <Heading size="md">{user.name} {user.firstLastName} {user.secondLastName}</Heading>
+                                <Heading size="md">{user.name} {user.firstlastname} {user.secondlastname}</Heading>
                                 <Text color="gray.500">{user.email}</Text>
                             </Box>
                         </Flex>
@@ -130,7 +130,7 @@ const Perfil = () => {
                             <FormControl w={{ base: "full", md: "40%" }}>
                                 <FormLabel>Nombre Completo</FormLabel>
                                 <Input
-                                    value={`${user.name} ${user.firstLastName} ${user.secondLastName}`}
+                                    value={`${user.name} ${user.firstlastname} ${user.secondlastname}`}
                                     isReadOnly={!isEditing}
                                 />
                             </FormControl>

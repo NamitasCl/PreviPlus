@@ -14,7 +14,8 @@ const AFP = require("./entities/AFP.js");
 const Mutualidad = require("./entities/Mutualidad.js");
 const Cesantia = require("./entities/Cesantia.js");
 const CCAF = require("./entities/CCAF.js");
-
+const ArchivoPrevired = require("./entities/ArchivoPrevired.js");
+const IndicadoresPrevisionales = require("./entities/IndicadoresPrevisionales.js");
 // Configuración condicional en función del entorno
 const isTestEnv = process.env.NODE_ENV === "test";
 
@@ -39,7 +40,9 @@ const AppDataSource = new DataSource({
         AFP,
         Mutualidad,
         Cesantia,
-        CCAF
+        CCAF,
+        ArchivoPrevired,
+        IndicadoresPrevisionales
     ]
 });
 

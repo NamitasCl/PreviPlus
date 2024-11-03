@@ -1,0 +1,314 @@
+{
+    "archivoPrevired": [
+        {
+            "id": 1,
+            "rut": "11111111",
+            "dv": "1",
+            "patlastname": "Soto",
+            "matlastname": "Martínez",
+            "names": "Juan",
+            "genero": "M",
+            "nationality": "Chilena",
+            "informacionLaboral": {
+                "id": 1,
+                "tipoContrato": "Indefinido",
+                "tipoTrabajador": 0,
+                "tipoRemuneracion": "01",
+                "regimenPrevisional": "AFP",
+                "tipoSalud": "FONASA",
+                "tasaTrabajadorCesantia": "0.60",
+                "tasaEmpleadorCesantia": "2.40",
+                "afp": {
+                    "id": 1,
+                    "codigoAFP": 1,
+                    "nombre": "AFP Habitat",
+                    "tasaCotizacion": "10.00",
+                    "tasaSIS": "1.41"
+                },
+                "salud": {
+                    "id": 1,
+                    "codigoSalud": 1,
+                    "nombre": "FONASA",
+                    "tipo": "FONASA",
+                    "tasaFonasa": "7.00",
+                    "cotizacionPactada": null,
+                    "tipoMoneda": null,
+                    "numeroFUN": null,
+                    "adicionalGes": null
+                }
+            },
+            "historialRemuneraciones": [
+                {
+                    "id": 1,
+                    "mesRemuneracion": "082023",
+                    "sueldoImponible": "800000.00",
+                    "cotizacionObligatoriaAFP": "80000.00",
+                    "cotizacionSIS": "11280.00",
+                    "cotizacionFonasa": "56000.00",
+                    "cotizacionIsapre": null,
+                    "cotizacionAdicionalIsapre": null,
+                    "cotizacionISL": null,
+                    "cotizacionMutual": "7600.00",
+                    "aporteTrabajadorCesantia": "4800.00",
+                    "aporteEmpleadorCesantia": "19200.00"
+                }
+            ],
+            "cesantias": [
+                {
+                    "id": 1,
+                    "mesRemuneracion": "082023",
+                    "aporteTrabajador": "4800.00",
+                    "aporteEmpleador": "19200.00"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "rut": "22222222",
+            "dv": "2",
+            "patlastname": "González",
+            "matlastname": "Pérez",
+            "names": "María",
+            "genero": "F",
+            "nationality": "Chilena",
+            "informacionLaboral": {
+                "id": 2,
+                "tipoContrato": "Plazo Fijo",
+                "tipoTrabajador": 0,
+                "tipoRemuneracion": "01",
+                "regimenPrevisional": "AFP",
+                "tipoSalud": "ISAPRE",
+                "tasaTrabajadorCesantia": "0.00",
+                "tasaEmpleadorCesantia": "3.00",
+                "afp": {
+                    "id": 2,
+                    "codigoAFP": 2,
+                    "nombre": "AFP Provida",
+                    "tasaCotizacion": "10.85",
+                    "tasaSIS": "1.41"
+                },
+                "salud": {
+                    "id": 2,
+                    "codigoSalud": 2,
+                    "nombre": "ISAPRE Cruz Blanca",
+                    "tipo": "ISAPRE",
+                    "tasaFonasa": null,
+                    "cotizacionPactada": "3.20",
+                    "tipoMoneda": "UF",
+                    "numeroFUN": "1234567890",
+                    "adicionalGes": "0.00"
+                }
+            },
+            "historialRemuneraciones": [
+                {
+                    "id": 2,
+                    "mesRemuneracion": "082023",
+                    "sueldoImponible": "750000.00",
+                    "cotizacionObligatoriaAFP": "81375.00",
+                    "cotizacionSIS": "10575.00",
+                    "cotizacionFonasa": null,
+                    "cotizacionIsapre": "26250.00",
+                    "cotizacionAdicionalIsapre": null,
+                    "cotizacionISL": null,
+                    "cotizacionMutual": "7500.00",
+                    "aporteTrabajadorCesantia": "0.00",
+                    "aporteEmpleadorCesantia": "22500.00"
+                }
+            ],
+            "cesantias": [
+                {
+                    "id": 2,
+                    "mesRemuneracion": "082023",
+                    "aporteTrabajador": "0.00",
+                    "aporteEmpleador": "22500.00"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "rut": "33333333",
+            "dv": "3",
+            "patlastname": "López",
+            "matlastname": "Ramírez",
+            "names": "Carlos",
+            "genero": "M",
+            "nationality": "Chilena",
+            "informacionLaboral": {
+                "id": 3,
+                "tipoContrato": "Indefinido",
+                "tipoTrabajador": 0,
+                "tipoRemuneracion": "01",
+                "regimenPrevisional": "AFP",
+                "tipoSalud": "ISAPRE",
+                "tasaTrabajadorCesantia": "0.60",
+                "tasaEmpleadorCesantia": "2.40",
+                "afp": {
+                    "id": 3,
+                    "codigoAFP": 3,
+                    "nombre": "AFP Capital",
+                    "tasaCotizacion": "11.44",
+                    "tasaSIS": "1.41"
+                },
+                "salud": {
+                    "id": 3,
+                    "codigoSalud": 3,
+                    "nombre": "ISAPRE Colmena",
+                    "tipo": "ISAPRE",
+                    "tasaFonasa": null,
+                    "cotizacionPactada": "3.50",
+                    "tipoMoneda": "UF",
+                    "numeroFUN": "0987654321",
+                    "adicionalGes": "0.00"
+                }
+            },
+            "historialRemuneraciones": [
+                {
+                    "id": 3,
+                    "mesRemuneracion": "082023",
+                    "sueldoImponible": "900000.00",
+                    "cotizacionObligatoriaAFP": "102960.00",
+                    "cotizacionSIS": "12690.00",
+                    "cotizacionFonasa": null,
+                    "cotizacionIsapre": "31500.00",
+                    "cotizacionAdicionalIsapre": null,
+                    "cotizacionISL": null,
+                    "cotizacionMutual": "9000.00",
+                    "aporteTrabajadorCesantia": "5400.00",
+                    "aporteEmpleadorCesantia": "21600.00"
+                }
+            ],
+            "cesantias": [
+                {
+                    "id": 3,
+                    "mesRemuneracion": "082023",
+                    "aporteTrabajador": "5400.00",
+                    "aporteEmpleador": "21600.00"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "rut": "44444444",
+            "dv": "4",
+            "patlastname": "Díaz",
+            "matlastname": "Torres",
+            "names": "Ana",
+            "genero": "F",
+            "nationality": "Chilena",
+            "informacionLaboral": {
+                "id": 4,
+                "tipoContrato": "Plazo Fijo",
+                "tipoTrabajador": 0,
+                "tipoRemuneracion": "01",
+                "regimenPrevisional": "AFP",
+                "tipoSalud": "FONASA",
+                "tasaTrabajadorCesantia": "0.00",
+                "tasaEmpleadorCesantia": "3.00",
+                "afp": {
+                    "id": 4,
+                    "codigoAFP": 4,
+                    "nombre": "AFP Cuprum",
+                    "tasaCotizacion": "11.48",
+                    "tasaSIS": "1.41"
+                },
+                "salud": {
+                    "id": 1,
+                    "codigoSalud": 1,
+                    "nombre": "FONASA",
+                    "tipo": "FONASA",
+                    "tasaFonasa": "7.00",
+                    "cotizacionPactada": null,
+                    "tipoMoneda": null,
+                    "numeroFUN": null,
+                    "adicionalGes": null
+                }
+            },
+            "historialRemuneraciones": [
+                {
+                    "id": 4,
+                    "mesRemuneracion": "082023",
+                    "sueldoImponible": "650000.00",
+                    "cotizacionObligatoriaAFP": "74620.00",
+                    "cotizacionSIS": "9150.00",
+                    "cotizacionFonasa": "45500.00",
+                    "cotizacionIsapre": null,
+                    "cotizacionAdicionalIsapre": null,
+                    "cotizacionISL": null,
+                    "cotizacionMutual": "6175.00",
+                    "aporteTrabajadorCesantia": "0.00",
+                    "aporteEmpleadorCesantia": "19500.00"
+                }
+            ],
+            "cesantias": [
+                {
+                    "id": 4,
+                    "mesRemuneracion": "082023",
+                    "aporteTrabajador": "0.00",
+                    "aporteEmpleador": "19500.00"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "rut": "55555555",
+            "dv": "5",
+            "patlastname": "Hernández",
+            "matlastname": "Vargas",
+            "names": "Pedro",
+            "genero": "M",
+            "nationality": "Chilena",
+            "informacionLaboral": {
+                "id": 5,
+                "tipoContrato": "Indefinido",
+                "tipoTrabajador": 0,
+                "tipoRemuneracion": "01",
+                "regimenPrevisional": "AFP",
+                "tipoSalud": "ISAPRE",
+                "tasaTrabajadorCesantia": "0.60",
+                "tasaEmpleadorCesantia": "2.40",
+                "afp": {
+                    "id": 5,
+                    "codigoAFP": 5,
+                    "nombre": "AFP PlanVital",
+                    "tasaCotizacion": "9.95",
+                    "tasaSIS": "1.41"
+                },
+                "salud": {
+                    "id": 4,
+                    "codigoSalud": 4,
+                    "nombre": "ISAPRE Banmédica",
+                    "tipo": "ISAPRE",
+                    "tasaFonasa": null,
+                    "cotizacionPactada": "4.00",
+                    "tipoMoneda": "UF",
+                    "numeroFUN": "1122334455",
+                    "adicionalGes": "0.00"
+                }
+            },
+            "historialRemuneraciones": [
+                {
+                    "id": 5,
+                    "mesRemuneracion": "082023",
+                    "sueldoImponible": "850000.00",
+                    "cotizacionObligatoriaAFP": "84600.00",
+                    "cotizacionSIS": "11985.00",
+                    "cotizacionFonasa": null,
+                    "cotizacionIsapre": "34000.00",
+                    "cotizacionAdicionalIsapre": null,
+                    "cotizacionISL": null,
+                    "cotizacionMutual": "7225.00",
+                    "aporteTrabajadorCesantia": "5100.00",
+                    "aporteEmpleadorCesantia": "20400.00"
+                }
+            ],
+            "cesantias": [
+                {
+                    "id": 5,
+                    "mesRemuneracion": "082023",
+                    "aporteTrabajador": "5100.00",
+                    "aporteEmpleador": "20400.00"
+                }
+            ]
+        }
+    ]
+}

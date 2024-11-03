@@ -16,11 +16,11 @@ import {
     Text,
     useColorModeValue,
     useDisclosure,
-    VStack
+    VStack,
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer } from 'react-icons/fc'
+import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer, FcSettings } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
@@ -32,6 +32,7 @@ const LinkItems = [
     { name: 'Archivos Previred', icon: FcDocument, href: 'previred' },
     { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' },
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
+    { name: 'Configuracion', icon: FcSettings, href: 'configuracion' },
 ]
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -44,45 +45,56 @@ const SidebarContent = ({ onClose, ...rest }) => {
             w={{ base: 'full', md: 60 }}
             pos="fixed"
             h="full"
-            {...rest}>
+            {...rest}
+        >
             <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
                 <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
                     PreviPlus
                 </Text>
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
-            {LinkItems.map((link) => (
-                <NavLink key={link.name} to={link.href}>
-                    <Flex
-                        align="center"
-                        p="4"
-                        mx="4"
-                        borderRadius="lg"
-                        role="group"
-                        cursor="pointer"
-                        _hover={{
-                            bg: 'cyan.400',
-                            color: 'white',
-                        }}
-                        {...rest}>
-                        {link.icon && (
-                            <Icon
-                                mr="4"
-                                fontSize="16"
-                                _groupHover={{
+            <Box h="calc(100% - 80px)" display="flex" flexDirection="column" justifyContent="space-between">
+                <Box>
+                    {LinkItems.map((link) => (
+                        <NavLink key={link.name} to={link.href}>
+                            <Flex
+                                align="center"
+                                p="4"
+                                mx="4"
+                                borderRadius="lg"
+                                role="group"
+                                cursor="pointer"
+                                _hover={{
+                                    bg: 'cyan.400',
                                     color: 'white',
                                 }}
-                                as={link.icon}
-                            />
-                        )}
-                        {link.name}
-                    </Flex>
-
-                </NavLink>
-            ))}
+                                {...rest}
+                            >
+                                {link.icon && (
+                                    <Icon
+                                        mr="4"
+                                        fontSize="16"
+                                        _groupHover={{
+                                            color: 'white',
+                                        }}
+                                        as={link.icon}
+                                    />
+                                )}
+                                {link.name}
+                            </Flex>
+                        </NavLink>
+                    ))}
+                </Box>
+                <Box py={4} textAlign="center">
+                    <Text fontSize="sm" color="gray.500">
+                        <strong>© 2023 PreviPlus. Todos los derechos reservados.</strong>
+                    </Text>
+                </Box>
+            </Box>
         </Box>
-    )
-}
+    );
+};
+
 
 SidebarContent.propTypes = {
     onClose: PropTypes.func.isRequired
@@ -168,14 +180,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             <HStack>
                                 <Avatar
                                     size={'sm'}
-                                    name={user ? `${user.name} ${user.firstLastName}` : 'Error de carga'}
+                                    name={user ? `${user.name} ${user.firstlastname}` : 'Error de carga'}
                                 />
                                 <VStack
                                     display={{ base: 'none', md: 'flex' }}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2">
-                                    <Text fontSize="sm">{user ? `${user.name} ${user.firstLastName}` : 'Error de carga'}</Text>
+                                    <Text fontSize="sm">{user ? `${user.name} ${user.firstlastname}` : 'Error de carga'}</Text>
                                     <Text fontSize="xs" color="gray.600">
                                         `Administrador (Cambiar)`
                                     </Text>
@@ -189,7 +201,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
                             <MenuItem as={NavLink} to="perfil">Perfil</MenuItem>
-                            <MenuItem>Créditos</MenuItem>
+                            <MenuItem as={NavLink} to="creditos">Créditos</MenuItem>
                             <MenuDivider />
                             <MenuItem onClick={logout}>Cerrar sesión</MenuItem>
                         </MenuList>

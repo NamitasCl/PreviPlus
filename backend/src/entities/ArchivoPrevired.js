@@ -11,7 +11,7 @@ module.exports = new EntitySchema({
         campo3_ap_paterno: { type: "varchar", length: 30, nullable: false, default: "" },
         campo4_ap_materno: { type: "varchar", length: 30, nullable: true, default: "" },
         campo5_nombres: { type: "varchar", length: 30, nullable: false, default: "" },
-        campo6_sexo: { type: "varchar", length: 1, nullable: false, default: "" },
+        campo6_genero: { type: "varchar", length: 1, nullable: false, default: "" },
         campo7_nacionalidad: { type: "int", nullable: false, default: 0 },
         campo8_tipo_pago: { type: "int", nullable: false, default: 0 },
         campo9_periodo: { type: "varchar", length: 6, nullable: false, default: "" },
@@ -111,5 +111,23 @@ module.exports = new EntitySchema({
         campo103_condicional: { type: "int", nullable: true, default: 0 },
         campo104_condicional: { type: "varchar", length: 1, nullable: true, default: "" },
         campo105_condicional: { type: "varchar", length: 20, nullable: true, default: "" }
+    },
+    relations: {
+        usuario: {
+            target: "Usuario",
+            type: "many-to-one",
+            joinColumn: {
+                name: "usuario_id"
+            },
+            onDelete: "CASCADE"
+        },
+        negocio: {
+            target: "Negocio",
+            type: "many-to-one",
+            joinColumn: {
+                name: "negocio_id"
+            },
+            onDelete: "CASCADE"
+        }
     }
 });

@@ -15,6 +15,7 @@ import DashboardNegocio from './PrivateZone/DashboardNegocios'
 import HistorialComprasCredito from './PrivateZone/HistorialComprasCredito'
 import NegocioView from './PrivateZone/NegocioView'
 import Perfil from './PrivateZone/Perfil'
+import ConfiguracionCotizaciones from './components/ConfiguracionCotizaciones'
 
 
 const router = createBrowserRouter(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
           <Route index element={<RutaProtegida element={ComprarCreditos} />} />
           <Route path='historial-compras' element={<RutaProtegida element={HistorialComprasCredito} />} />
         </Route>
+        <Route path='configuracion' element={<RutaProtegida element={ConfiguracionCotizaciones} />} />
 
 
       </Route>

@@ -1,11 +1,11 @@
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import { Badge, Box, Flex, Heading, IconButton, List, ListIcon, ListItem, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Badge, Box, Button, Flex, FormControl, FormLabel, Heading, IconButton, Input, List, ListIcon, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure, useToast, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa';
 import { useUserAuth } from '../contexto/UserContext';
-import NegocioView from './NegocioView';
 import AddNegocio from './AddNegocio';
+import NegocioView from './NegocioView';
 
 const DescripcionNegocios = () => {
     return (
@@ -53,10 +53,15 @@ const DashboardNegocio = () => {
     const { user } = useUserAuth();
     const [negocios, setNegocios] = useState(null);
     const [negocioSeleccionado, setNegocioSeleccionado] = useState(null);
+    const [negocioEditado, setNegocioEditado] = useState(null);
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const tableBgColor = useColorModeValue('gray.200', 'gray.700');
     const tableHoverColor = useColorModeValue('gray.50', 'gray.800');
     const headingColor = useColorModeValue('blue.600', 'blue.300');
+
+    const toast = useToast();
 
     useEffect(() => {
         const fetchNegocios = async () => {
@@ -75,12 +80,82 @@ const DashboardNegocio = () => {
     const onView = (negocioSeleccionado) => {
         setNegocioSeleccionado(negocioSeleccionado);
     };
-    const onDelete = () => { }; // Función que se ejecuta al hacer clic en el botón de borrar
-    const onEdit = () => { }; // Función que se ejecuta al hacer clic en el botón de editar
 
+    //Actualiza la vista cuando se ha añadido un negocio
     const handleNegocioAdded = (newNegocio) => {
         setNegocios(prevNegocios => [...prevNegocios, newNegocio]);
     };
+
+    //Funciones que se ejecutan para editar un negocio
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNegocioEditado(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleEdit = (negocio) => {
+        setNegocioEditado(negocio);
+        onOpen();
+    }
+
+    const handleUpdate = async () => {
+        const { name, rut, address } = negocioEditado;
+        await axios.put(`http://localhost:3000/api/negocios/${negocioEditado.id}`, { name, rut, address }, { withCredentials: true })
+            .then(res => {
+                if (res.status === 200) {
+                    toast({
+                        title: "Negocio actualizado",
+                        description: "El negocio ha sido actualizado correctamente.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                    onClose();
+                }
+            })
+            .catch(error => {
+                toast({
+                    title: "Error",
+                    description: "No se pudo actualizar el negocio. Por favor, inténtalo de nuevo.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                console.error("Error al actualizar negocio:", error);
+            });
+
+        setNegocios(prevNegocios => prevNegocios.map(negocio => negocio.id === negocioEditado.id ? negocioEditado : negocio));
+    };
+
+    //Función que se ejecuta al hacer clic en el boton de borrar
+    const onDelete = async (id) => {
+        await axios.delete(`http://localhost:3000/api/negocios/${id}`, { withCredentials: true })
+            .then(res => {
+                if (res.status === 200) {
+                    toast({
+                        title: "Negocio eliminado",
+                        description: "El negocio ha sido eliminado correctamente.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                    setNegocios(prevNegocios => prevNegocios.filter(negocio => negocio.id !== id));
+                }
+            })
+            .catch(error => {
+                toast({
+                    title: "Error",
+                    description: "No se pudo eliminar el negocio. Por favor, inténtalo de nuevo.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                console.error("Error al eliminar negocio:", error);
+            });
+    };
+
 
     return (
         <Box p={5}>
@@ -137,7 +212,7 @@ const DashboardNegocio = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 mr={2}
-                                                onClick={() => onEdit(negocio.id)}
+                                                onClick={() => handleEdit(negocio)}
                                                 aria-label="Editar"
                                             />
                                             <IconButton
@@ -146,7 +221,7 @@ const DashboardNegocio = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => onDelete(negocio.id)}
-                                                aria-label="Eliminar"
+                                                aria-label="Eliminar negocio"
                                             />
                                         </Td>
                                     </Tr>
@@ -156,6 +231,49 @@ const DashboardNegocio = () => {
                     </TableContainer>
                 </>
             )}
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Editar Negocio</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <VStack spacing={4}>
+                            <FormControl>
+                                <FormLabel>Nombre</FormLabel>
+                                <Input
+                                    name="name"
+                                    value={negocioEditado?.name || ''}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>RUT</FormLabel>
+                                <Input
+                                    name="rut"
+                                    value={negocioEditado?.rut || ''}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Dirección</FormLabel>
+                                <Input
+                                    name="address"
+                                    value={negocioEditado?.address || ''}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+                        </VStack>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={handleUpdate}>
+                            Guardar
+                        </Button>
+                        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 };

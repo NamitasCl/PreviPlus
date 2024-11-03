@@ -1,53 +1,29 @@
+// Cesantia.js
+
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
     name: "Cesantia",
     tableName: "cesantia",
     columns: {
-        id: {
-            primary: true,
-            type: "int",
-            generated: true
-        },
-        mesRemuneracion: {
-            type: "varchar",
-            length: 6,
-            nullable: false,
-            comment: "Mes y año de la remuneración en formato mmaaaa"
-        },
-        aporteTrabajador: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto aportado por el trabajador al seguro de cesantía"
-        },
-        aporteEmpleador: {
-            type: "decimal",
-            precision: 10,
-            scale: 2,
-            nullable: true,
-            comment: "Monto aportado por el empleador al seguro de cesantía"
-        }
+        id: { primary: true, type: "int", generated: true },
+        mesRemuneracion: { type: "varchar", length: 6, nullable: false },
+        aporteTrabajador: { type: "decimal", precision: 10, scale: 2, nullable: true },
+        aporteEmpleador: { type: "decimal", precision: 10, scale: 2, nullable: true }
     },
     relations: {
         trabajador: {
             target: "Trabajador",
             type: "many-to-one",
-            joinColumn: {
-                name: "trabajador_id",
-            },
-            onDelete: "CASCADE",
-            comment: "Referencia al trabajador"
+            joinColumn: { name: "trabajador_id" },
+            inverseSide: "cesantias",
+            onDelete: "CASCADE"
         },
         informacionLaboral: {
             target: "InformacionLaboral",
             type: "many-to-one",
-            joinColumn: {
-                name: "informacion_laboral_id"
-            },
-            onDelete: "CASCADE",
-            comment: "Relación con la información laboral del trabajador"
+            joinColumn: { name: "informacion_laboral_id" },
+            onDelete: "CASCADE"
         }
     }
 });
