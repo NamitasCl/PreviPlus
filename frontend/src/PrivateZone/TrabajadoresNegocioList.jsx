@@ -41,7 +41,7 @@ const TrabajadoresList = ({ negocioId }) => {
                     toast({
                         title: "Error",
                         description: "No hay trabajadores asociados a este negocio.",
-                        status: "error",
+                        status: "info",
                         duration: 3000,
                         isClosable: true,
                     });
@@ -79,6 +79,7 @@ const TrabajadoresList = ({ negocioId }) => {
                         <Tr>
                             <Th>Avatar</Th>
                             <Th>Nombre</Th>
+                            <Th>Género</Th>
                             <Th>RUT</Th>
                             <Th isNumeric>Acciones</Th>
                         </Tr>
@@ -91,8 +92,8 @@ const TrabajadoresList = ({ negocioId }) => {
                                 </Td>
                                 <Td>
                                     <Text fontWeight="semibold">{`${trabajador.names} ${trabajador.patlastname} ${trabajador.matlastname}`}</Text>
-                                    <Text fontSize="sm" color="gray.500">{trabajador.email}</Text>
                                 </Td>
+                                <Td>{trabajador.genero}</Td>
                                 <Td>{`${trabajador.rut}-${trabajador.dv}`}</Td>
                                 <Td isNumeric>
                                     <Tooltip label="Ver detalles" aria-label="Ver detalles">

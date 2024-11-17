@@ -4,7 +4,7 @@ import { FaArrowLeft } from 'react-icons/fa'; // Importamos el ícono
 import TrabajadoresList from './TrabajadoresNegocioList';
 
 export default function NegocioView(props) {
-    const { id, rut, name, address, isActive } = props.negocio;
+    const { id, rut, name, address, is_active } = props.negocio;
     const back = props.back;
 
     return (
@@ -48,8 +48,8 @@ export default function NegocioView(props) {
                 </Flex>
                 <Flex>
                     <Text fontWeight="bold" mr={2}>Estado:</Text>
-                    <Badge colorScheme={isActive ? 'green' : 'red'}>
-                        {isActive ? 'Activa' : 'Inactiva'}
+                    <Badge colorScheme={is_active ? 'green' : 'red'}>
+                        {is_active ? 'Activa' : 'Inactiva'}
                     </Badge>
                 </Flex>
             </Stack>

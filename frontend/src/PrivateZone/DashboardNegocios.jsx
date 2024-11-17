@@ -190,7 +190,7 @@ const DashboardNegocio = () => {
                                         <Td>{negocio.name}</Td>
                                         <Td>{negocio.address}</Td>
                                         <Td>
-                                            {negocio.isActive ? (
+                                            {negocio.is_active ? (
                                                 <Badge px={2} borderRadius={5} colorScheme="green">Activa</Badge>
                                             ) : (
                                                 <Badge px={2} borderRadius={5} colorScheme="red">Inactiva</Badge>

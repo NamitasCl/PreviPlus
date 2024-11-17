@@ -10,10 +10,10 @@ const CobroArchivoPrevired = () => {
                 - Cada usuario puede generar <strong>1 archivo Previred por mes</strong> por un costo de <strong>$ 2.000</strong>.
             </Text>
             <Text fontSize="md" mb={2}>
-                - Si tienes más de un negocio o necesitas generar archivos adicionales en el mismo mes, deberás <strong>recargar tokens</strong>. Cada archivo adicional costará 1 token, y cada token tiene un valor de <strong>$ 1.000</strong>.
+                - Si tienes más de un negocio o necesitas generar archivos adicionales en el mismo mes, deberás <strong>recargar tus Previpuntos</strong>. Cada archivo adicional costará 1 Previpunto, y estos tienen un valor de <strong>$ 1.000</strong>.
             </Text>
             <Text fontSize="md" mb={2}>
-                - El saldo de tus tokens y la cantidad de archivos generados se mostrarán en la sección de tu cuenta.
+                - El saldo de tus Previpuntos y la cantidad de archivos generados se mostrarán en la sección de tu cuenta.
             </Text>
         </Box>
     );

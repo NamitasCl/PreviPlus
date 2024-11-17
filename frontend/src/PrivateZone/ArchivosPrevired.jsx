@@ -56,14 +56,14 @@ const DashboardNegocios = () => {
                     </Thead>
                     <Tbody>
                         {negocios && negocios.map(negocio => {
-                            if (negocio.isActive) {
+                            if (negocio.is_active) {
                                 return (
                                     <Tr key={negocio.id}>
                                         <Td>{negocio.rut}</Td>
                                         <Td>{negocio.name}</Td>
                                         <Td>{negocio.address}</Td>
                                         <Td>
-                                            {negocio.isActive ? (
+                                            {negocio.is_active ? (
                                                 <Badge px={2} borderRadius={5} variant={'solid'} colorScheme={badgeActiveColor}>
                                                     Activa
                                                 </Badge>

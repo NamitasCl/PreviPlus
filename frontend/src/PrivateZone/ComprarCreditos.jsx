@@ -84,13 +84,13 @@ const ComprarCreditos = () => {
 
             <Card bg={cardBgColor} shadow="md" mb={6}>
                 <CardHeader>
-                    <Heading size="md">Comprar Nuevos Créditos</Heading>
+                    <Heading size="md">Comprar Nuevos Previpuntos</Heading>
                 </CardHeader>
                 <CardBody>
                     <form onSubmit={handleCompra}>
                         <VStack spacing={4} align="stretch">
                             <FormControl isRequired>
-                                <FormLabel>Cantidad de Créditos</FormLabel>
+                                <FormLabel>Cantidad de Previpuntos</FormLabel>
                                 <Input
                                     type="number"
                                     value={cantidad}
@@ -123,8 +123,8 @@ const ComprarCreditos = () => {
                     <Heading size="md">Información de Precios</Heading>
                 </CardHeader>
                 <CardBody>
-                    <Text>Precio por crédito: $1.000 CLP</Text>
-                    <Text>Los créditos no tienen fecha de expiración.</Text>
+                    <Text>Precio por Previpunto: $1.000 CLP</Text>
+                    <Text>Los Previpuntos no tienen fecha de expiración.</Text>
                     <Text>Compra mínima: 1 crédito</Text>
                 </CardBody>
             </Card>

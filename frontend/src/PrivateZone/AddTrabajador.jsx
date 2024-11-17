@@ -1,10 +1,10 @@
 import {
-    Box,
+    //Box,
     Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
+    //Flex,
+    //FormControl,
+    //FormLabel,
+    //Input,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -12,28 +12,29 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    Select,
-    Text,
-    VStack,
+    //Select,
+    //Text,
+    //VStack,
     useDisclosure,
-    useToast
+    //useToast
 } from '@chakra-ui/react';
-import axios from 'axios';
+//import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+//import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import FormularioAddTrabajador from './FormularioAddTrabajador';
 
-const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
+const AnadirTrabajador = (/* { negocioId, onTrabajadorAdded } */) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const toast = useToast();
+    //const toast = useToast();
 
-    const [formData, setFormData] = useState({
+    /* const [formData, setFormData] = useState({
         rut: '',
         dv: '',
         patlastname: '',
         matlastname: '',
         names: '',
-        genre: '',
+        genero: '',
         nationality: '',
         user: negocioId
     });
@@ -48,6 +49,7 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
         try {
             const response = await axios.post(`http://localhost:3000/api/trabajadores`,
                 { ...formData, negocioId: negocioId },
@@ -75,7 +77,7 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
             });
             console.error("Error al añadir trabajador:", error);
         }
-    };
+    }; */
 
     return (
         <>
@@ -83,13 +85,32 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
                 Añadir trabajador
             </Button>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isOpen} onClose={onClose} size={'6xl'}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Añadir Nuevo Trabajador</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <form onSubmit={handleSubmit}>
+                        <FormularioAddTrabajador />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
+};
+
+export default AnadirTrabajador;
+
+AnadirTrabajador.propTypes = {
+    negocioId: PropTypes.number.isRequired,
+    onTrabajadorAdded: PropTypes.func.isRequired
+};
+
+{/* <form onSubmit={handleSubmit}>
                             <VStack spacing={4}>
                                 <FormControl isRequired>
                                     <FormLabel>Nombres</FormLabel>
@@ -115,7 +136,7 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
                                 </Box>
                                 <FormControl isRequired>
                                     <FormLabel>Sexo</FormLabel>
-                                    <Select name="genre" value={formData.sexo} onChange={handleInputChange} placeholder="Seleccione el sexo">
+                                    <Select name="genero" value={formData.genero} onChange={handleInputChange} placeholder="Seleccione el sexo">
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </Select>
@@ -125,24 +146,4 @@ const AnadirTrabajador = ({ negocioId, onTrabajadorAdded }) => {
                                     <Input name="nationality" value={formData.nationality} onChange={handleInputChange} placeholder="Ingrese la nacionalidad" />
                                 </FormControl>
                             </VStack>
-                        </form>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-                            Guardar
-                        </Button>
-                        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    );
-};
-
-export default AnadirTrabajador;
-
-AnadirTrabajador.propTypes = {
-    negocioId: PropTypes.number.isRequired,
-    onTrabajadorAdded: PropTypes.func.isRequired
-};
+                        </form> */}
