@@ -16,6 +16,7 @@ const Cesantia = require("./entities/Cesantia.js");
 const CCAF = require("./entities/CCAF.js");
 const ArchivoPrevired = require("./entities/ArchivoPrevired.js");
 const IndicadoresPrevisionales = require("./entities/IndicadoresPrevisionales.js");
+const ConfiguracionArchivoPrevired = require("./entities/ConfiguracionArchivoPrevired.js");
 // Configuración condicional en función del entorno
 const isTestEnv = process.env.NODE_ENV === "test";
 
@@ -42,7 +43,8 @@ const AppDataSource = new DataSource({
         Cesantia,
         CCAF,
         ArchivoPrevired,
-        IndicadoresPrevisionales
+        IndicadoresPrevisionales,
+        ConfiguracionArchivoPrevired
     ]
 });
 

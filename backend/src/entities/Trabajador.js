@@ -41,6 +41,11 @@ module.exports = new EntitySchema({
             target: "Cesantia",
             type: "one-to-many",
             inverseSide: "trabajador"
+        },
+        configuracionArchivoPrevired: {
+            target: "ConfiguracionArchivoPrevired",
+            type: "one-to-many",
+            inverseSide: "trabajador"
         }
     }
 });

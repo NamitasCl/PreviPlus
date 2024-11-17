@@ -10,11 +10,17 @@ class TrabajadorService {
 
     // Método para crear un trabajador
     async crearTrabajador(datos) {
+        // Obtener la información contractual del trabajador
+        const contractualInfo = datos.contractualInfo;
+        
+
         // Verificar si el negocio existe
         const negocio = await this.negocioRepository.findOneBy({ id: datos.negocioId });
         if (!negocio) {
             throw new Error("El negocio especificado no existe");
         }
+
+
 
         const nuevoTrabajador = this.trabajadorRepository.create({
             ...datos,

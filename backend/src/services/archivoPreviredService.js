@@ -42,127 +42,12 @@ class ArchivoPreviredService {
         });
     }
 
-    // Método para crear un nuevo archivo Previred
-    /** async crearArchivoPrevired(userid, negocioid) {
-         const datosArchivoPrevired = {
-             campo1_rut: rut,
-             campo2_dv: dv,
-             campo3_ap_paterno: patlastname,
-             campo4_ap_materno: matlastname,
-             campo5_nombres: names,
-             cample6_sexo: genero,
-             campo7_nacionalidad: nationality,
-             campo8_tipo_pago: informacionLaboral.tipoRemuneracion,
-             campo9_fecha_pago: historialRemuneraciones.mesRemuneracion,
-             campo11_regimen_previsional: informacionLaboral.regimenPrevisional,
-             campo12_tipo_trabajador: informacionLaboral.tipoTrabajador,
-             campo13_dias_trabajados: historialRemuneraciones.diasTrabajados,
-             campo14_tipo_linea: null,
-             campo15_codigo_movimiento_personal: null,
-             campo18_tramo_asig_fam: informacionLaboral.tramoAsignacionFamiliar,    
-             campo26_codigo_afp: informacionLaboral.afp.codigoAFP,
-             campo27_imp_afp: historialRemuneraciones.sueldoImponible,
-             campo28_calculo_pago_afp: historialRemuneraciones.cotizacionObligatoriaAFP,
-             campo29_calculo_sis: historialRemuneraciones.cotizacionSIS,
-             campo64_sueldo_imponible_salud: historialRemuneraciones.sueldoImponible,
-             campo70_calculo_7_fonasa: historialRemuneraciones.cotizacionFonasa,
-             campo71_mutualidad_isl: historialRemuneraciones.cotizacionISL,
-             campo73_descuento_ips: null,
-             campo75_codigo_isapre: salud.codigoSalud,
-             campo76_num_contrato_salud: salud.numeroFUN,
-             campo77_renta_imponible_trabajador: historialRemuneraciones.sueldoImponible,
-             campo78_tipo_moneda: salud.tipoMoneda,
-             campo79_cotizacion_pactada: salud.cotizacionPactada,
-             campo80_cotizacion_7_por_ciento: historialRemuneraciones.cotizacionIsapre,
-             campo81_diferencia_7_por_ciento: historialRemuneraciones.cotizacionAdicionalIsapre,
-             campo83_codigo_ccaf: null,
-             campo84_renta_imponible_ccaf: historialRemuneraciones.sueldoImponible,
-             campo85_creditos_personales_ccaf: null,
-             campo86_descuento_dental_ccaf: null,
-             campo87_descuentos_leasing: null,
-             campo88_descuento_seguro_vida_ccaf: null,
-             campo89_otros_descuentos_ccaf: null,
-             campo90_cotizacion_ccaf_no_isapre: null,
-             campo91_descuento_cargas_familiares_ccaf: null,
-             campo96_codigo_mutualidad: null,
-             campo97_renta_imponible_mutual: historialRemuneraciones.sueldoImponible,
-             campo98_calculo_mutual: null,
-             campo100_renta_imponible_seg_cesantia: historialRemuneraciones.sueldoImponible,
-             campo101_aporte_trabajador_seg_cesantia: cesantias.aporteTrabajador,
-             campo102_aporte_empleador_seg_cesantia: cesantias.aporteEmpleador,
-         }
- 
-         const negocioId = parseInt(negocioid);
-         const usuarioId = parseInt(userid);
- 
-         // Obtener el negocio
-         const negocio = await this.negocioRepository.findOneBy({ id: negocioId });
-         if (!negocio) {
-             throw new Error("Negocio no encontrado");
-         }
- 
-         //Obtener los trabajadores del negocio
-         const trabajadores = await this.trabajadorRepository.find({ negocio });
-         if (trabajadores.length === 0) {
-             throw new Error("No hay trabajadores asociados al negocio");
-         }
- 
-         // Obtener la información laboral en cada negocio por trabajador
-         const informacionLaboral = await this.informacionLaboralRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         // Obtener la historia de remuneraciones en cada negocio por trabajador
-         const historialRemuneracion = await this.historialRemuneracionRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         // Obtener la información de salud en cada negocio por trabajador
-         const salud = await this.saludRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         // Obtener la información de la AFP en cada negocio por trabajador
-         const afp = await this.afpRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         // Obtener la información de la mutualidad en cada negocio por trabajador
-         const mutualidad = await this.mutualidadRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         // Obtener la información de la cesantia en cada negocio por trabajador
-         const cesantia = await this.cesantiaRepository.find({
-             where: { trabajador: { negocio } },
-             relations: ["trabajador"]
-         });
- 
-         //Mostrar toda la información obtenida
-         const datosObtenidos = {
-             negocio,
-             trabajadores,
-             informacionLaboral,
-             historialRemuneracion,
-             salud,
-             afp,
-             mutualidad,
-             cesantia,
-         }
- 
-         console.log(datosObtenidos);
-     } */
-
-    async crearArchivoPrevired(userid, negocioid) {
+    // Método para generar un archivo Previred
+    async generarArchivoPrevired(userid, negocioid) {
         const negocioId = parseInt(negocioid);
         const usuarioId = parseInt(userid);
 
-        // Obtener el negocio y verificar que existe y pertenece al usuario
+        // Verificar el negocio y el usuario
         const negocio = await this.negocioRepository.findOne({
             where: { id: negocioId },
             relations: ["usuario", "mutualidad", "ccaf"]
@@ -174,18 +59,16 @@ class ArchivoPreviredService {
             throw new Error("No autorizado para acceder a este negocio");
         }
 
-        // Obtener los trabajadores con todas las relaciones necesarias
+        // Obtener trabajadores y relaciones necesarias
         const trabajadores = await this.trabajadorRepository.find({
             where: { negocio: { id: negocioId } },
             relations: [
                 "informacionLaboral",
-                "informacionLaboral.afp",
-                "informacionLaboral.salud",
                 "historialRemuneraciones",
-                "historialRemuneraciones.ccaf",
-                "historialRemuneraciones.mutualidad",
                 "cesantias",
-                "configuracionArchivoPrevired"
+                "mutualidad",
+                "ccaf",
+                "configuracionArchivoPrevired",
             ]
         });
 
@@ -193,35 +76,128 @@ class ArchivoPreviredService {
             throw new Error("No hay trabajadores asociados al negocio");
         }
 
-        // Organizar los datos
-        const datosTrabajadores = trabajadores.map(trabajador => {
+        // Array para almacenar las cadenas de cada trabajador
+        const cadenasTrabajadores = trabajadores.map(trabajador => {
             const informacionLaboral = trabajador.informacionLaboral;
-            const afp = informacionLaboral ? informacionLaboral.afp : null;
-            const salud = informacionLaboral ? informacionLaboral.salud : null;
-            const historialRemuneracion = trabajador.historialRemuneraciones[0]; // Asumiendo el más reciente
-            const cesantia = trabajador.cesantias[0]; // Asumiendo la más reciente
-            const configuracionArchivo = trabajador.configuracionArchivoPrevired;
-            const ccaf = historialRemuneracion ? historialRemuneracion.ccaf || negocio.ccaf : negocio.ccaf;
-            const mutualidad = historialRemuneracion ? historialRemuneracion.mutualidad || negocio.mutualidad : negocio.mutualidad;
+            const historialRemuneracion = trabajador.historialRemuneraciones[0]; // Suponiendo que usamos el historial más reciente
+            const salud = informacionLaboral.salud;
+            const afp = informacionLaboral.afp;
+            const ccaf = negocio.ccaf;
+            const mutualidad = negocio.mutualidad;
+            const configuracionArchivo = trabajador.configuracionArchivoPrevired[0]; // Suponiendo que usamos la configuración más reciente
 
-            return {
-                trabajador,
-                informacionLaboral,
-                afp,
-                salud,
-                ccaf,
-                mutualidad,
-                historialRemuneracion,
-                cesantia,
-                configuracionArchivo
-            };
+            // Mapeo de cada campo de la cadena en el orden específico
+            const datosArchivoPrevired = [
+                trabajador.rut,                                  // Campo 1: RUT
+                trabajador.dv,                                   // Campo 2: Dígito Verificador
+                trabajador.patlastname,                          // Campo 3: Apellido Paterno
+                trabajador.matlastname || "",                    // Campo 4: Apellido Materno
+                trabajador.names,                                // Campo 5: Nombres
+                trabajador.genero,                               // Campo 6: Género
+                trabajador.nationality,                          // Campo 7: Nacionalidad
+                informacionLaboral.tipoPago,                     // Campo 8: Tipo de Pago
+                historialRemuneracion ? historialRemuneracion.mesRemuneracion : "",  // Campo 9: Período de Pago mmaaaa
+                "0",                                             // Campo 10: Condicional
+                informacionLaboral.regimenPrevisional,           // Campo 11: Régimen Previsional
+                informacionLaboral.tipoTrabajador,               // Campo 12: Tipo de Trabajador
+                historialRemuneracion ? historialRemuneracion.diasTrabajados : "0",  // Campo 13: Días Trabajados
+                configuracionArchivo.tipoLinea || "0",           // Campo 14: Tipo de Línea (TODO: Revisar donde colocar esta configuración)
+                configuracionArchivo.codigoMovPersonal || "0",   // Campo 15: Código Movimiento Personal (TODO: Revisar donde colocar esta configuaración)
+                "",                                              // Campo 16: Condicional
+                "",                                              // Campo 17: Condicional
+                informacionLaboral.tramoAsignacionFamiliar || "", // Campo 18: Tramo Asignación Familiar
+                "0", "0", "0", "0", "0", "0",                   // Campos 19-24: Condicionales
+                "N",                                             // Campo 25: Solicitud trabajador joven (Debe ir)
+                afp ? afp.codigoAFP : "0",                       // Campo 26: Código AFP
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0", // Campo 27: Imponible para AFP
+                historialRemuneracion ? historialRemuneracion.cotizacionObligatoriaAFP : "0", // Campo 28: Cotización Obligatoria AFP
+                historialRemuneracion ? historialRemuneracion.cotizacionSIS : "0",    // Campo 29: Cotización SIS
+                "0",                                             // Campo 30: Cuenta de Ahorro Voluntario AFP (N/I)
+                "0",                                             // Campo 31: Renta Imp. Sustitutiva AFP (N/I)           
+                "0",                                             // Campos 32: Tasa Pactada (Sustitutiva) (N/I)
+                "0",                                             // Campo 33: Aporte Indemnización (Sustitutiva) (N/I)
+                "0",                                             // Campos 34: N° Períodos (Sustitutiva) (N/I)
+                "",                                              // Campo 35: Período desde (Sustitutiva)(N/I)
+                "",                                              // Campo 36: Período Hasta (Sustitutiva(N/I)
+                "",                                              // Campo 37: Puesto de Trabajo Pesado(N/I)
+                "0",                                              // Campo 38: % Cotización Trabajo Pesado(N/I)
+                "0",                                              // Campos 39: Cotización Trabajo Pesado(N/I)
+                "0",                                              // Campo 40: Código de la Institución APVI(N/I)
+                "",                                              // Campo 41: Número de Contrato APVI(N/I)
+                "0",                                              // Campo 42: Forma de Pago APVI(N/I)
+                "0",                                              // Campo 43: Cotización APVI(N/I)
+                "0",                                              // Campo 44: Cotización Depósitos Convenidos(N/I)
+                "0",                                              // Campo 45: Código Institución Autorizada APVC(N/I)
+                "",                                              // Campo 46: Número de Contrato APVC(N/I)
+                "0",                                              // Campo 47: Forma de Pago APVC(N/I)
+                "0",                                              // Campo 48: Cotización Trabajador APVC(N/I)
+                "0",                                              // Campo 49: Cotización Empleador APVC(N/I)
+                "0",                                              // Campo 50: RUT Afiliado Voluntario(N/I)
+                "",                                              // Campo 51: DV Afiliado Voluntario(N/I)
+                "",                                              // Campo 52: Apellido Paterno(N/I)
+                "",                                              // Campo 53: Apellido Materno (N/I)
+                "",                                              // Campo 54: Nombres(N/I)
+                "0",                                              // Campo 55: Código Movimiento de Personal(N/I)
+                "",                                              // Campo 56: Fecha desde(N/I)
+                "",                                              // Campo 57: Fecha hasta(N/I)
+                "0",                                              // Campo 58: Código de la AFP(N/I)
+                "0",                                              // Campo 59: Monto Capitalización Voluntaria(N/I)
+                "0",                                              // Campo 60: Monto Ahorro Voluntario(N/I)
+                "0",                                              // Campo 61: Número de periodos de cotización(N/I)
+                "0",                                              // Campo 62: Código EX-Caja Régimen(N/I)
+                "0",                                              // Campo 63: Tasa Cotización Ex-Caja Previsión(N/I)
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0",  // Campo 64: Renta Imponible IPS / ISL / Fonasa
+                "0",                                              // Campo 65: Cotización Obligatoria IPS(N/I)
+                "0",                                              // Campo 66: Renta Imponible Desahucio(N/I)
+                "0",                                              // Campo 67: Código Ex-Caja Régimen Desahucio(N/I)
+                "0",                                              // Campo 68: Tasa Cotización Desahucio Ex-Cajas de Previsión(N/I)
+                "0",                                              // Campo 69: Cotización Desahucio(N/I)
+                historialRemuneracion ? historialRemuneracion.cotizacionFonasa : "0",  // Campo 70: Cotización Fonasa
+                historialRemuneracion ? historialRemuneracion.cotizacionISL : "0", ,  // Campo 71: Cotización Acc. Trabajo (ISL)
+                "0",                                              // Campo 72: Bonificación Ley 15.386
+                "",                                              // Campo 73: Descuento por cargas familiares de IPS (ex INP) (TODO: Revisar donde colocar esta configuración)
+                "0",                                              // Campo 74: Bonos Gobierno (Campo futuro cuando Gobierno de bonos)
+                salud ? salud.codigoSalud : "0",                 // Campo 75: Código Salud
+                salud ? salud.numeroFUN : "",                    // Campo 76: Número de Contrato Salud
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0",    // Campo 77: Renta Imponible Isapre
+                salud ? salud.tipoMoneda : "0",                  // Campo 78: Tipo Moneda
+                salud ? salud.cotizacionPactada : "0",           // Campo 79: Cotización Pactada
+                historialRemuneracion ? historialRemuneracion.cotizacionIsapre : "0", // Campo 80: Cotización 7% hacia ISAPRE
+                historialRemuneracion ? historialRemuneracion.cotizacionAdicionalIsapre : "0", // Campo 81: Diferencia 7% hacia ISAPRE
+                "0",                                             // Campo 82: Monto Garantía Explícita de Salud GES(Uso Futuro) Por el momento se lleva a 0
+                ccaf ? ccaf.codigoCCAF : "0",                    // Campo 83: Código CCAF
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0",    // Campo 84: Renta Imponible CCAF
+                ccaf ? ccaf.creditosPersonalesCcaf : "0",        // Campo 85: Créditos Personales CCAF
+                ccaf ? ccaf.descuentoDental : "0",               // Campo 86: Descuento Dental CCAF
+                ccaf ? ccaf.descuentoLeasing : "0",              // Campo 87: Descuento Leasing CCAF
+                ccaf ? ccaf.descuentoSeguroVida : "0",           // Campo 88: Descuento Seguro de Vida CCAF
+                ccaf ? ccaf.otrosDescuentos : "0",               // Campo 89: Otros Descuentos CCAF
+                ccaf ? ccaf.cotizacionNoIsapre : "0",            // Campo 90: Cotización CCAF no Isapre
+                ccaf ? ccaf.descuentoCargasFamiliares : "0",     // Campo 91: Descuento Cargas Familiares CCAF
+                "0",                                             // Campo 92: Otros descuentos CCAF 1 (Uso Futuro)
+                "0",                                             // Campo 93: Otros descuentos CCAF 2 (Uso Futuro)
+                "0",                                             // Campo 94: Bonos Gobierno (Campo futuro)
+                "",                                              // Campo 95: Código de la sucursal inscrita para recibir SFE
+                mutualidad ? mutualidad.codigoMutualidad : "0",  // Campo 96: Código Mutualidad
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0",    // Campo 97: Renta Imponible Mutual
+                historialRemuneracion ? historialRemuneracion.cotizacionMutual : "0",    // Campo 98: Cotización Mutual (Aqui va calculo de tasa por rem imponibles trabajadores)
+                "0",                                             // Campo 99: Sucursal para pago Mutual (Código identificación de sucursal del empleador)
+                historialRemuneracion ? historialRemuneracion.sueldoImponible : "0",    // Campo 100: Renta Imponible Cesantía
+                historialRemuneracion ? historialRemuneracion.aporteTrabajadorCesantia : "0",      // Campo 101: Aporte Trabajador Cesantía
+                historialRemuneracion ? historialRemuneracion.aporteEmpleadorCesantia : "0",        // Campo 102: Aporte Empleador Cesantía
+                "0",                                             // Campo 103: Rut Pagadora Subsidio
+                "",                                              // Campo 104: DV Pagadora Subsidio
+                "0",                                             // Campo 105: Centro de Costos, Sucursal, Agencia
+            ];
+
+            return datosArchivoPrevired.join(";"); 
         });
 
-        // Puedes retornar los datos o continuar con la generación del archivo
-        return datosTrabajadores;
+        // Unir cada trabajador en líneas individuales para el archivo final
+        const archivoPrevired = cadenasTrabajadores.join("\n");
+
+        return archivoPrevired;
     }
-
-
 
     // Método para actualizar un archivo Previred
     async actualizarArchivoPrevired(id, datosActualizados) {

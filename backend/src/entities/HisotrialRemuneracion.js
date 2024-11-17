@@ -12,7 +12,7 @@ module.exports = new EntitySchema({
         id: { primary: true, type: "int", generated: true },
         diasTrabajados: { type: "int", nullable: true, comment: "Días trabajados en el mes" },
         mesRemuneracion: { type: isTestEnv ? "varchar" : "char", length: 6, nullable: false, comment: "Formato: mmaaaa" },
-        sueldoImponible: { type: "int", nullable: false, comment: "Sueldo imponible del trabajador" },
+        sueldoImponible: { type: "int", nullable: false, comment: "Sueldo imponible del trabajador, aqui se suma todo el sueldo que sea imponible" },
         cotizacionObligatoriaAFP: { type: "int", nullable: true, comment: "Monto cotización obligatoria AFP" },
         cotizacionSIS: { type: "int", nullable: true, comment: "Monto cotización SIS" },
         cotizacionFonasa: { type: "int", nullable: true, comment: "Monto cotización Fonasa" },

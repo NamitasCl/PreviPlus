@@ -53,25 +53,8 @@ router.get("/business/:negocioId", async (req, res) => {
 });
 
 // Ruta para crear un nuevo trabajador
-router.post(
-    "/",
-    [
-        // Validación de campos
-        check('rut').notEmpty().withMessage('El RUT es obligatorio'),
-        check('dv').notEmpty().withMessage('El dígito verificador es obligatorio'),
-        check('patlastname').notEmpty().withMessage('El apellido paterno es obligatorio'),
-        check('names').notEmpty().withMessage('El nombre es obligatorio'),
-        check('genre').notEmpty().withMessage('El género es obligatorio'),
-        check('nationality').notEmpty().withMessage('La nacionalidad es obligatoria'),
-        check('negocioId').isInt().withMessage('El ID del negocio es obligatorio y debe ser un número entero'),
-    ],
-    async (req, res) => {
-        // Manejo de errores de validación
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errores: errors.array() });
-        }
-
+router.post("/", async (req, res) => {
+        
         try {
             const newTrabajador = await trabajadorService.crearTrabajador(req.body);
             res.status(201).json(newTrabajador);
@@ -82,19 +65,9 @@ router.post(
 );
 
 // Ruta para actualizar un trabajador
-router.put(
-    "/:rutTrabajador",
-    [
-        // Validación de campos
-        check('rutTrabajador').notEmpty().withMessage('El RUT del trabajador es obligatorio en la ruta'),
-    ],
-    async (req, res) => {
+router.put("/:rutTrabajador", async (req, res) => {
         // Manejo de errores de validación
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errores: errors.array() });
-        }
-
+        
         try {
             const updatedTrabajador = await trabajadorService.updateTrabajador(req.params.rutTrabajador, req.body);
             if (updatedTrabajador) {
