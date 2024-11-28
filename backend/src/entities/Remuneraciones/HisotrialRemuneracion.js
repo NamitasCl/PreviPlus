@@ -37,27 +37,15 @@ module.exports = new EntitySchema({
             type: "many-to-one",
             joinColumn: { name: "trabajador_id" },
             inverseSide: "historialRemuneraciones",
-            onDelete: "CASCADE"
+            nullable: false,
         },
-        informacionLaboral: {
-            target: "InformacionLaboral",
+        negocio: {
+            target: "Negocio",
             type: "many-to-one",
-            joinColumn: { name: "informacion_laboral_id" },
-            onDelete: "CASCADE"
-        },
-        ccaf: {
-            target: "CCAF",
-            type: "many-to-one",
-            joinColumn: { name: "ccaf_id" },
+            joinColumn: { name: "negocio_id" },
             inverseSide: "historialRemuneraciones",
-            onDelete: "SET NULL"
+            nullable: false,
         },
-        mutualidad: {
-            target: "Mutualidad",
-            type: "many-to-one",
-            joinColumn: { name: "mutualidad_id" },
-            inverseSide: "historialRemuneraciones",
-            onDelete: "SET NULL"
-        }
-    }
+        
+    },
 });

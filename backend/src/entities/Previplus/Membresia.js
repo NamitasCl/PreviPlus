@@ -3,14 +3,13 @@
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-    name: "Creditos",
-    tableName: "creditos",
+    name: "Membresia",
+    tableName: "membresia",
     columns: {
         id: { primary: true, type: "int", generated: true },
-        cantidad: { type: "decimal", precision: 10, scale: 2, nullable: false },
-        tipo: { type: "varchar", nullable: false },
+        uuidTransaccion: { type: "varchar", nullable: false, unique: true, comment: "UUID de la transacción" },
         fecha: { type: "date", default: () => "CURRENT_DATE" },
-        idTransaccion: { type: "varchar", nullable: true },
+        
         medioPago: { type: "varchar", nullable: true }
     },
     relations: {

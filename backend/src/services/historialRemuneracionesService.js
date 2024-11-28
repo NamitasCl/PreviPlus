@@ -1,5 +1,5 @@
 const AppDataSource = require("../datasource");
-const HistorialRemuneraciones = require("../entities/HisotrialRemuneracion");
+const HistorialRemuneraciones = require("../entities/Remuneraciones/HisotrialRemuneracion");
 
 class HistorialRemuneracionesService {
     constructor() {

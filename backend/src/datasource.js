@@ -3,20 +3,33 @@ const { DataSource } = require("typeorm");
 require("dotenv").config();  // Cargar las variables de entorno desde el archivo .env
 
 // Importar las entidades
-const Usuario = require("./entities/Usuario.js");
-const Negocio = require("./entities/Negocio.js");
-const CompraCredito = require("./entities/Creditos.js");
-const Trabajador = require("./entities/Trabajador.js");
-const InformacionLaboral = require("./entities/InformacionLaboral.js");
-const HistorialRemuneracion = require("./entities/HisotrialRemuneracion.js");
-const Salud = require("./entities/Salud.js");
-const AFP = require("./entities/AFP.js");
-const Mutualidad = require("./entities/Mutualidad.js");
-const Cesantia = require("./entities/Cesantia.js");
-const CCAF = require("./entities/CCAF.js");
-const ArchivoPrevired = require("./entities/ArchivoPrevired.js");
-const IndicadoresPrevisionales = require("./entities/IndicadoresPrevisionales.js");
-const ConfiguracionArchivoPrevired = require("./entities/ConfiguracionArchivoPrevired.js");
+//Entidades de Previplus
+const Membresia = require("./entities/Previplus/Membresia.js");
+const Usuario = require("./entities/Previplus/Usuario.js");
+
+//Entidades de Negocio
+const Negocio = require("./entities/Negocio/Negocio.js");
+const InformacionLaboral = require("./entities/Negocio/InformacionLaboral.js");
+
+//Entidades de Trabajador
+const Trabajador = require("./entities/Trabajador/Trabajador.js");
+
+//Entidades de Prevision
+const CCAF = require("./entities/Prevision/CCAF.js");
+const Salud = require("./entities/Prevision/Salud.js");
+const Mutualidad = require("./entities/Prevision/Mutualidad.js");
+const AFP = require("./entities/Prevision/AFP.js");
+
+//Entidades de Previred
+const ArchivosPrevired = require("./entities/Previred/ArchivosPreviredGenerados.js");
+
+//Entidades de Utils
+const ConfiguracionArchivoPrevired = require("./entities/Utils/ConfiguracionArchivoPrevired.js");
+const AsignacionFamiliarData = require("./entities/Utils/AsignacionFamiliarData.js");
+
+//Entidades de Remuneraciones
+const HistorialRemuneracion = require("./entities/Remuneraciones/HisotrialRemuneracion.js");
+
 // Configuración condicional en función del entorno
 const isTestEnv = process.env.NODE_ENV === "test";
 
@@ -33,18 +46,17 @@ const AppDataSource = new DataSource({
     entities: [
         Usuario,
         Negocio,
-        CompraCredito,
         Trabajador,
         InformacionLaboral,
         HistorialRemuneracion,
         Salud,
         AFP,
         Mutualidad,
-        Cesantia,
         CCAF,
-        ArchivoPrevired,
-        IndicadoresPrevisionales,
-        ConfiguracionArchivoPrevired
+        ConfiguracionArchivoPrevired,
+        Membresia,
+        AsignacionFamiliarData,
+        ArchivosPrevired
     ]
 });
 

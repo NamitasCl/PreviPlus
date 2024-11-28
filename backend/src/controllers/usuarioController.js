@@ -40,13 +40,13 @@ router.get("/:id", async (req, res) => {
 // Ruta para crear un nuevo usuario
 router.post("/", async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { name, firstlastname, secondlastname, username, email, password } = req.body;
 
         // Validación de campos obligatorios
         if (!username || !email || !password) {
             throw new ValidationError("Todos los campos (username, email, password) son obligatorios.");
         }
-        const nuevoUsuario = await usuarioService.crearUsuario({ username, email, password });
+        const nuevoUsuario = await usuarioService.crearUsuario({name, firstlastname, secondlastname, username, email, password });
         if (nuevoUsuario) {
             res.status(201).json(nuevoUsuario);
         } else {
@@ -74,6 +74,9 @@ router.post('/login', async (req, res) => {
 
         const userData = login.obtainedUserData
         console.log(userData)
+
+        // Registrar lastlogin y guardarlo en la base de datos
+        const updatedUser = await usuarioService.actualizarUsuario(userData.id, { lastLogin: new Date() });
 
         res.status(200).json(userData)
     } catch (error) {

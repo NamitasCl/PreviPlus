@@ -11,41 +11,47 @@ module.exports = new EntitySchema({
     columns: {
         id: { primary: true, type: "int", generated: true },
         rut: { type: "varchar", nullable: false },
-        dv: { type: isTestEnv ? "varchar" : "char", length: 1, nullable: false },
+        dv: { type: "varchar", length: 1, nullable: false },
         patlastname: { type: "varchar", nullable: false },
         matlastname: { type: "varchar", nullable: true },
         names: { type: "varchar", nullable: false },
-        genero: { type: isTestEnv ? "varchar" : "char", length: 1, nullable: false },
+        genero: { type: "varchar", length: 10, nullable: false },
         nationality: { type: "varchar", nullable: false }
     },
     relations: {
-        negocio: {
-            target: "Negocio",
+        salud: {
+            target: "Salud",
             type: "many-to-one",
-            joinColumn: { name: "negocio_id" },
-            onDelete: "CASCADE",
-            inverseSide: "trabajadores"
+            joinColumn: { name: "salud_id" },
+            nullable: false,
+            eager: true,
+        },
+        afp: {
+            target: "AFP",
+            type: "many-to-one",
+            joinColumn: { name: "afp_id" },
+            nullable: false,
+            eager: true,
         },
         informacionLaboral: {
             target: "InformacionLaboral",
-            type: "one-to-one",
+            type: "one-to-many",
             inverseSide: "trabajador",
-            cascade: true
+            cascade: true,
+            eager: false,
         },
         historialRemuneraciones: {
             target: "HistorialRemuneracion",
             type: "one-to-many",
-            inverseSide: "trabajador"
-        },
-        cesantias: {
-            target: "Cesantia",
-            type: "one-to-many",
-            inverseSide: "trabajador"
+            inverseSide: "trabajador",
+            cascade: true,
+            eager: true,
         },
         configuracionArchivoPrevired: {
             target: "ConfiguracionArchivoPrevired",
             type: "one-to-many",
-            inverseSide: "trabajador"
-        }
-    }
+            inverseSide: "trabajador",
+            cascade: true,
+        },
+    },
 });

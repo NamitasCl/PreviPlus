@@ -52,7 +52,7 @@ router.get("/business/:negocioId", async (req, res) => {
     }
 });
 
-// Ruta para crear un nuevo trabajador
+// Ruta para crear un nuevo trabajador api/trabajadores/
 router.post("/", async (req, res) => {
         
         try {

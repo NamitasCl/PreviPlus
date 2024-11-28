@@ -1,16 +1,58 @@
 const AppDataSource = require("../datasource");
-const Negocio = require("../entities/Negocio");
-const Usuario = require("../entities/Usuario");
+const Negocio = require("../entities/Negocio/Negocio");
+const Usuario = require("../entities/Previplus/Usuario");
+const Mutualidad = require("../entities/Prevision/Mutualidad");
+const CCAF = require("../entities/Prevision/CCAF");
 
 class NegocioService {
     constructor() {
         this.negocioRepository = AppDataSource.getRepository(Negocio);
         this.usuarioRepository = AppDataSource.getRepository(Usuario);
+        this.mutualidadRepository = AppDataSource.getRepository(Mutualidad);
+        this.ccafRepository = AppDataSource.getRepository(CCAF);
+
     }
 
-    // Método para crear un negocio
     // Método para crear un nuevo negocio
     async crearNegocio(negocioData, userId) {
+        //Obtener la data
+        const {
+            rut,
+            negocioName,
+            address,
+            repLegal,
+            rutRepLegal,
+            dvRepLegal,
+            tieneMutual,
+            mutualNombre,
+            tieneCcaf,
+            ccafNombre,
+            isActive
+        } = negocioData;
+
+        //Verificar si tiene mutual publica o privada
+        /*
+        Opciones de mutualidad:
+        00-Instituto de Seguridad Laboral
+        01-Asociación Chilena de Seguridad
+        02- Mutual de Seguridad CChC
+        03-Instituto de Seguridad del Trabajo
+        */
+        const codigoMutual = parseInt(mutualNombre.split('-')[0], 10);
+        const codigoCcaf = parseInt(ccafNombre.split('-')[0], 10);
+
+        //Busco mutualidad
+        const mutualidad = await this.mutualidadRepository.findOneBy({ codigomutual: codigoMutual });
+        if (!mutualidad) {
+            throw new Error('Mutualidad no encontrada');
+        }
+
+        //Busco ccaf
+        const ccaf = await this.ccafRepository.findOneBy({ codigoccaf: codigoCcaf });
+            if (!ccaf) {
+                throw new Error('CCAF no encontrada');
+            }
+        
         // Obtener el usuario autenticado
         const usuario = await this.usuarioRepository.findOneBy({ id: userId });
         if (!usuario) {
@@ -19,8 +61,18 @@ class NegocioService {
 
         // Crear el negocio asociado al usuario
         const nuevoNegocio = this.negocioRepository.create({
-            ...negocioData,
-            usuario: usuario
+            rut,
+            negocioName,
+            address,
+            repLegal,
+            rutRepLegal,
+            dvRepLegal,
+            isActive,
+            mutualidad,
+            ccaf,
+            usuario,
+            tieneCcaf,
+            tieneMutual
         });
 
         return await this.negocioRepository.save(nuevoNegocio);
@@ -39,6 +91,8 @@ class NegocioService {
                 relations: ['usuario']
             }
         );
+
+        console.log("Respuesta obtenida:", respuesta);
         return respuesta
     }
 

@@ -1,6 +1,6 @@
 require('dotenv').config()
 const AppDataSource = require("../datasource");
-const Usuario = require("../entities/Usuario");
+const Usuario = require("../entities/Previplus/Usuario");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const ValidationError = require('../errors/validationError');
@@ -13,7 +13,8 @@ class UsuarioService {
 
     // Método para crear un usuario
     async crearUsuario(datos) {
-        const { username, email, password } = datos;
+        const { name, firstlastname, secondlastname, username, email, password } = datos;
+        const createdAt = new Date();
 
         // Validación de existencia de email y usuario
         const emailExists = await this.obtenerUsuarioPorEmail(email);
@@ -27,8 +28,12 @@ class UsuarioService {
 
         // Crear y guardar nuevo usuario
         const newUser = {
+            name,
+            firstlastname,
+            secondlastname,
             username,
             email,
+            createdAt,
             password: hashedPassword,
         };
 
@@ -116,8 +121,14 @@ class UsuarioService {
     async obtenerUsuarioConEstadisticas(idUsuario) {
         const usuario = await this.usuarioRepository.findOne({
             where: { id: idUsuario },
-            relations: ['negocios', 'negocios.trabajadores'], // Relacionamos los negocios y trabajadores
+            relations: [
+                'negocios',
+                'negocios.informacionLaboral',
+                'negocios.informacionLaboral.trabajador'
+            ], // Relacionamos los negocios y trabajadores
         });
+
+        console.log(usuario)
 
         if (!usuario) {
             throw new Error('Usuario no encontrado');
@@ -125,9 +136,19 @@ class UsuarioService {
 
         // Calculamos las estadísticas
         const totalNegocios = usuario.negocios.length;
-        const totalTrabajadores = usuario.negocios.reduce((count, negocio) => {
-            return count + negocio.trabajadores.length;
-        }, 0);
+
+         // Utilizamos un Set para evitar contar trabajadores duplicados si están asociados a múltiples negocios
+        const trabajadoresSet = new Set();
+ 
+        usuario.negocios.forEach(negocio => {
+            negocio.informacionLaboral.forEach(infoLaboral => {
+                if (infoLaboral.trabajador && infoLaboral.trabajador.id) {
+                    trabajadoresSet.add(infoLaboral.trabajador.id);
+                }
+            });
+        });
+ 
+        const totalTrabajadores = trabajadoresSet.size;
 
         return (
             {

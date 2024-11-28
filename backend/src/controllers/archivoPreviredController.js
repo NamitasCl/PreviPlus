@@ -10,22 +10,14 @@ router.use(verifyJwt);
 //Creo la instancia del servicio de archivos Previred
 const archivoPreviredService = new ArchivoPreviredService();
 
-// Ruta para obtener todos los archivos Previred
-router.get("/", async (req, res) => {
-    try {
-        const archivosPrevired = await archivoPreviredService.obtenerArchivosPrevired();
-        res.json(archivosPrevired);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
 // Ruta para obtener un archivo Previred por ID
-router.get("/:id", async (req, res) => {
+router.post("/descarga", async (req, res) => {
     try {
-        const archivoPrevired = await archivoPreviredService.obtenerArchivoPreviredPorId(req.params.id);
+        const archivoPrevired = await archivoPreviredService.obtenerArchivosPrevired(req.body);
         if (archivoPrevired) {
-            res.json(archivoPrevired);
+            res.header("Content-Type", "text/plain");
+            res.header("Content-Disposition", "attachment; filename=archivo-previred.txt");
+            res.send(archivoPrevired.archivo);
         } else {
             res.status(404).json({ message: "Archivo Previred no encontrado" });
         }
@@ -34,46 +26,50 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Ruta para obtener un archivo Previred por usuario
-router.get("/user/:idUsuario", async (req, res) => {
+// Ruta para descargar un archivo Previred por id 
+router.get("/descarga/:id", async (req, res) => {
     try {
-        const archivosPrevired = await archivoPreviredService.obtenerArchivoPreviredPorUsuario(req.params.idUsuario);
-        if (archivosPrevired.length > 0) {
-            res.json(archivosPrevired);
+        const archivoPrevired = await archivoPreviredService.obtenerArchivoPreviredPorId(req.params.id);
+        if (archivoPrevired) {
+            res.header("Content-Type", "text/plain");
+            res.header("Content-Disposition", "attachment; filename=archivo-previred.txt");
+            res.send(archivoPrevired.archivo);
         } else {
-            res.status(404).json({ message: "No hay archivos Previred asociados a este usuario" });
+            res.status(404).json({ message: "Archivo Previred no encontrado" });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}); 
+
+
+
+// Ruta para obtener informacion de archivos Previred
+router.post("/info", async (req, res) => {
+    try {
+
+        console.log("Datos de entrada:", req.body);
+        const archivoPrevired = await archivoPreviredService.obtenerInformacionArchivosPrevired(req.body);
+        if (archivoPrevired) {
+            // Elimino el campo archivo del objeto
+            const archivoPreviredSinArchivo = archivoPrevired.map(archivo => ({ ...archivo, archivo: undefined }));
+            // Solo envio negocio y fecha de creacion.
+            res.json(archivoPreviredSinArchivo);
+        } else {
+            res.status(404).json({ message: "Archivo Previred no encontrado" });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// Ruta para crear un nuevo archivo Previred
-router.post("/", async (req, res) => {
+//Ruta para generar un archivo Previred
+router.post("/generate", async (req, res) => {
     try {
-        const nuevoArchivoPrevired = await archivoPreviredService.crearArchivoPrevired(req.body);
-        res.json(nuevoArchivoPrevired);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-//Ruta de prueba para ver los datos obtenidos en el archivo Previred en el metodo crearArchivoPrevired
-router.post("/test", async (req, res) => {
-    try {
-        const { userid, negocioid } = req.body
-        const archivoPrevired = await archivoPreviredService.crearArchivoPrevired(userid, negocioid);
-        res.status(200).json({ archivoPrevired });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Ruta para actualizar un archivo Previred
-router.put("/:id", async (req, res) => {
-    try {
-        const archivoPreviredActualizado = await archivoPreviredService.actualizarArchivoPrevired(req.params.id, req.body);
-        res.json(archivoPreviredActualizado);
+        console.log("Entrando al generate")
+        const archivoPrevired = await archivoPreviredService.generarArchivoPrevired(req.body);
+        res.json(archivoPrevired);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
