@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer, FcSettings } from 'react-icons/fc'
+import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer, FcSettings, FcLinux } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
@@ -29,20 +29,24 @@ import { useUserAuth } from '../contexto/UserContext'
 const LinkItems = [
     { name: 'Inicio', icon: FcHome, href: '/dashboard' },
     { name: 'Negocios', icon: FcBusiness, href: 'negocios' },
-    { name: 'Archivos Previred', icon: FcDocument, href: 'previred' },
+    { name: 'Archivos Previred (AP)', icon: FcDocument, href: 'previred' },
+    { name: 'Descarga Archivo Previred', icon: FcMoneyTransfer, href: 'historialPrevired', },   
     { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' },
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
     { name: 'Configuracion', icon: FcSettings, href: 'configuracion' },
+    { name: 'Admin', icon: FcSettings, href: 'admin' },
 ]
 
 const SidebarContent = ({ onClose, ...rest }) => {
+    const { user } = useUserAuth();
+
     return (
         <Box
             transition="3s ease"
             bg={useColorModeValue('white', 'gray.900')}
             borderRight="1px"
             borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-            w={{ base: 'full', md: 60 }}
+            w={{ base: 'full', md: 290 }}
             pos="fixed"
             h="full"
             {...rest}
@@ -84,10 +88,38 @@ const SidebarContent = ({ onClose, ...rest }) => {
                             </Flex>
                         </NavLink>
                     ))}
+                    {
+                        user && user.rol === 'admin' && (
+                            <NavLink to={'/dashboard/admin'}>
+                                <Flex
+                                    align="center"
+                                    p="4"
+                                    mx="4"
+                                    borderRadius="lg"
+                                    role="group"
+                                    cursor="pointer"
+                                    _hover={{
+                                        bg: 'cyan.400',
+                                        color: 'white',
+                                    }}
+                                >
+                                    <Icon
+                                        mr="4"
+                                        fontSize="16"
+                                        _groupHover={{
+                                            color: 'white',
+                                        }}
+                                        as={FcLinux}
+                                    />
+                                    <Text fontSize="md">Admin Panel</Text>
+                                </Flex>
+                            </NavLink>
+                        )
+                    }
                 </Box>
                 <Box py={4} textAlign="center">
                     <Text fontSize="sm" color="gray.500">
-                        <strong>© 2023 PreviPlus. Todos los derechos reservados.</strong>
+                        <strong>© 2024 PreviPlus. Todos los derechos reservados.</strong>
                     </Text>
                 </Box>
             </Box>
@@ -147,7 +179,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
     return (
         <Flex
-            ml={{ base: 0, md: 60 }}
+            ml={{ base: 0, md: 290 }}
             px={{ base: 4, md: 4 }}
             height="20"
             alignItems="center"
@@ -189,7 +221,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     ml="2">
                                     <Text fontSize="sm">{user ? `${user.name} ${user.firstlastname}` : 'Error de carga'}</Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        `Administrador (Cambiar)`
+                                        {user.rol === 'usuario' ? `Usuario registrado` : `Administrador`}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -237,7 +269,7 @@ const Dashboard = () => {
             </Drawer>
             {/* mobilenav */}
             <MobileNav onOpen={onOpen} />
-            <Box ml={{ base: 0, md: 60 }} p="4">
+            <Box ml={{ base: 0, md: 290 }} p="4">
                 <Outlet />
             </Box>
         </Box>

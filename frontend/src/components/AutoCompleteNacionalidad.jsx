@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 const InputSearch = memo(({ name, placeholder, value, onChange }) => {
   return (
     <FormControl id={name} isRequired flex={1}>
-      <FormLabel>{name}</FormLabel>
       <Input
         name={name}
         placeholder={placeholder}
@@ -55,7 +54,7 @@ const AutocompleteNacionalidad = ({ value, onChange }) => {
   const handleSelect = useCallback((nacionalidad) => {
     onChange({
       target: {
-        name: 'nacionalidad',
+        name: 'nationality',
         value: nacionalidad.label, // Pasa solo el valor (clave) de la nacionalidad
       },
     });
@@ -63,10 +62,10 @@ const AutocompleteNacionalidad = ({ value, onChange }) => {
   }, [onChange]);
 
   return (
-    <FormControl id="nacionalidad" isRequired flex={1}>
+    <FormControl id="nationality" isRequired flex={1}>
       <FormLabel>Nacionalidad</FormLabel>
       <InputSearch
-        name="nacionalidad"
+        name="nationality"
         placeholder="Escribe para buscar..."
         value={value}
         onChange={handleInputChange}

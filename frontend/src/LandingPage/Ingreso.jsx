@@ -12,7 +12,7 @@ import {
     useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
 
 export default function Ingreso() {
@@ -85,6 +85,11 @@ export default function Ingreso() {
                                 align={'start'}
                                 justify={'space-between'}>
                                 <Text color={'blue.400'}>Olvidó su contraseña?</Text>
+                                <NavLink to={'/registro'}>
+                                    <Text>
+                                        ¿ Aún no tienes cuenta? <Text as={'span'} color={'blue.400'}>¡Regístrate ahora!</Text>
+                                    </Text>
+                                </NavLink>
                             </Stack>
                             <Button
                                 onClick={handleSubmit}

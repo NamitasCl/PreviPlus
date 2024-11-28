@@ -1,6 +1,7 @@
 import {
     Avatar,
     Box,
+    Button,
     Flex,
     Heading,
     IconButton,
@@ -14,13 +15,20 @@ import {
     Tooltip,
     Tr,
     useColorModeValue,
-    useToast
+    useToast,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter
 } from '@chakra-ui/react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa';
-import AddTrabajador from './AddTrabajador';
+import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import FormularioEmpleado from '../components/Formularios/AgregarTrabajador/FormularioAddTrabajador';
 
 const TrabajadoresList = ({ negocioId }) => {
 
@@ -29,26 +37,31 @@ const TrabajadoresList = ({ negocioId }) => {
     const bgColorThead = useColorModeValue('gray.200', 'gray.700');
     const bgColorHover = useColorModeValue('gray.50', 'gray.800');
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const toast = useToast();
 
     useEffect(() => {
         const fetchTrabajadores = async () => {
-            await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`, { withCredentials: true })
-                .then(response => {
-                    setTrabajadores(response.data);
-                })
-                .catch(() => {
-                    toast({
-                        title: "Error",
-                        description: "No hay trabajadores asociados a este negocio.",
-                        status: "info",
-                        duration: 3000,
-                        isClosable: true,
-                    });
+            try {
+                const response = await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`, { withCredentials: true });
+                const trabajadoresNuevos = response.data.map(data => data.trabajador);
+                setTrabajadores(trabajadoresNuevos); // Reemplaza el estado en lugar de agregar
+            } catch (error) {
+                setTrabajadores([]); // Opcional: Limpiar el estado en caso de error
+                toast({
+                    title: "Error",
+                    description: "No hay trabajadores asociados a este negocio." + error.message,
+                    status: "info",
+                    duration: 3000,
+                    isClosable: true,
                 });
-        }
+            }
+        };
         fetchTrabajadores();
-    }, [negocioId, toast])
+    }, [negocioId, toast]);
+    
+    
 
     const onView = () => { }
     const onEdit = () => { }
@@ -70,7 +83,10 @@ const TrabajadoresList = ({ negocioId }) => {
                 <Heading as="h2" size="lg" fontWeight="bold">
                     Trabajadores del Negocio
                 </Heading>
-                <AddTrabajador negocioId={negocioId} onTrabajadorAdded={handleTrabajadorAdded} />
+                <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={onOpen}>
+                    Añadir trabajador
+                </Button>
+                
             </Flex>
 
             <TableContainer borderRadius="md" boxShadow="md">
@@ -131,6 +147,19 @@ const TrabajadoresList = ({ negocioId }) => {
                     </Tbody>
                 </Table>
             </TableContainer>
+            <Modal isOpen={isOpen} onClose={onClose} size={'6xl'}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormularioEmpleado negocioId={negocioId} onTrabajadorAdded={handleTrabajadorAdded} />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 };

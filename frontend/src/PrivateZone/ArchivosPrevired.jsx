@@ -7,7 +7,7 @@ import CobroArchivoPrevired from './CobroArchivoPrevired';
 // Componente que lista los negocios del usuario con la acción de generar archivos Previred
 const DashboardNegocios = () => {
     const { user } = useUserAuth();
-    const [negocios, setNegocios] = useState(null);
+    const [negocios, setNegocios] = useState([]);
     const buttonBgColor = useColorModeValue('teal.500', 'teal.300');
     const buttonTextColor = useColorModeValue('white', 'gray.800');
     const badgeActiveColor = useColorModeValue('green', 'green');
@@ -15,6 +15,7 @@ const DashboardNegocios = () => {
     const tableBgColor = useColorModeValue('gray.50', 'gray.800');
     const tableTextColor = useColorModeValue('gray.900', 'gray.50');
 
+    console.log(user)
     useEffect(() => {
         const fetchNegocios = async () => {
             try {
@@ -28,9 +29,12 @@ const DashboardNegocios = () => {
         if (user && user.id) fetchNegocios();
     }, [user]);
 
-    const generarArchivoPrevired = (idNegocio) => {
+    const generarArchivoPrevired = async (idNegocio) => {
         // Lógica para generar archivos Previred por negocio
         console.log(`Generar archivo Previred para el negocio con ID: ${idNegocio}`);
+        await axios.post('http://localhost:3000/api/archprev/generate', { idNegocio, userId: user.id }, { withCredentials: true })
+        .then(response => console.log("Archivo Previred generado exitosamente:", response.data))
+        .catch(error => console.error("Error al generar Archivo Previred:", error));
     };
 
     return (
@@ -56,14 +60,14 @@ const DashboardNegocios = () => {
                     </Thead>
                     <Tbody>
                         {negocios && negocios.map(negocio => {
-                            if (negocio.is_active) {
+                            if (negocio.isActive) {
                                 return (
                                     <Tr key={negocio.id}>
                                         <Td>{negocio.rut}</Td>
-                                        <Td>{negocio.name}</Td>
+                                        <Td>{negocio.negocioName}</Td>
                                         <Td>{negocio.address}</Td>
                                         <Td>
-                                            {negocio.is_active ? (
+                                            {negocio.isActive ? (
                                                 <Badge px={2} borderRadius={5} variant={'solid'} colorScheme={badgeActiveColor}>
                                                     Activa
                                                 </Badge>
@@ -75,7 +79,7 @@ const DashboardNegocios = () => {
                                         </Td>
                                         <Td>
                                             {
-                                                user.credits > 0 ? (
+                                                parseInt(user.credits,10) === 0 ? (
                                                     <Button
                                                         colorScheme="teal"
                                                         size="sm"

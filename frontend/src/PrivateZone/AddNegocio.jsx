@@ -32,15 +32,14 @@ import {
   
     const [formData, setFormData] = useState({
       rut: '',
-      name: '',
+      negocioName: '',
       address: '',
       repLegal: '',
       rutRepLegal: '',
       dvRepLegal: '',
-      mutualPublica: false,
-      mutualPrivada: false,
-      mutualPrivadaNombre: '',
-      haveCcaf: false,
+      tieneMutual: false,
+      mutualNombre: '',
+      tieneCcaf: false,
       ccafNombre: '',
       isActive: false,
     });
@@ -65,7 +64,7 @@ import {
       e.preventDefault();
   
       // Validación de campos obligatorios
-      if (!formData.rut || !formData.name || !formData.address || !formData.repLegal) {
+      if (!formData.rut || !formData.negocioName || !formData.address || !formData.repLegal) {
         toast({
           title: 'Campos incompletos',
           description: 'Por favor, completa todos los campos obligatorios.',
@@ -133,8 +132,8 @@ import {
                     <FormControl isRequired>
                       <FormLabel>Nombre</FormLabel>
                       <Input
-                        name="name"
-                        value={formData.name}
+                        name="negocioName"
+                        value={formData.negocioName}
                         onChange={handleInputChange}
                         placeholder="Ingrese el nombre del negocio"
                       />
@@ -192,12 +191,12 @@ import {
                     <FormControl isRequired>
                       <FormLabel>Caja de Compensación</FormLabel>
                       <Switch
-                        id="haveCcaf"
-                        name="haveCcaf"
-                        isChecked={formData.haveCcaf}
+                        id="tieneCcaf"
+                        name="tieneCcaf"
+                        isChecked={formData.tieneCcaf}
                         onChange={handleSwitchChange}
                       />
-                      {formData.haveCcaf && (
+                      {formData.tieneCcaf && (
                         <Box mt={4}>
                           <Select
                             name="ccafNombre"
@@ -205,10 +204,10 @@ import {
                             onChange={handleInputChange}
                             placeholder="Seleccione Caja de Compensación"
                           >
-                            <option value="CCAF Los Andes">CCAF Los Andes</option>
-                            <option value="CCAF La Araucana">CCAF La Araucana</option>
-                            <option value="CCAF Gabriela Mistral">CCAF Gabriela Mistral</option>
-                            <option value="CCAF Los Héroes">CCAF Los Héroes</option>
+                            <option value="01-CCAF Los Andes">CCAF Los Andes</option>
+                            <option value="02-CCAF La Araucana">CCAF La Araucana</option>
+                            <option value="03-CCAF Los Héroes">CCAF Los Héroes</option>
+                            <option value="04-CCAF 18 de Septiembre">CCAF 18 de Septiembre</option>
                           </Select>
                         </Box>
                       )}
@@ -219,28 +218,10 @@ import {
                       </Text>
                       <Flex my={4} gap={4}>
                         <Box>
-                          <FormLabel htmlFor="mutualPublica">ISL</FormLabel>
                           <Switch
-                            id="mutualPublica"
-                            name="mutualPublica"
-                            isChecked={formData.mutualPublica}
-                            onChange={(e) => {
-                              handleSwitchChange(e);
-                              if (e.target.checked) {
-                                setFormData((prevState) => ({
-                                  ...prevState,
-                                  mutualPrivada: false,
-                                }));
-                              }
-                            }}
-                          />
-                        </Box>
-                        <Box>
-                          <FormLabel htmlFor="mutualPrivada">Privada</FormLabel>
-                          <Switch
-                            id="mutualPrivada"
-                            name="mutualPrivada"
-                            isChecked={formData.mutualPrivada}
+                            id="tieneMutual"
+                            name="tieneMutual"
+                            isChecked={formData.tieneMutual}
                             onChange={(e) => {
                               handleSwitchChange(e);
                               if (e.target.checked) {
@@ -253,17 +234,18 @@ import {
                           />
                         </Box>
                       </Flex>
-                      {formData.mutualPrivada && (
+                      {formData.tieneMutual && (
                           <Box>
                             <Select
-                              name="mutualPrivadaNombre"
-                              value={formData.mutualPrivadaNombre}
+                              name="mutualNombre"
+                              value={formData.mutualNombre}
                               onChange={handleInputChange}
                               placeholder="Seleccione mutual"
                             >
-                              <option value="CChC">CChC</option>
-                              <option value="IST">IST</option>
-                              <option value="ACHS">ACHS</option>
+                              <option value="00-Instituto de Seguridad Laboral">ISL (Pública)</option>
+                              <option value="01-Asociación Chilena de Seguridad">ACHS</option>
+                              <option value="02- Mutual de Seguridad CChC">CChC</option>
+                              <option value="03-Instituto de Seguridad del Trabajo">IST</option>
                             </Select>
                           </Box>
                         )}

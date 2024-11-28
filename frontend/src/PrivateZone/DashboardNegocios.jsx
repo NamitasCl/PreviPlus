@@ -187,10 +187,10 @@ const DashboardNegocio = () => {
                                 {negocios && negocios.map(negocio => (
                                     <Tr key={negocio.id} _hover={{ bg: tableHoverColor }}>
                                         <Td>{negocio.rut}</Td>
-                                        <Td>{negocio.name}</Td>
+                                        <Td>{negocio.negocioName}</Td>
                                         <Td>{negocio.address}</Td>
                                         <Td>
-                                            {negocio.is_active ? (
+                                            {negocio.isActive ? (
                                                 <Badge px={2} borderRadius={5} colorScheme="green">Activa</Badge>
                                             ) : (
                                                 <Badge px={2} borderRadius={5} colorScheme="red">Inactiva</Badge>

@@ -16,6 +16,8 @@ import HistorialComprasCredito from './PrivateZone/HistorialComprasCredito'
 import NegocioView from './PrivateZone/NegocioView'
 import Perfil from './PrivateZone/Perfil'
 import ConfiguracionCotizaciones from './components/ConfiguracionCotizaciones'
+import AdminPanel from './AdminZone/AdminPanel'
+import HistorialArchivosPrevired from './PrivateZone/HistorialArchivosPrevired'
 
 
 const router = createBrowserRouter(
@@ -34,11 +36,13 @@ const router = createBrowserRouter(
           <Route path=':id' element={<RutaProtegida element={NegocioView} />} />
         </Route>
         <Route path='previred' element={<RutaProtegida element={ArchivosPrevired} />} />
+        <Route path='historialPrevired' element={<RutaProtegida element={HistorialArchivosPrevired} />} />
         <Route path='creditos' element={<RutaProtegida element={Creditos} />}>
           <Route index element={<RutaProtegida element={ComprarCreditos} />} />
           <Route path='historial-compras' element={<RutaProtegida element={HistorialComprasCredito} />} />
         </Route>
         <Route path='configuracion' element={<RutaProtegida element={ConfiguracionCotizaciones} />} />
+        <Route path='admin' element={<RutaProtegida element={AdminPanel} />} />
 
 
       </Route>

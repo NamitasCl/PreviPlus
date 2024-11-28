@@ -16,8 +16,22 @@ const DashboardIndex = () => {
     useEffect(() => {
         const fetchUserStats = async () => {
             if (user && user.id) {  // Solo intentamos obtener las estadísticas si 'user.id' está disponible
-                const response = await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`);
-                setUserStats(response.data);
+                await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`)
+                .then(response => {
+                    setUserStats(prev => setUserStats({
+                        ...prev,
+                        ...response.data
+                    }));
+                })
+                .catch(error => {
+                    setUserStats((
+                        {
+                            totalNegocios: 0, 
+                            totalTrabajadores: 0, 
+                            creditos: 0}
+                    ))
+                    console.error("Error al obtener las estadísticas del usuario:", error);
+                })
             }
         };
 
@@ -83,7 +97,7 @@ const DashboardIndex = () => {
                             color={statTextColor}
                         >
                             <StatLabel fontSize={'lg'}>Créditos restantes</StatLabel>
-                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.credits}</StatNumber>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.credits > 0 ? user.credits : 0}</StatNumber>
                             <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Saldo de créditos disponibles</StatHelpText>
                         </Stat>
                     </StatGroup>
