@@ -17,6 +17,21 @@ import {
 import axios from 'axios';
 import { useUserAuth } from '../contexto/UserContext';
 
+const MESES = {
+  1: 'Enero',
+  2: 'Febrero',
+  3: 'Marzo',
+  4: 'Abril',
+  5: 'Mayo',
+  6: 'Junio',
+  7: 'Julio',
+  8: 'Agosto',
+  9: 'Septiembre',
+  10: 'Octubre',
+  11: 'Noviembre',  
+  12: 'Diciembre',
+}
+
 const HistorialArchivosPrevired = () => {
   const { user } = useUserAuth();
   const [archivos, setArchivos] = useState([]);
@@ -67,7 +82,7 @@ const HistorialArchivosPrevired = () => {
     }, [filtroAno, filtroMes, filtroNegocio]);
 
   
-  const descargarArchivo = async (archivoId) => {
+  const descargarArchivo = async (archivoId, negocioName) => {
     try {
       const response = await axios.get(`http://localhost:3000/api/archprev/descarga/${archivoId}`, {
         responseType: 'Blob',
@@ -147,24 +162,27 @@ const HistorialArchivosPrevired = () => {
           <Thead>
             <Tr>
               <Th color={tableTextColor}>Negocio</Th>
-              <Th color={tableTextColor}>Fecha de Creación</Th>
+              <Th color={tableTextColor}>Mes de Archivo Previred</Th>
               <Th color={tableTextColor}>Acciones</Th>
             </Tr>
           </Thead>
           <Tbody>
             {archivos.map(archivo => {
               const negocio = negocios.find(n => n.id === archivo.negocio.id);
+              const fechaArchivo = new Date(archivo.fecha).toLocaleString().split(',')[0]
+              const mesArchivo = fechaArchivo.split('/')[1]
+              const anioArchivo = fechaArchivo.split('/')[2]
               return (
                 <Tr key={archivo.id}>
-                  <Td>{negocio ? negocio.negocioName + ' ' + archivo.id : 'Desconocido'}</Td>
-                  <Td>{new Date(archivo.fecha).toLocaleString().split(',')[0]}</Td>
+                  <Td>{negocio ? negocio.negocioName : 'Desconocido'}</Td>
+                  <Td>{`${MESES[mesArchivo]} ${anioArchivo}`}</Td>
                   <Td>
                     <Button
                       colorScheme="teal"
                       size="sm"
                       bg={buttonBgColor}
                       color={buttonTextColor}
-                      onClick={() => descargarArchivo(archivo.id)}
+                      onClick={() => descargarArchivo(archivo.id, negocio.name)}
                       mr={2}
                     >
                       Descargar
