@@ -1,244 +1,153 @@
-// InformacionPersonal.js
-import { Flex, Stack, Text } from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import { memo } from "react";
-import { InputField, SelectField, Section, SwitchField, TextareaField } from "./ComponentesFormularios";
-import AutocompleteNacionalidad from "../../AutoCompleteNacionalidad";
+// InformacionPersonal.jsx
+import { memo } from 'react';
+import { Stack, Flex, Text } from '@chakra-ui/react';
+import { InputField, SelectField, SwitchField, TextareaField } from './ComponentesFormularios';
+import AutocompleteNacionalidad from '../../AutoCompleteNacionalidad';
 
-const InformacionPersonal = memo(({ isOpen, onToggle, onChange, data, errors, onBlur }) => (
-  <Section title="Información Personal" isOpen={isOpen} onToggle={onToggle}>
+const InformacionPersonal = memo(() => {
+  return (
     <Stack spacing={4}>
-      <Flex direction={["column", "row"]} gap={4}>
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="names"
-          name="names"
+          id="personalInfo.names"
           label="Nombres"
           placeholder="Nombre"
-          value={data.names}
-          onChange={onChange}
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.names}
-          isRequired
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="patlastname"
-          name="patlastname"
+          id="personalInfo.patlastname"
           label="Apellido Paterno"
           placeholder="Apellido Paterno"
-          value={data.patlastname}
-          onChange={onChange}
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.patlastname}
-          isRequired
-          onBlur={onBlur}
         />
         <InputField
-          id="matlastname"
-          name="matlastname"
+          id="personalInfo.matlastname"
           label="Apellido Materno"
           placeholder="Apellido Materno"
-          value={data.matlastname}
-          onChange={onChange}
           flex={1}
-          error={errors.matlastname}
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="email"
-          name="email"
+          id="personalInfo.email"
           label="Correo Electrónico"
           placeholder="correo@ejemplo.com"
-          value={data.email}
-          onChange={onChange}
           type="email"
+          validationRules={{
+            required: 'Este campo es obligatorio',
+            pattern: {
+              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+              message: 'Correo electrónico no válido',
+            },
+          }}
           flex={1}
-          error={errors.email}
-          isRequired
-          onBlur={onBlur}
         />
-        <Flex w={{ base: "100%", md: "50%" }} gap={4}>
+        <Flex w={{ base: '100%', md: '50%' }} gap={4} alignItems="center">
           <InputField
-            id="rut"
-            name="rut"
+            id="personalInfo.rut"
             label="Rut"
-            placeholder="12345678-9"
-            value={data.rut}
-            onChange={onChange}
-            type="text"
-            w="70%"
-            error={errors.rut}
-            isRequired
-            onBlur={onBlur}
+            placeholder="12345678"
+            validationRules={{ required: 'Este campo es obligatorio' }}
+            flex={1}
           />
-          <Text
-            alignSelf={"center"}
-            mt={6}
-            fontSize="lg"
-            color="gray.500"
-            fontWeight={"bolder"}
-          >
+          <Text alignSelf="center" mt={6} fontSize="lg" color="gray.500" fontWeight="bolder">
             -
           </Text>
           <InputField
-            id="dv"
-            name="dv"
+            id="personalInfo.dv"
             label="DV"
-            value={data.dv}
-            onChange={onChange}
-            type="text"
-            w="15%"
-            error={errors.dv}
-            isRequired
-            onBlur={onBlur}
+            placeholder="9"
+            validationRules={{ required: 'Este campo es obligatorio' }}
+            flex={0.3}
           />
         </Flex>
         <SelectField
-          id="genero"
-          name="genero"
+          id="personalInfo.genero"
           label="Género"
-          value={data.genero}
-          onChange={onChange}
           options={[
-            { value: "masculino", label: "Masculino" },
-            { value: "femenino", label: "Femenino" },
+            { value: 'masculino', label: 'Masculino' },
+            { value: 'femenino', label: 'Femenino' },
           ]}
+          placeholder="Seleccionar género"
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.genero}
-          isRequired
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="fechaNacimiento"
-          name="fechaNacimiento"
+          id="personalInfo.fechaNacimiento"
           label="Fecha de Nacimiento"
-          value={data.fechaNacimiento}
-          onChange={onChange}
           type="date"
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.fechaNacimiento}
-          onBlur={onBlur}
         />
         <InputField
-          id="direccion"
-          name="direccion"
+          id="personalInfo.direccion"
           label="Dirección"
           placeholder="Dirección"
-          value={data.direccion}
-          onChange={onChange}
           flex={1}
-          error={errors.direccion}
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <AutocompleteNacionalidad
-          value={data.nationality}
-          onChange={onChange}
-          // Puedes agregar manejo de errores si es necesario
-          onBlur={onBlur}
+          id="personalInfo.nationality"
+          label="Nacionalidad"
+          placeholder="Escribe para buscar..."
+          validationRules={{ required: 'Este campo es obligatorio' }}
+          flex={1}
         />
         <InputField
-          id="telefono"
-          name="telefono"
+          id="personalInfo.telefono"
           label="Teléfono"
           placeholder="+56 9 1234 5678"
-          value={data.telefono}
-          onChange={onChange}
           type="tel"
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.telefono}
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="numeroCuenta"
-          name="numeroCuenta"
+          id="personalInfo.numeroCuenta"
           label="Número de Cuenta"
           placeholder="Número de Cuenta"
-          value={data.numeroCuenta}
-          onChange={onChange}
           flex={1}
-          error={errors.numeroCuenta}
-          onBlur={onBlur}
         />
         <InputField
-          id="banco"
-          name="banco"
+          id="personalInfo.banco"
           label="Banco"
           placeholder="Banco"
-          value={data.banco}
-          onChange={onChange}
           flex={1}
-          error={errors.banco}
-          onBlur={onBlur}
         />
         <SwitchField
-          id="isCorriente"
-          name="isCorriente"
+          id="personalInfo.isCorriente"
           label="Cta. Corriente"
-          isChecked={data.isCorriente}
-          onChange={(e) => {
-            onChange(e);
-            if (e.target.checked) {
-              onChange({
-                target: { name: "isVista", value: false },
-              });
-            }
-          }}
-          isDisabled={data.isVista}
           flex={1}
-          error={errors.isCorriente}
-          onBlur={onBlur}
         />
         <SwitchField
-          id="isVista"
-          name="isVista"
+          id="personalInfo.isVista"
           label="Cta. Vista"
-          isChecked={data.isVista}
-          onChange={(e) => {
-            onChange(e);
-            if (e.target.checked) {
-              onChange({
-                target: { name: "isCorriente", value: false },
-              });
-            }
-          }}
-          isDisabled={data.isCorriente}
           flex={1}
-          error={errors.isVista}
-          onBlur={onBlur}
         />
       </Flex>
+
       <TextareaField
-        id="observaciones"
-        name="observaciones"
+        id="personalInfo.observaciones"
         label="Observaciones"
         placeholder="Observaciones adicionales"
-        value={data.observaciones}
-        onChange={onChange}
-        error={errors.observaciones}
-        onBlur={onBlur}
       />
     </Stack>
-  </Section>
-));
+  );
+});
 
-InformacionPersonal.displayName = "InformacionPersonal";
-
-InformacionPersonal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
-  errors: PropTypes.object, // Añadido
-  onBlur: PropTypes.func.isRequired,
-};
+InformacionPersonal.displayName = 'InformacionPersonal';
 
 export default InformacionPersonal;

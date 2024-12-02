@@ -1,189 +1,150 @@
-// InformacionContractual.js
-import { Flex, Stack } from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import { memo } from "react";
-import { InputField, SelectField, Section, SwitchField } from "./ComponentesFormularios";
+// InformacionContractual.jsx
+import { memo } from 'react';
+import { Stack, Flex } from '@chakra-ui/react';
+import { InputField, SelectField, SwitchField } from './ComponentesFormularios';
+import { useFormContext, useWatch } from 'react-hook-form';
 
-const InformacionContractual = memo(({ isOpen, onToggle, onChange, data, errors, onBlur }) => (
-  <Section title="Información Contractual" isOpen={isOpen} onToggle={onToggle}>
+const InformacionContractual = memo(() => {
+  const { control } = useFormContext();
+  const asignacionFamiliar = useWatch({
+    control,
+    name: 'contractualInfo.asignacionFamiliar',
+  });
+
+  return (
     <Stack spacing={4}>
-      <Flex direction={["column", "row"]} gap={4}>
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="puesto"
-          name="puesto"
+          id="contractualInfo.puesto"
           label="Puesto"
           placeholder="Puesto"
-          value={data.puesto}
-          onChange={onChange}
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.puesto}
-          onBlur={onBlur}
         />
         <InputField
-          id="departamento"
-          name="departamento"
+          id="contractualInfo.departamento"
           label="Departamento"
           placeholder="Departamento"
-          value={data.departamento}
-          onChange={onChange}
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.departamento}
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4}>
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="fechaInicio"
-          name="fechaInicio"
+          id="contractualInfo.fechaInicio"
           label="Fecha de Inicio"
-          value={data.fechaInicio}
-          onChange={onChange}
           type="date"
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.fechaInicio}
-          onBlur={onBlur}
         />
         <SelectField
-          id="tipoContrato"
-          name="tipoContrato"
+          id="contractualInfo.tipoContrato"
           label="Tipo de Contrato"
-          placeholder="Seleccionar tipo de contrato"
-          value={data.tipoContrato}
-          onChange={onChange}
           options={[
-            { value: "indefinido", label: "Indefinido" },
-            { value: "plazoFijo", label: "Plazo Fijo" },
-            { value: "honorarios", label: "Honorarios" },
+            { value: 'indefinido', label: 'Indefinido' },
+            { value: 'plazoFijo', label: 'Plazo Fijo' },
+            { value: 'honorarios', label: 'Honorarios' },
           ]}
+          placeholder="Seleccionar tipo de contrato"
+          validationRules={{ required: 'Este campo es obligatorio' }}
           flex={1}
-          error={errors.tipoContrato}
-          onBlur={onBlur}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4} alignItems="center">
+
+      <Flex direction={['column', 'row']} gap={4}>
         <InputField
-          id="salario"
-          name="salario"
+          id="contractualInfo.salario"
           label="Sueldo Imponible"
           placeholder="Salario"
-          value={data.salario}
-          onChange={onChange}
           type="number"
-          w="30%"
-          error={errors.salario}
-          onBlur={onBlur}
-        />
-        <SwitchField
-          id="tiempoCompleto"
-          name="tiempoCompleto"
-          label="Tiempo Completo"
-          isChecked={data.tiempoCompleto}
-          onChange={onChange}
-          w="30%"
-          error={errors.tiempoCompleto}
-            onBlur={onBlur}
-        />
-        <SelectField
-          id="tipoTrabajador"
-          name="tipoTrabajador"
-          label="Tipo de Trabajador"
-          placeholder="Seleccionar una opción"
-          value={data.tipoTrabajador}
-          onChange={onChange}
-          options={[
-            { value: "0", label: "Activo (No pensionado)" },
-            { value: "1", label: "Pensionado y cotiza" },
-            { value: "2", label: "Pensionado y no cotiza" },
-            { value: "3", label: "Activo > 65 años (nunca pensionado)" },
-            {
-              value: "8",
-              label: "Exento de cotizar (Mujer > 60, Hombre > 65 o Extranjero)",
-            },
-          ]}
-          w="30%"
-          error={errors.tipoTrabajador}
-            onBlur={onBlur}
-        />
-      </Flex>
-      <Flex direction={["column", "row"]} gap={4} alignItems="center">
-        <SelectField
-          id="tramoAsignacionFamiliar"
-          name="tramoAsignacionFamiliar"
-          label="Asignación Familiar"
-          placeholder="Seleccionar Tramo"
-          value={data.tramoAsignacionFamiliar}
-          onChange={onChange}
-          options={[
-            { value: "A", label: "Tramo A" },
-            { value: "B", label: "Tramo B" },
-            { value: "C", label: "Tramo C" },
-            { value: "D", label: "Tramo D" },
-          ]}
-          isDisabled={!data.asignacionFamiliar}
-          w="30%"
-          error={errors.tramoAsignacionFamiliar}
-        />
-        <InputField
-          id="resolucionAsignacionFamiliar"
-          name="resolucionAsignacionFamiliar"
-          label="Resolución asignación familiar"
-          placeholder="Número de Resolución"
-          value={data.resolucionAsignacionFamiliar}
-          onChange={onChange}
-          isDisabled={!data.asignacionFamiliar}
-          w="40%"
-          error={errors.resolucionAsignacionFamiliar}
-          onBlur={onBlur}
-        />
-        <SwitchField
-          id="asignacionFamiliar"
-          name="asignacionFamiliar"
-          label="Recibe Asignación Familiar"
-          isChecked={data.asignacionFamiliar}
-          onChange={onChange}
+          validationRules={{
+            required: 'Este campo es obligatorio',
+            min: { value: 0, message: 'Debe ser un número positivo' },
+          }}
           flex={1}
-          error={errors.asignacionFamiliar}
-          onBlur={onBlur}
+        />
+        <SwitchField
+          id="contractualInfo.tiempoCompleto"
+          label="Tiempo Completo"
+          flex={1}
+        />
+        <SelectField
+          id="contractualInfo.tipoTrabajador"
+          label="Tipo de Trabajador"
+          options={[
+            { value: '0', label: 'Activo (No pensionado)' },
+            { value: '1', label: 'Pensionado y cotiza' },
+            { value: '2', label: 'Pensionado y no cotiza' },
+            { value: '3', label: 'Activo > 65 años (nunca pensionado)' },
+            { value: '8', label: 'Exento de cotizar (Mujer > 60, Hombre > 65 o Extranjero)' },
+          ]}
+          placeholder="Seleccionar tipo de trabajador"
+          validationRules={{ required: 'Este campo es obligatorio' }}
+          flex={1}
         />
       </Flex>
-      <Flex direction={["column", "row"]} gap={4} alignItems="center">
+
+      <Flex direction={['column', 'row']} gap={4}>
+        <SelectField
+          id="contractualInfo.tramoAsignacionFamiliar"
+          label="Asignación Familiar"
+          options={[
+            { value: 'A', label: 'Tramo A' },
+            { value: 'B', label: 'Tramo B' },
+            { value: 'C', label: 'Tramo C' },
+            { value: 'D', label: 'Tramo D' },
+          ]}
+          placeholder="Seleccionar tramo"
+          validationRules={{
+            required: asignacionFamiliar ? 'Este campo es obligatorio' : false,
+          }}
+          isDisabled={!asignacionFamiliar}
+          flex={1}
+        />
         <InputField
-          id="colacion"
-          name="colacion"
+          id="contractualInfo.resolucionAsignacionFamiliar"
+          label="Resolución Asignación Familiar"
+          placeholder="Número de Resolución"
+          validationRules={{
+            required: asignacionFamiliar ? 'Este campo es obligatorio' : false,
+          }}
+          isDisabled={!asignacionFamiliar}
+          flex={1}
+        />
+        <SwitchField
+          id="contractualInfo.asignacionFamiliar"
+          label="Recibe Asignación Familiar"
+          flex={1}
+        />
+      </Flex>
+
+      <Flex direction={['column', 'row']} gap={4}>
+        <InputField
+          id="contractualInfo.colacion"
           label="Colación"
           placeholder="Colación"
-          value={data.colacion}
-          onChange={onChange}
           type="number"
-          w="50%"
-          error={errors.colacion}
+          validationRules={{
+            min: { value: 0, message: 'Debe ser un número positivo' },
+          }}
+          flex={1}
         />
         <InputField
-          id="movilizacion"
-          name="movilizacion"
+          id="contractualInfo.movilizacion"
           label="Movilización"
           placeholder="Movilización"
-          value={data.movilizacion}
-          onChange={onChange}
           type="number"
-          w="50%"
-          error={errors.movilizacion}
-          onBlur={onBlur}
+          validationRules={{
+            min: { value: 0, message: 'Debe ser un número positivo' },
+          }}
+          flex={1}
         />
       </Flex>
     </Stack>
-  </Section>
-));
+  );
+});
 
-InformacionContractual.displayName = "InformacionContractual";
+InformacionContractual.displayName = 'InformacionContractual';
 
-InformacionContractual.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
-  errors: PropTypes.object, // Añadido
-  onBlur: PropTypes.func.isRequired,
-};
-
-export default  InformacionContractual;
+export default InformacionContractual;

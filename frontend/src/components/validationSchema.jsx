@@ -1,90 +1,93 @@
-// validationSchema.js
-import * as Yup from 'yup';
+// src/validation/validationSchema.js
+import * as yup from 'yup';
 
-const fechaMinima = new Date();
-fechaMinima.setFullYear(fechaMinima.getFullYear() - 18);
-
-export const validationSchema = Yup.object().shape({
-  personalInfo: Yup.object().shape({
-    names: Yup.string().required('El nombre es obligatorio'),
-    patlastname: Yup.string().required('El apellido paterno es obligatorio'),
-    matlastname: Yup.string().required('El apellido materno es obligatorio'),
-    email: Yup.string()
-      .email('Debe ser un correo válido')
-      .required('El correo es obligatorio'),
-    rut: Yup.number()
-      .typeError('El RUT debe ser un número')
-      .required('El RUT es obligatorio'),
-    dv: Yup.number()
-      .typeError('El dígito verificador debe ser un número')
-      .required('El dígito verificador es obligatorio'),
-    genero: Yup.string()
-      .oneOf(['masculino', 'femenino'], 'El género debe ser masculino o femenino')
-      .required('El género es obligatorio'),
-    fechaNacimiento: Yup.date()
-      .required('La fecha de nacimiento es obligatoria')
-      .nullable()
-      .max(new Date(), 'La fecha de nacimiento no puede ser mayor a hoy')
-      .max(fechaMinima, 'La fecha de nacimiento no puede ser menor a 18 años'),
-    direccion: Yup.string().required('La dirección es obligatoria'),
-    nationality: Yup.string().required('La nacionalidad es obligatoria'),
-    telefono: Yup.string().required('El teléfono es obligatorio'),
-    numeroCuenta: Yup.string(),
-    banco: Yup.string(),
-    observaciones: Yup.string(),
-    isCorriente: Yup.boolean(),
-    isVista: Yup.boolean(),
+export const validationSchema = yup.object().shape({
+  personalInfo: yup.object().shape({
+    names: yup.string().required('Este campo es obligatorio'),
+    patlastname: yup.string().required('Este campo es obligatorio'),
+    matlastname: yup.string(),
+    email: yup
+      .string()
+      .email('Correo electrónico no válido')
+      .required('Este campo es obligatorio'),
+    rut: yup.string().required('Este campo es obligatorio'),
+    dv: yup.string().required('Este campo es obligatorio'),
+    genero: yup.string().required('Este campo es obligatorio'),
+    fechaNacimiento: yup.date().required('Este campo es obligatorio'),
+    direccion: yup.string(),
+    nationality: yup.string().required('Este campo es obligatorio'),
+    telefono: yup
+      .string()
+      .required('Este campo es obligatorio')
+      .matches(
+        /^\+56\s9\s\d{4}\s\d{4}$/,
+        'Número de teléfono no válido. Formato: +56 9 1234 5678'
+      ),
+    numeroCuenta: yup.string(),
+    banco: yup.string(),
+    isCorriente: yup.boolean(),
+    isVista: yup.boolean(),
+    observaciones: yup.string(),
   }),
-  contractualInfo: Yup.object().shape({
-    puesto: Yup.string().required('El puesto es obligatorio'),
-    departamento: Yup.string().required('El departamento es obligatorio'),
-    fechaInicio: Yup.date()
-      .required('La fecha de inicio es obligatoria')
-      .nullable()
-      .max(new Date(), 'La fecha de inicio no puede ser mayor a hoy'),
-    tipoContrato: Yup.string().required('Selecciona un tipo de contrato'),
-    salario: Yup.number()
-      .typeError('El salario debe ser un número')
-      .required('El salario es obligatorio')
-      .positive('El salario debe ser un número positivo'),
-    colacion: Yup.number()
-      .typeError('La colación debe ser un número')
-      .min(0, 'La colación no puede ser negativa')
-      .nullable(),
-    movilizacion: Yup.number()
-      .typeError('La movilización debe ser un número')
-      .min(0, 'La movilización no puede ser negativa')
-      .nullable(),
-    tipoTrabajador: Yup.string().required('Selecciona un tipo de trabajador'),
-    asignacionFamiliar: Yup.boolean(),
-    tramoAsignacionFamiliar: Yup.string().when('asignacionFamiliar', {
-      is: true,
-      then: Yup.string().required('Selecciona un tramo de asignación familiar'),
-      otherwise: Yup.string().notRequired(),
-    }),
-    resolucionAsignacionFamiliar: Yup.string().when('asignacionFamiliar', {
-      is: true,
-      then: Yup.string().required('La resolución es obligatoria'),
-      otherwise: Yup.string().notRequired(),
-    }),
-    tiempoCompleto: Yup.boolean(),
-  }),
-  previsionalInfo: Yup.object().shape({
-    afp: Yup.string().required('La AFP es obligatoria'),
-    codigoAfp: Yup.string(),
-    salud: Yup.string().required('La institución de salud es obligatoria'),
-    codigoSalud: Yup.string(),
-    numeroFun: Yup.string(),
-    cotizacionPactada: Yup.number()
-      .typeError('La cotización pactada debe ser un número')
+  contractualInfo: yup.object().shape({
+    puesto: yup.string().required('Este campo es obligatorio'),
+    departamento: yup.string().required('Este campo es obligatorio'),
+    fechaInicio: yup.date().required('Este campo es obligatorio'),
+    tipoContrato: yup.string().required('Este campo es obligatorio'),
+    salario: yup
+      .number()
+      .typeError('Debe ser un número')
       .min(0, 'Debe ser un número positivo')
-      .nullable(),
-    tipoMoneda: Yup.string(),
+      .required('Este campo es obligatorio'),
+    colacion: yup
+      .number()
+      .typeError('Debe ser un número')
+      .min(0, 'Debe ser un número positivo'),
+    movilizacion: yup
+      .number()
+      .typeError('Debe ser un número')
+      .min(0, 'Debe ser un número positivo'),
+    asignacionFamiliar: yup.boolean(),
+    tramoAsignacionFamiliar: yup.string().when('asignacionFamiliar', {
+      is: true,
+      then: () => (yup.string().required('Este campo es obligatorio')),
+      otherwise: () => yup.string(),
+    }),
+    resolucionAsignacionFamiliar: yup.string().when('asignacionFamiliar', {
+      is: true,
+      then: () => (yup.string().required('Este campo es obligatorio')),
+      otherwise: () => yup.string(),
+    }),
+    tiempoCompleto: yup.boolean(),
+    tipoTrabajador: yup.string().required('Este campo es obligatorio'),
   }),
-  otraInfo: Yup.object().shape({
-    habilidades: Yup.string(),
-    educacion: Yup.string(),
-    certificaciones: Yup.string(),
-    disponibleTraslado: Yup.boolean(),
+  previsionalInfo: yup.object().shape({
+    afp: yup.string().required('Este campo es obligatorio'),
+    salud: yup.string().required('Este campo es obligatorio'),
+    numeroFun: yup.string().when('salud', {
+      is: (val) => val !== '07-fonasa',
+      then: () => (yup.string().required('Este campo es obligatorio')),
+      otherwise: () =>yup.string(),
+    }),
+    cotizacionPactada: yup.number().when('salud', {
+      is: (val) => val !== '07-fonasa',
+      then: () => (yup
+        .number()
+        .typeError('Debe ser un número')
+        .min(0, 'Debe ser un número positivo')
+        .required('Este campo es obligatorio')),
+      otherwise: () => yup.number(),
+    }),
+    tipoMoneda: yup.string().when('salud', {
+      is: (val) => val !== '07-fonasa',
+      then: () => (yup.string().required('Este campo es obligatorio')),
+      otherwise: () => yup.string(),
+    }),
+  }),
+  otraInfo: yup.object().shape({
+    habilidades: yup.string(),
+    educacion: yup.string(),
+    certificaciones: yup.string(),
+    disponibleTraslado: yup.boolean(),
   }),
 });

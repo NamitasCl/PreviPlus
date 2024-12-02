@@ -1,64 +1,34 @@
-// OtraInformacion.js
-import { Stack } from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import { memo } from "react";
-import { Section, SwitchField, TextareaField } from "./ComponentesFormularios";
+// OtraInformacion.jsx
+import { memo } from 'react';
+import { Stack } from '@chakra-ui/react';
+import { TextareaField, SwitchField } from './ComponentesFormularios';
 
-const OtraInformacion = memo(({ isOpen, onToggle, onChange, data, errors, onBlur }) => (
-  <Section title="Otra Información" isOpen={isOpen} onToggle={onToggle}>
+const OtraInformacion = memo(() => {
+  return (
     <Stack spacing={4}>
       <TextareaField
-        id="habilidades"
-        name="habilidades"
+        id="otraInfo.habilidades"
         label="Habilidades"
-        placeholder="Lista de habilidades"
-        value={data.habilidades}
-        onChange={onChange}
-        error={errors.habilidades}
-        onBlur={onBlur}
+        placeholder="Describe tus habilidades"
       />
       <TextareaField
-        id="educacion"
-        name="educacion"
+        id="otraInfo.educacion"
         label="Educación"
-        placeholder="Historial educativo"
-        value={data.educacion}
-        onChange={onChange}
-        error={errors.educacion}
-        onBlur={onBlur}
+        placeholder="Describe tu educación"
       />
       <TextareaField
-        id="certificaciones"
-        name="certificaciones"
+        id="otraInfo.certificaciones"
         label="Certificaciones"
-        placeholder="Certificaciones obtenidas"
-        value={data.certificaciones}
-        onChange={onChange}
-        error={errors.certificaciones}
-        onBlur={onBlur}
+        placeholder="Lista tus certificaciones"
       />
       <SwitchField
-        id="disponibleTraslado"
-        name="disponibleTraslado"
+        id="otraInfo.disponibleTraslado"
         label="Disponible para Traslado"
-        isChecked={data.disponibleTraslado}
-        onChange={onChange}
-        error={errors.disponibleTraslado}
-        onBlur={onBlur}
       />
     </Stack>
-  </Section>
-));
+  );
+});
 
-OtraInformacion.displayName = "OtraInformacion";
-
-OtraInformacion.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
-  errors: PropTypes.object, // Añadido
-  onBlur: PropTypes.func.isRequired,
-};
+OtraInformacion.displayName = 'OtraInformacion';
 
 export default OtraInformacion;

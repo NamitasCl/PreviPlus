@@ -1,146 +1,7 @@
-/* import { Card, CardHeader, Heading, CardBody, FormControl, FormLabel, Input, Select, Textarea, Switch } from "@chakra-ui/react"
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
-import PropTypes from 'prop-types'
-import { memo } from 'react'
-
-/* Componentes auxiliares
-
-const Section = memo(({ title, children, isOpen, onToggle }) => {
-    return (
-      <Card mb={4}>
-        <CardHeader
-          as="button"
-          type="button"
-          onClick={onToggle}
-          cursor="pointer"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Heading size="md">{title}</Heading>
-          {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-        </CardHeader>
-        {isOpen && <CardBody>{children}</CardBody>}
-      </Card>
-    )
-  })
-  
-  Section.displayName = 'Section'
-  
-  Section.propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
-  }
-  
-  /* Componentes de campo memoizados 
-  
-  const InputField = memo(({ label, id, name, value, onChange, ...props }) => {
-    return (
-      <FormControl {...props}>
-        <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Input id={id} name={name} value={value} onChange={onChange} type={props.type} />
-      </FormControl>
-    )
-  })
-  
-  InputField.propTypes = {
-    label: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    type: PropTypes.string,
-  }
-  
-  InputField.displayName = 'InputField'
-  
-  const SelectField = memo(({ label, id, name, value, onChange, options, placeholder, ...props }) => {
-    return (
-      <FormControl {...props}>
-        <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Select id={id} name={name} value={value} onChange={onChange} placeholder={placeholder}>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    )
-  })
-  
-  SelectField.propTypes = {
-    label: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    placeholder: PropTypes.string,
-  }
-  
-  SelectField.displayName = 'SelectField'
-  
-  const TextareaField = memo(({ label, id, name, value, onChange, ...props }) => {
-    return (
-      <FormControl {...props}>
-        <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Textarea id={id} name={name} value={value} onChange={onChange} />
-      </FormControl>
-    )
-  })
-  
-  TextareaField.propTypes = {
-    label: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
-  
-  TextareaField.displayName = 'TextareaField'
-  
-  const SwitchField = memo(({ label, id, name, isChecked, onChange, ...props }) => {
-    return (
-      <FormControl display="flex" alignItems="center" {...props}>
-        <FormLabel htmlFor={id} mb="0">
-          {label}
-        </FormLabel>
-        <Switch id={id} name={name} isChecked={isChecked} onChange={onChange} />
-      </FormControl>
-    )
-  })
-  
-  SwitchField.propTypes = {
-    label: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    isChecked: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-  }
-  
-  SwitchField.displayName = 'SwitchField'
-
-  export {
-    Section,
-    InputField,
-    SelectField,
-    TextareaField,
-    SwitchField
-  } */
-
-    import {
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
+// src/components/ComponentesFormularios.js
+import { memo } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
+import {
   FormControl,
   FormLabel,
   Input,
@@ -148,180 +9,218 @@ const Section = memo(({ title, children, isOpen, onToggle }) => {
   Textarea,
   Switch,
   FormErrorMessage,
-} from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import PropTypes from "prop-types";
-import { memo } from "react";
+} from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '@chakra-ui/icons';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Heading,
+  IconButton,
+  Collapse,
+  useDisclosure,
+} from '@chakra-ui/react';
 
-/* Componentes auxiliares */
-
-const Section = memo(({ title, children, isOpen, onToggle, onBlur }) => {
-  return (
-    <Card mb={4}>
-      <CardHeader
-        as="button"
-        type="button"
-        onClick={onToggle}
-        cursor="pointer"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        onBlur={onBlur}
-      >
-        <Heading size="md">{title}</Heading>
-        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      </CardHeader>
-      {isOpen && <CardBody>{children}</CardBody>}
-    </Card>
-  );
-});
-
-Section.displayName = "Section";
-
-Section.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+// Función helper (puedes moverla a un archivo separado si lo prefieres)
+// eslint-disable-next-line react-refresh/only-export-components
+export const getNestedErrorFunc = (errors, name) => {
+  return name.split('.').reduce((acc, part) => acc && acc[part], errors);
 };
 
-/* Componentes de campo memoizados */
+// Componente InputField
+export const InputField = memo(
+  ({ id, label, type = 'text', validationRules, ...props }) => {
+    const {
+      control,
+      formState: { errors },
+    } = useFormContext();
+    const error = getNestedErrorFunc(errors, id);
 
-const InputField = memo(
-  ({ label, id, name, value, onChange, error, onBlur, ...props }) => {
     return (
       <FormControl isInvalid={!!error} {...props}>
         <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Input
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          type={props.type}
-          onBlur={onBlur}
+        <Controller
+          name={id}
+          control={control}
+          rules={validationRules}
+          render={({ field }) => <Input id={id} type={type} {...field} />}
         />
-        {error && <FormErrorMessage>{error}</FormErrorMessage>}
+        {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
       </FormControl>
     );
   }
 );
+
+InputField.displayName = 'InputField';
 
 InputField.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
   type: PropTypes.string,
-  error: PropTypes.string,
-  onBlur: PropTypes.func.isRequired,
+  validationRules: PropTypes.object,
 };
 
-InputField.displayName = "InputField";
+// Componente SelectField
+export const SelectField = memo(
+  ({ id, label, options, placeholder, validationRules, ...props }) => {
+    const {
+      control,
+      formState: { errors },
+    } = useFormContext();
+    const error = getNestedErrorFunc(errors, id);
 
-const SelectField = memo(
-  ({
-    label,
-    id,
-    name,
-    value,
-    onChange,
-    options,
-    placeholder,
-    error,
-    onBlur,
-    ...props
-  }) => {
     return (
       <FormControl isInvalid={!!error} {...props}>
         <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Select
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          onBlur={onBlur}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-        {error && <FormErrorMessage>{error}</FormErrorMessage>}
+        <Controller
+          name={id}
+          control={control}
+          rules={validationRules}
+          render={({ field }) => (
+            <Select id={id} placeholder={placeholder} {...field}>
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          )}
+        />
+        {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
       </FormControl>
     );
   }
 );
+
+SelectField.displayName = 'SelectField';
 
 SelectField.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  label: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
-  error: PropTypes.string,
-  onBlur: PropTypes.func.isRequired,
+  validationRules: PropTypes.object,
 };
 
-SelectField.displayName = "SelectField";
+// Componente TextareaField
+export const TextareaField = memo(
+  ({ id, label, validationRules, ...props }) => {
+    const {
+      control,
+      formState: { errors },
+    } = useFormContext();
+    const error = getNestedErrorFunc(errors, id);
 
-const TextareaField = memo(
-  ({ label, id, name, value, onChange, error, onBlur, ...props }) => {
     return (
       <FormControl isInvalid={!!error} {...props}>
         <FormLabel htmlFor={id}>{label}</FormLabel>
-        <Textarea id={id} name={name} value={value} onChange={onChange} onBlur={onBlur} />
-        {error && <FormErrorMessage>{error}</FormErrorMessage>}
+        <Controller
+          name={id}
+          control={control}
+          rules={validationRules}
+          render={({ field }) => <Textarea id={id} {...field} />}
+        />
+        {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
       </FormControl>
     );
   }
 );
 
+TextareaField.displayName = 'TextareaField';
+
 TextareaField.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  onBlur: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  validationRules: PropTypes.object,
 };
 
-TextareaField.displayName = "TextareaField";
+// Componente SwitchField
+export const SwitchField = memo(
+  ({ id, label, validationRules, ...props }) => {
+    const {
+      control,
+      formState: { errors },
+    } = useFormContext();
+    const error = getNestedErrorFunc(errors, id);
 
-const SwitchField = memo(
-  ({ label, id, name, isChecked, onChange, error, ...props }) => {
     return (
-      <FormControl display="flex" alignItems="center" isInvalid={!!error} {...props}>
+      <FormControl
+        display="flex"
+        alignItems="center"
+        isInvalid={!!error}
+        {...props}
+      >
         <FormLabel htmlFor={id} mb="0">
           {label}
         </FormLabel>
-        <Switch id={id} name={name} isChecked={isChecked} onChange={onChange} />
-        {error && <FormErrorMessage>{error}</FormErrorMessage>}
+        <Controller
+          name={id}
+          control={control}
+          rules={validationRules}
+          render={({ field }) => (
+            <Switch
+              id={id}
+              isChecked={field.value}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
+        {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
       </FormControl>
     );
   }
 );
 
+SwitchField.displayName = 'SwitchField';
+
 SwitchField.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  validationRules: PropTypes.object,
 };
 
-SwitchField.displayName = "SwitchField";
+// Componente SeccionColapsable
+export const SeccionColapsable = memo(
+  ({ title, children, defaultIsOpen = false }) => {
+    const { isOpen, onToggle } = useDisclosure({ defaultIsOpen });
 
-export { Section, InputField, SelectField, TextareaField, SwitchField };
+    return (
+      <Card bg="white" borderRadius="md" boxShadow="md" mb={4}>
+        <CardHeader
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          cursor="pointer"
+          onClick={onToggle}
+          bg="blue.500"
+          color="white"
+          borderTopRadius="md"
+        >
+          <Heading size="md">{title}</Heading>
+          <IconButton
+            icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            variant="ghost"
+            color="white"
+            aria-label={isOpen ? 'Colapsar' : 'Expandir'}
+            onClick={onToggle}
+          />
+        </CardHeader>
+        <Collapse in={isOpen} animateOpacity>
+          <CardBody>{children}</CardBody>
+        </Collapse>
+      </Card>
+    );
+  }
+);
+
+SeccionColapsable.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  defaultIsOpen: PropTypes.bool,
+};
+
+SeccionColapsable.displayName = 'SeccionColapsable';
