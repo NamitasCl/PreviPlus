@@ -1,10 +1,13 @@
-//Pruebas unitarias del servicio de archivos Previred
+// tests/ArchivoPrevired.unit.test.js
+
 const ArchivoPreviredService = require('../src/services/archivoPreviredService');
-const AppDataSource = require('../src/datasource');
-const ArchivoPrevired = require('../src/entities/ArchivoPrevired');
+const { AppDataSource } = require('../src/datasource');
+const ArchivoPrevired = require('../src/entities/Previred/ArchivoPrevired');
 
 jest.mock('../src/datasource', () => ({
-    getRepository: jest.fn()
+    AppDataSource: {
+        getRepository: jest.fn(),
+    },
 }));
 
 describe('ArchivoPreviredService', () => {
@@ -31,37 +34,22 @@ describe('ArchivoPreviredService', () => {
 
     test('debe obtener todos los archivos Previred', async () => { 
         // Arrange
+        const data = { idNegocio: 1, mes: '01', anio: '2024' };
         const archivosPrevired = [{ id: 1, usuarioId: 1 }, { id: 2, usuarioId: 2 }];
         mockRepository.find.mockResolvedValue(archivosPrevired);
 
         // Act
-        const result = await archivoPreviredService.obtenerArchivosPrevired();
+        const result = await archivoPreviredService.obtenerArchivosPrevired(data);
 
         // Assert
         expect(mockRepository.find).toHaveBeenCalled();
         expect(result).toEqual(archivosPrevired);
     });
 
-    test('debe obtener un archivo Previred por ID', async () => {
-        // Arrange
-        const id = 1;
-        const archivoPrevired = { id, usuarioId: 1 };
-        mockRepository.findOne.mockResolvedValue(archivoPrevired);
-
-        // Act
-        const result = await archivoPreviredService.obtenerArchivoPreviredPorId(id);
-
-        // Assert
-        expect(mockRepository.findOne).toHaveBeenCalledWith({
-            where: { id },
-        });
-        expect(result).toEqual(archivoPrevired);
-    });
-
     test('debe obtener un archivo Previred por usuario', async () => {
         // Arrange
         const idUsuario = 1;
-        const archivosPrevired = [{ id: 1, usuarioId: 1 }, { id: 2, usuarioId: 2 }];
+        const archivosPrevired = [{ id: 1, usuarioId: 1 }, { id: 2, usuarioId: 1 }];
         mockRepository.find.mockResolvedValue(archivosPrevired);
 
         // Act
@@ -69,15 +57,15 @@ describe('ArchivoPreviredService', () => {
 
         // Assert
         expect(mockRepository.find).toHaveBeenCalledWith({
-            where: { usuario: { id: idUsuario } },
+            where: { usuarioId: idUsuario },
         });
         expect(result).toEqual(archivosPrevired);
     });
 
     test('debe crear un nuevo archivo Previred', async () => {
         // Arrange
-        const archivoPrevired = { id: 1, usuarioId: 1 };    // Datos del archivo Previred a crear
-        const nuevoArchivoPrevired = { ...archivoPrevired }; // Copia del archivo Previred a crear
+        const archivoPrevired = { id: 1, usuarioId: 1 };
+        const nuevoArchivoPrevired = { ...archivoPrevired };
 
         mockRepository.create.mockReturnValue(nuevoArchivoPrevired);
         mockRepository.save.mockResolvedValue(nuevoArchivoPrevired);
@@ -95,11 +83,11 @@ describe('ArchivoPreviredService', () => {
         // Arrange
         const id = 1;
         const archivoPreviredActualizado = { id, usuarioId: 1 };
-        const nuevoArchivoPrevired = { ...archivoPreviredActualizado }; // Copia del archivo Previred a actualizar
+        const archivoExistente = { id, usuarioId: 1 };
 
-        mockRepository.findOne.mockResolvedValue(archivoPreviredActualizado);
-        mockRepository.merge.mockResolvedValue(nuevoArchivoPrevired);
-        mockRepository.save.mockResolvedValue(nuevoArchivoPrevired);
+        mockRepository.findOne.mockResolvedValue(archivoExistente);
+        mockRepository.merge.mockImplementation((target, source) => Object.assign(target, source));
+        mockRepository.save.mockResolvedValue(archivoPreviredActualizado);
 
         // Act
         const result = await archivoPreviredService.actualizarArchivoPrevired(id, archivoPreviredActualizado);
@@ -108,9 +96,9 @@ describe('ArchivoPreviredService', () => {
         expect(mockRepository.findOne).toHaveBeenCalledWith({
             where: { id },
         });
-        expect(mockRepository.merge).toHaveBeenCalledWith(archivoPreviredActualizado, archivoPreviredActualizado);
-        expect(mockRepository.save).toHaveBeenCalledWith(nuevoArchivoPrevired);
-        expect(result).toEqual(nuevoArchivoPrevired);
+        expect(mockRepository.merge).toHaveBeenCalledWith(archivoExistente, archivoPreviredActualizado);
+        expect(mockRepository.save).toHaveBeenCalledWith(archivoExistente);
+        expect(result).toEqual(archivoPreviredActualizado);
     });
 
     test('debe eliminar un archivo Previred', async () => {

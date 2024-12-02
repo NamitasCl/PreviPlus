@@ -2,8 +2,8 @@
 
 const TrabajadorService = require('../src/services/trabajadorService');
 const AppDataSource = require('../src/datasource');
-const Trabajador = require('../src/entities/Trabajador');
-const Negocio = require('../src/entities/Negocio');
+const Trabajador = require('../src/entities/Trabajador/Trabajador');
+const Negocio = require('../src/entities/Negocio/Negocio');
 
 jest.mock('../src/datasource', () => ({
     getRepository: jest.fn()

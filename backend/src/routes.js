@@ -9,6 +9,7 @@ const historialController = require("./controllers/historialRemuneracionesContro
 const creditosController = require("./controllers/creditosController");
 const archivoPreviredController = require("./controllers/archivoPreviredController");
 const statsController = require("./controllers/statsController");
+const membresiaController = require("./controllers/membresiaController");
 
 // Asignar las rutas a los controladores
 router.use("/usuarios", usuarioController);
@@ -18,5 +19,6 @@ router.use("/historial", historialController)
 router.use("/creditos", creditosController)
 router.use("/archprev", archivoPreviredController)
 router.use("/stats", statsController)
+router.use("/membresia", membresiaController)
 
 module.exports = router;
