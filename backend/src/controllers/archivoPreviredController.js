@@ -11,7 +11,7 @@ router.use(verifyJwt);
 const archivoPreviredService = new ArchivoPreviredService();
 
 // Ruta para obtener un archivo Previred por ID
-router.post("/descarga", async (req, res) => {
+/* router.post("/descarga", async (req, res) => {
     try {
         const archivoPrevired = await archivoPreviredService.obtenerArchivosPrevired(req.body);
         if (archivoPrevired) {
@@ -24,12 +24,13 @@ router.post("/descarga", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+}); */
 
 // Ruta para descargar un archivo Previred por id 
 router.get("/descarga/:id", async (req, res) => {
     try {
         const archivoPrevired = await archivoPreviredService.obtenerArchivoPreviredPorId(req.params.id);
+        console.log(archivoPrevired)
         if (archivoPrevired) {
             res.header("Content-Type", "text/plain");
             res.header("Content-Disposition", "attachment; filename=archivo-previred.txt");
@@ -75,14 +76,13 @@ router.post("/generate", async (req, res) => {
     }
 });
 
-// Ruta para eliminar un archivo Previred
 router.delete("/:id", async (req, res) => {
     try {
-        const archivoPreviredEliminado = await archivoPreviredService.eliminarArchivoPrevired(req.params.id);
-        res.json(archivoPreviredEliminado);
+      const resultado = await archivoPreviredService.eliminarArchivoPrevired(req.params.id);
+      res.json(resultado);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
-});
+  });
 
 module.exports = router;

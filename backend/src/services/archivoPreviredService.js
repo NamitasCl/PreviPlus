@@ -27,7 +27,7 @@ class ArchivoPreviredService {
         this.asignacionFamiliarDataRepository = AppDataSource.getRepository(AsignacionFamiliarData);
     }
 
-    // Método para obtener archivos previred filtrados por mes y año
+   /*  // Método para obtener archivos previred filtrados por mes y año
     async obtenerArchivosPrevired(data) {
         const { idNegocio, mes, anio } = data;
         
@@ -52,7 +52,7 @@ class ArchivoPreviredService {
         const archivosPrevired = await query.getMany();
 
         return archivosPrevired;
-    }
+    } */
 
     // Método para obtener informacion de archivos previred  
     async obtenerInformacionArchivosPrevired(data) {
@@ -367,6 +367,21 @@ class ArchivoPreviredService {
         });
     }
 
+// En ArchivoPreviredService.js
+async eliminarArchivoPrevired(id) {
+    // Lógica para eliminar un archivo previred generado
+    // Por ejemplo:
+    const resultado = await this.archivoPreviredGeneradoRepository.delete(id);
+    if (resultado.affected > 0) {
+      return { status: 'eliminado' };
+    } else {
+      throw new Error('No se pudo eliminar el archivo');
+    }
+  }
+
+
 }
+
+
 
 module.exports = ArchivoPreviredService;

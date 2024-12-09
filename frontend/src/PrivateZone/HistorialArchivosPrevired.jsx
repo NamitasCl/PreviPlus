@@ -82,7 +82,7 @@ const HistorialArchivosPrevired = () => {
     }, [filtroAno, filtroMes, filtroNegocio]);
 
   
-  const descargarArchivo = async (archivoId, negocioName) => {
+  const descargarArchivo = async (archivoId) => {
     try {
       const response = await axios.get(`http://localhost:3000/api/archprev/descarga/${archivoId}`, {
         responseType: 'Blob',
