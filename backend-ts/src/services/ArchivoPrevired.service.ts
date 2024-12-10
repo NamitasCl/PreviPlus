@@ -1,14 +1,12 @@
 import { DataSource, EntityManager } from "typeorm";
-import ArchivoPreviredDTO from "../dtos/ArchivoPrevired.dto";
-import { ArchivoPreviredFormatter } from "../helpers/ArchivoPreviredFormatter";
+import ArchivoPreviredDTO from "../dtos/ArchivoPrevired.dto.js";
+import { ArchivoPreviredFormatter } from "../helpers/ArchivoPreviredFormatter.js";
 import { validate } from "class-validator";
-import {
-  ArchivosPreviredGenerado,
-  AsignacionFamiliar,
-  Negocio,
-  Trabajador,
-} from "../entities"; // Ajusta las rutas según tu proyecto
 import { parse } from "path";
+import { Negocio } from "../entities/Negocio.entity.js";
+import { Trabajador } from "../entities/Trabajador.entity.js";
+import { ArchivosPreviredGenerado } from "../entities/ArchivosPreviredGenerados.entity.js";
+import { AsignacionFamiliar } from "../entities/AsignacionFamiliar.entity.js";
 
 export class ArchivoPreviredService {
   constructor(private readonly dataSource: DataSource) {}

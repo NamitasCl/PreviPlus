@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {StatsService} from "../services/index";
+import {StatsService} from "../services/Estadisticas.service.js";
 
 const statsService = new StatsService();
 

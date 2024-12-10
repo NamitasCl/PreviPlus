@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { Negocio } from "./Negocio.entity";
+import { Negocio } from "./Negocio.entity.js";
 
 @Entity("archivo_previred_generado")
 export class ArchivosPreviredGenerado {

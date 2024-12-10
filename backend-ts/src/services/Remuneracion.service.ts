@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { Trabajador, InformacionLaboral } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { Trabajador } from "../entities/Trabajador.entity.js";
 
 
 export class RemuneracionService {

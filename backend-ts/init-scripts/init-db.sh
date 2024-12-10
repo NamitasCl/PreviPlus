@@ -1,8 +1,13 @@
 #!/bin/bash
 set -e
 
-# Crear base de datos para producción y pruebas
+# Verificar y crear base de datos para producción
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
-    CREATE DATABASE previplus;
-    CREATE DATABASE prev-test;
+    SELECT 'CREATE DATABASE previplus'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'previplus')
+    \gexec
+
+    SELECT 'CREATE DATABASE previplus_test'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'previplus_test')
+    \gexec
 EOSQL

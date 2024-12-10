@@ -1,6 +1,9 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { Negocio, Usuario, Mutualidad, CCAF } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { Negocio } from "../entities/Negocio.entity.js";
+import { Usuario } from "../entities/Usuario.entity.js";
+import { Mutualidad } from "../entities/Mutualidad.entity.js";
+import { CCAF } from "../entities/CCAF.entity.js";
 
 export class NegocioService {
   private negocioRepository: Repository<Negocio>;

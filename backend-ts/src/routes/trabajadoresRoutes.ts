@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { TrabajadorController } from "../controllers/index";
-import verifyJwt from "../middlewares/authenticateJWT.midd";
+import TrabajadorController from "../controllers/Trabajador.controller.js";
+import verifyJwt from "../middlewares/authenticateJWT.midd.js";
 
 const trabajadorRoutes = Router();
 const trabajadorController = new TrabajadorController();

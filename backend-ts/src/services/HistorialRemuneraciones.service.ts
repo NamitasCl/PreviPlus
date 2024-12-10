@@ -1,7 +1,6 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { HistorialRemuneracion } from "../entities/index";
-import { Trabajador } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { HistorialRemuneracion } from "../entities/HistorialRemuneracion.entity.js";
 
 export class HistorialRemuneraciones {
   private historialRepository: Repository<HistorialRemuneracion>;

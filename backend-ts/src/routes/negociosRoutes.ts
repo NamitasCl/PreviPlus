@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { NegocioController } from "../controllers/index";
-import authenticateJWT from "../middlewares/authenticateJWT.midd";
+import NegocioController from "../controllers/Negocio.controller.js";
+import authenticateJWT from "../middlewares/authenticateJWT.midd.js";
 
 const negociosRoutes = Router();
 const negocioController = new NegocioController();

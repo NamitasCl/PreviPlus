@@ -6,15 +6,13 @@ import {
   OneToMany,
   JoinColumn,
 } from "typeorm";
-import {
-  Usuario,
-  Mutualidad,
-  CCAF,
-  InformacionLaboral,
-  HistorialRemuneracion,
-  ArchivosPreviredGenerado,
-  HistorialContratacion,
-} from "./index";
+
+import { Usuario } from "./Usuario.entity.js";
+import { Mutualidad } from "./Mutualidad.entity.js";
+import { CCAF } from "./CCAF.entity.js";
+import { InformacionLaboral } from "./InformacionLaboral.entity.js";
+import { ArchivosPreviredGenerado } from "./ArchivosPreviredGenerados.entity.js";
+import { HistorialContratacion } from "./HistorialContratacion.entity.js";
 
 const isTestEnv = process.env.NODE_ENV === "test";
 
@@ -33,7 +31,6 @@ export class Negocio {
     this.usuario = usuario;
     this.mutualidad = mutualidad;
     this.ccaf = ccaf || null;
-    this.historialRemuneraciones = null;
     this.archivoPreviredGenerado = null;
     this.historialContrataciones = null;
   }
@@ -87,12 +84,6 @@ export class Negocio {
     (informacionLaboral) => informacionLaboral.negocio
   )
   informacionLaboral!: InformacionLaboral[];
-
-  @OneToMany(
-    () => HistorialRemuneracion,
-    (historialRemuneraciones) => historialRemuneraciones.negocio
-  )
-  historialRemuneraciones: HistorialRemuneracion[] | null;
 
   /**
    * Relación con la entidad ArchivosPreviredGenerado.

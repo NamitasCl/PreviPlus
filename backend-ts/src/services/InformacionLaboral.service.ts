@@ -1,5 +1,5 @@
 import { DataSource, EntityManager } from "typeorm";
-import { InformacionLaboral } from "../entities/index";
+import { InformacionLaboral } from "../entities/InformacionLaboral.entity.js";
 
 export class InformacionLaboralService {
   constructor(private readonly dataSource: DataSource) {}

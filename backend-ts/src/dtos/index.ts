@@ -1,1 +1,0 @@
-export {default as ArchivoPreviredDTO} from "./ArchivoPrevired.dto";

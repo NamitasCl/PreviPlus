@@ -5,7 +5,8 @@ import {
     ManyToOne,
     JoinColumn,
   } from "typeorm";
-  import { Trabajador, Negocio } from "./index";
+  import { Trabajador } from "./Trabajador.entity.js";
+  import { Negocio } from "./Negocio.entity.js";
   
   @Entity("historial_remuneracion")
   export class HistorialRemuneracion {
@@ -158,9 +159,6 @@ import {
   
     // Relaciones
   
-    @ManyToOne(() => Trabajador, (trabajador) => trabajador.historialRemuneraciones, {
-      nullable: false,
-    })
     @JoinColumn({ name: "trabajador_id" })
     trabajador!: Trabajador;
   

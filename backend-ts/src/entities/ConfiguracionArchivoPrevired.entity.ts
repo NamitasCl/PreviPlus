@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { Trabajador } from "./index";
+import { Trabajador } from "./Trabajador.entity.js";
 
 @Entity("configuracion_archivo_previred")
 export class ConfiguracionArchivoPrevired {

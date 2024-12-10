@@ -4,20 +4,19 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 
 // Importa otras entidades según sea necesario
-import { AFP } from "./entities/AFP.entity";
-import {ArchivosPreviredGenerado} from "./entities/ArchivosPreviredGenerados.entity";
-import {AsignacionFamiliar} from "./entities/AsignacionFamiliar.entity";
-import {ConceptoRemuneracion} from "./entities/ConceptoRemuneracion.entity";
-import {ConfiguracionArchivoPrevired} from "./entities/ConfiguracionArchivoPrevired.entity";
-import {HistorialContratacion} from "./entities/HistorialContratacion.entity";
-import {HistorialRemuneracion} from "./entities/HistorialRemuneracion.entity";
-import {InformacionLaboral} from "./entities/InformacionLaboral.entity";
-import {Mutualidad} from "./entities/Mutualidad.entity";
-import {Salud} from "./entities/Salud.entity";
-import {Trabajador} from "./entities/Trabajador.entity";
-import {Usuario} from "./entities/Usuario.entity";
-import {CCAF} from "./entities/CCAF.entity";
-import {Negocio} from "./entities/Negocio.entity";
+import { AFP } from "./entities/AFP.entity.js";
+import {ArchivosPreviredGenerado} from "./entities/ArchivosPreviredGenerados.entity.js";
+import {AsignacionFamiliar} from "./entities/AsignacionFamiliar.entity.js";
+import {ConceptoRemuneracion} from "./entities/ConceptoRemuneracion.entity.js";
+import {ConfiguracionArchivoPrevired} from "./entities/ConfiguracionArchivoPrevired.entity.js";
+import {HistorialContratacion} from "./entities/HistorialContratacion.entity.js";
+import {InformacionLaboral} from "./entities/InformacionLaboral.entity.js";
+import {Mutualidad} from "./entities/Mutualidad.entity.js";
+import {Salud} from "./entities/Salud.entity.js";
+import {Trabajador} from "./entities/Trabajador.entity.js";
+import {Usuario} from "./entities/Usuario.entity.js";
+import {CCAF} from "./entities/CCAF.entity.js";
+import {Negocio} from "./entities/Negocio.entity.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -30,7 +29,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: "namas",
   password: "namas",
-  database: isTest ? "previplus-test" : "previplus",
+  database: isTest ? "previplus_test" : "previplus",
   synchronize: isTest ? true : false, // Habilita synchronize solo en pruebas
   logging: false,
   entities: [
@@ -38,7 +37,6 @@ export const AppDataSource = new DataSource({
     AFP,
     CCAF,
     HistorialContratacion,
-    HistorialRemuneracion,
     Mutualidad,
     Salud,
     Trabajador,

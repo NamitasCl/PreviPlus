@@ -1,6 +1,6 @@
 // src/helpers/ArchivoPreviredFormatter.ts
 
-import ArchivoPreviredDTO from "../dtos/ArchivoPrevired.dto";
+import ArchivoPreviredDTO from "../dtos/ArchivoPrevired.dto.js";
 
 /**
  * Formateador para ArchivoPrevired.

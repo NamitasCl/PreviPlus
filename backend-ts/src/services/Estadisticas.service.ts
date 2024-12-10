@@ -1,6 +1,8 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { Usuario, Negocio, Trabajador } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { Usuario } from "../entities/Usuario.entity.js";
+import { Negocio } from "../entities/Negocio.entity.js";
+import { Trabajador } from "../entities/Trabajador.entity.js";
 
 export class StatsService {
   private usuarioRepository: Repository<Usuario>;

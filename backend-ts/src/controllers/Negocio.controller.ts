@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from "express";
-import { NegocioService } from "../services/index";
+import { NegocioService } from "../services/Negocios.service.js";
 
 const negocioService = new NegocioService();
 

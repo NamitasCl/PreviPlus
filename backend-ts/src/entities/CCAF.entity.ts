@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Negocio } from "./index";
+import { Negocio } from "./Negocio.entity.js";
 
 @Entity("ccaf")
 export class CCAF {

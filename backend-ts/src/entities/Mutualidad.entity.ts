@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Negocio } from "./Negocio.entity";
+import { Negocio } from "./Negocio.entity.js";
 
 @Entity("mutualidad")
 export class Mutualidad {

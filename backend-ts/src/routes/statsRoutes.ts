@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { StatsController } from "../controllers/index";
-import verifyJwt from "../middlewares/authenticateJWT.midd";
+import StatsController from "../controllers/Estadisticas.controller.js";
+import verifyJwt from "../middlewares/authenticateJWT.midd.js";
 
 const statsRoutes = Router();
 const statsController = new StatsController();

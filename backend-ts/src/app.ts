@@ -2,7 +2,7 @@
 import express, { Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import {indexRoutes} from "./routes/index";
+import indexRoutes from "./routes/indexRoutes.js";
 
 export class App {
   private app: Application;

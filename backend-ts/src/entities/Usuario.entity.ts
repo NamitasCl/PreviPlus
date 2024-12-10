@@ -5,7 +5,7 @@ import {
   OneToMany,
   CreateDateColumn,
 } from "typeorm";
-import { Negocio } from "./Negocio.entity";
+import { Negocio } from "./Negocio.entity.js";
 
 @Entity("usuario")
 export class Usuario {

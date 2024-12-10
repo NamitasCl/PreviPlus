@@ -1,6 +1,8 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { Usuario, InformacionLaboral, Negocio } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { Usuario } from "../entities/Usuario.entity.js";
+import { Negocio } from "../entities/Negocio.entity.js";
+import { InformacionLaboral } from "../entities/InformacionLaboral.entity.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"

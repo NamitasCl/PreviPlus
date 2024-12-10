@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { Usuario } from "../entities/index.js";
-import { UsuarioService } from "../services/index";
+import { UsuarioService } from "../services/Usuario.service.js";
 import { JwtPayload } from "jsonwebtoken";
-import { UserInfo } from "../services/Usuario.service";
+import { UserInfo } from "../services/Usuario.service.js";
 
 const usuarioService = new UsuarioService();
 
@@ -20,8 +19,9 @@ export default class UsuarioController {
 
     obtenerUsuarios = async (_req: Request, res: Response): Promise<void> => {
         try {
-            const usuarios = await usuarioService.obtenerUsuarios();
-            res.json(usuarios);
+            /* const usuarios = await usuarioService.obtenerUsuarios();
+            res.json(usuarios); */
+            res.status(201).json({ message: "Usuarios obtenidos" });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import {TrabajadorService} from "../services/index";
+import {TrabajadorService} from "../services/Trabajador.service.js";
 
 const trabajadorService = new TrabajadorService();
 

@@ -5,7 +5,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { Trabajador, Negocio } from "./index";
+import { Trabajador } from "./Trabajador.entity.js";
+import { Negocio } from "./Negocio.entity.js";
 
 @Entity("informacion_laboral")
 export class InformacionLaboral {

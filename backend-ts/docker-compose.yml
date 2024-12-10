@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     image: postgres:14
-    container_name: postgres-previplus-ts
+    container_name: postgres-pg
     environment:
       POSTGRES_USER: previplus
       POSTGRES_PASSWORD: 123456
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: previplus-back-ts
+    container_name: previplus-ts
     environment:
       DB_HOST: postgres
       DB_PORT: 5432

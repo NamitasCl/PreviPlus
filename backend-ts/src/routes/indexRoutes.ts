@@ -1,8 +1,8 @@
 import { Router } from "express";
-import usuariosRoutes from "./usuariosRoutes";
-import negociosRoutes from "./negociosRoutes";
-import trabajadoresRoutes from "./trabajadoresRoutes";
-import statsRoutes from "./statsRoutes";
+import usuariosRoutes from "./usuariosRoutes.js";
+import negociosRoutes from "./negociosRoutes.js";
+import trabajadoresRoutes from "./trabajadoresRoutes.js";
+import statsRoutes from "./statsRoutes.js";
 
 const indexRoutes = Router();
 

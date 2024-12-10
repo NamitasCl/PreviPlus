@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { HistorialRemuneracionesController } from "../controllers/index";
-import verifyJwt from "../middlewares/authenticateJWT.midd";
+import HistorialRemuneracionesController from "../controllers/HistorialRemuneraciones.controller.js"; 
+import verifyJwt from "../middlewares/authenticateJWT.midd.js";
 
 const historialRemuneracionesRoutes = Router();
 const historialController = new HistorialRemuneracionesController();

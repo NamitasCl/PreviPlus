@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {HistorialRemuneraciones} from "../services/index";
+import {HistorialRemuneraciones} from "../services/HistorialRemuneraciones.service.js";
 
 const histRemService = new HistorialRemuneraciones();
 

@@ -6,14 +6,12 @@ import {
   OneToMany,
   JoinColumn,
 } from "typeorm";
-import {
-  Salud,
-  AFP,
-  InformacionLaboral,
-  HistorialRemuneracion,
-  HistorialContratacion,
-  ConfiguracionArchivoPrevired,
-} from "./index";
+
+ import { Salud } from "./Salud.entity.js";
+ import { AFP } from "./AFP.entity.js";
+ import { InformacionLaboral } from "./InformacionLaboral.entity.js";
+ import { HistorialContratacion } from "./HistorialContratacion.entity.js";
+ import { ConfiguracionArchivoPrevired } from "./ConfiguracionArchivoPrevired.entity.js";
 
 @Entity("trabajador")
 export class Trabajador {
@@ -25,7 +23,6 @@ export class Trabajador {
     this.names = "";
     this.genero = "";
     this.nationality = 0;
-    this.historialRemuneraciones = null;
     this.configuracionArchivoPrevired = null;
     this.historialContrataciones = null;
   }
@@ -79,16 +76,6 @@ export class Trabajador {
     }
   )
   informacionLaboral!: InformacionLaboral[];
-
-  @OneToMany(
-    () => HistorialRemuneracion,
-    (historialRemuneracion) => historialRemuneracion.trabajador,
-    {
-      cascade: true,
-      eager: true,
-    }
-  )
-  historialRemuneraciones?: HistorialRemuneracion[] | null;
 
   @OneToMany(
     () => ConfiguracionArchivoPrevired,

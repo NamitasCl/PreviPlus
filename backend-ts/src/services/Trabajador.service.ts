@@ -1,6 +1,12 @@
 import { Repository, QueryRunner, FindOptionsWhere, ObjectLiteral } from "typeorm";
-import { AppDataSource } from "../datasource";
-import { Trabajador, Negocio, InformacionLaboral, Salud, AFP } from "../entities/index";
+import { AppDataSource } from "../datasource.js";
+import { Trabajador } from "../entities/Trabajador.entity.js";
+import { Negocio } from "../entities/Negocio.entity.js";
+import { InformacionLaboral } from "../entities/InformacionLaboral.entity.js";
+import { Salud } from "../entities/Salud.entity.js";
+import { AFP } from "../entities/AFP.entity.js";
+
+
 
 export class TrabajadorService {
   private trabajadorRepository: Repository<Trabajador>;
