@@ -20,13 +20,13 @@ const InformacionPrevisional = memo(() => {
           id="previsionalInfo.afp"
           label="AFP"
           options={[
-            { value: '33-capital', label: 'Capital' },
-            { value: '03-cuprum', label: 'Cuprum' },
-            { value: '05-habitat', label: 'Habitat' },
-            { value: '29-planvital', label: 'PlanVital' },
-            { value: '08-provida', label: 'ProVida' },
-            { value: '34-modelo', label: 'Modelo' },
-            { value: '35-uno', label: 'Uno' },
+            { value: 33, label: 'Capital' },
+            { value: 3, label: 'Cuprum' },
+            { value: 5, label: 'Habitat' },
+            { value: 29, label: 'PlanVital' },
+            { value: 8, label: 'ProVida' },
+            { value: 34, label: 'Modelo' },
+            { value: 35, label: 'Uno' },
           ]}
           placeholder="Seleccionar AFP"
           validationRules={{ required: 'Este campo es obligatorio' }}
@@ -36,13 +36,13 @@ const InformacionPrevisional = memo(() => {
           id="previsionalInfo.salud"
           label="Salud"
           options={[
-            { value: '01-banmedica', label: 'Banmédica' },
-            { value: '04-colmena', label: 'Colmena' },
-            { value: '05-cruzblanca', label: 'Cruz Blanca' },
-            { value: '10-nuevamasvida', label: 'Nueva Masvida' },
-            { value: '02-consalud', label: 'Consalud' },
-            { value: '03-vidatres', label: 'Vida Tres' },
-            { value: '07-fonasa', label: 'Fonasa' },
+            { value: 1, label: 'Banmédica' },
+            { value: 4, label: 'Colmena' },
+            { value: 5, label: 'Cruz Blanca' },
+            { value: 10, label: 'Nueva Masvida' },
+            { value: 2, label: 'Consalud' },
+            { value: 3, label: 'Vida Tres' },
+            { value: 7, label: 'Fonasa' },
           ]}
           placeholder="Seleccionar institución de salud"
           validationRules={{ required: 'Este campo es obligatorio' }}
@@ -71,8 +71,8 @@ const InformacionPrevisional = memo(() => {
             id="previsionalInfo.tipoMoneda"
             label="Tipo de Moneda"
             options={[
-              { value: '1', label: 'Pesos' },
-              { value: '2', label: 'Unidades de Fomento' },
+              { value: 1, label: 'Pesos' },
+              { value: 2, label: 'Unidades de Fomento' },
             ]}
             placeholder="Seleccionar tipo de moneda"
             validationRules={{ required: 'Este campo es obligatorio' }}

@@ -47,11 +47,12 @@ const TrabajadoresList = ({ negocioId }) => {
                 const response = await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`, { withCredentials: true });
                 const trabajadoresNuevos = response.data.map(data => data.trabajador);
                 setTrabajadores(trabajadoresNuevos); // Reemplaza el estado en lugar de agregar
+                
             } catch (error) {
-                setTrabajadores([]); // Opcional: Limpiar el estado en caso de error
+                console.error("Error al obtener los trabajadores:", error);
                 toast({
-                    title: "Error",
-                    description: "No hay trabajadores asociados a este negocio." + error.message,
+                    title: "No hay trabajadores asociados",
+                    description: "No hay trabajadores asociados a este negocio.",
                     status: "info",
                     duration: 3000,
                     isClosable: true,
