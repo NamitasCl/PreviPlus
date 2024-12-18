@@ -31,10 +31,10 @@ const LinkItems = [
     { name: 'Negocios', icon: FcBusiness, href: 'negocios' },
     { name: 'Archivos Previred (AP)', icon: FcDocument, href: 'previred' },
     { name: 'Descarga Archivo Previred', icon: FcMoneyTransfer, href: 'historialPrevired', },   
-    { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' },
+    /* { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' }, */
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
     { name: 'Configuracion', icon: FcSettings, href: 'configuracion' },
-    { name: 'Admin', icon: FcSettings, href: 'admin' },
+    /* { name: 'Admin', icon: FcSettings, href: 'admin' }, */
 ]
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -89,7 +89,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                         </NavLink>
                     ))}
                     {
-                        user && user.rol === 'admin' && (
+                        user && user.rol === 'administrador' && (
                             <NavLink to={'/dashboard/admin'}>
                                 <Flex
                                     align="center"

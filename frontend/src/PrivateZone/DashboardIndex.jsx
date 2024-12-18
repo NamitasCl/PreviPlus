@@ -16,7 +16,7 @@ const DashboardIndex = () => {
     useEffect(() => {
         const fetchUserStats = async () => {
             if (user && user.id) {  // Solo intentamos obtener las estadísticas si 'user.id' está disponible
-                await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`)
+                await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`, {withCredentials: true})
                 .then(response => {
                     setUserStats(prev => setUserStats({
                         ...prev,
@@ -26,8 +26,8 @@ const DashboardIndex = () => {
                 .catch(error => {
                     setUserStats((
                         {
-                            totalNegocios: 0, 
-                            totalTrabajadores: 0, 
+                            cantidadNegocios: 0, 
+                            cantidadTrabajadores: 0, 
                             creditos: 0}
                     ))
                     console.error("Error al obtener las estadísticas del usuario:", error);
@@ -69,7 +69,7 @@ const DashboardIndex = () => {
                             color={statTextColor}
                         >
                             <StatLabel fontSize={'lg'}>Negocios creados</StatLabel>
-                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.totalNegocios}</StatNumber>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.cantidadNegocios}</StatNumber>
                             <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Negocios asociados a tu cuenta</StatHelpText>
                         </Stat>
 
@@ -83,7 +83,7 @@ const DashboardIndex = () => {
                             color={statTextColor}
                         >
                             <StatLabel fontSize={'lg'}>Trabajadores agregados</StatLabel>
-                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.totalTrabajadores}</StatNumber>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{userStats.cantidadTrabajadores}</StatNumber>
                             <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Cantidad total de trabajadores</StatHelpText>
                         </Stat>
 
@@ -96,9 +96,9 @@ const DashboardIndex = () => {
                             boxShadow={shadowColor}
                             color={statTextColor}
                         >
-                            <StatLabel fontSize={'lg'}>Créditos restantes</StatLabel>
-                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.credits > 0 ? user.credits : 0}</StatNumber>
-                            <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Saldo de créditos disponibles</StatHelpText>
+                            <StatLabel fontSize={'lg'}>Membresía</StatLabel>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.isMembershipActive ? "Activa" : <span style={{color: "red"}}>Inactiva</span>}</StatNumber>
+                            <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Estado de su membresía al sistema.</StatHelpText>
                         </Stat>
                     </StatGroup>
 

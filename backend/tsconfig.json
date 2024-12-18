@@ -1,0 +1,22 @@
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs", // Jest requiere CommonJS
+    "strict": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "baseUrl": ".", // Para resolver alias
+    "paths": {
+      "src/*": ["src/*"] // Asegúrate de que coincide con moduleNameMapper en jest.config.ts
+    }
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

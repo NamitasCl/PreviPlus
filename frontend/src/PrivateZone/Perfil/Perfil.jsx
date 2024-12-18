@@ -21,10 +21,11 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useUserAuth } from '../../contexto/UserContext';
 import { MembershipStatus } from "./EstadoMembresia";
+import { set } from "react-hook-form";
 
 
 const Perfil = () => {
-    const { user, setUser } = useUserAuth(); // Asegúrate de tener un método para actualizar el usuario
+    const { user, checkAuth, setUser } = useUserAuth(); // Asegúrate de tener un método para actualizar el usuario
     const toast = useToast();
     const [loading, setLoading] = useState(false);
     const intervalRef = useRef(null); // Referencia para el intervalo
@@ -179,6 +180,14 @@ const Perfil = () => {
         }
     };
 
+    const handleMembresiaFake = async () => {
+        axios.post('http://localhost:3000/api/usuarios/membresiafake', { userId: user.id }, { withCredentials: true })
+        .then((r) => setUser(r.data.user))
+        .catch(error => console.error("Error al activar membresía:", error));
+
+        console.log(user)
+    };
+
     return (
         <Box maxWidth="full" py={2}>
             <Card>
@@ -203,12 +212,12 @@ const Perfil = () => {
                         <Box>
                             <Heading size="md" mb={2}>Información de Membresía</Heading>
                             <Stack spacing={2}>
-                                <MembershipStatus isActive={user.membresiaActiva || false} />
+                                <MembershipStatus isActive={user.isMembershipActive || false} />
                                 {/* Botón para activar o desactivar membresía según el estado */}
-                                {user.membresiaActiva ? (
+                                {user.isMembershipActive ? (
                                     <Button
                                         colorScheme="red"
-                                        onClick={handleDesactivarMembresia}
+                                        onClick={handleMembresiaFake}
                                         isLoading={loading}
                                     >
                                         Desactivar Membresía
@@ -216,7 +225,7 @@ const Perfil = () => {
                                 ) : (
                                     <Button
                                         colorScheme="green"
-                                        onClick={handleActivarMembresia}
+                                        onClick={handleMembresiaFake}
                                         isLoading={loading}
                                     >
                                         Activar Membresía

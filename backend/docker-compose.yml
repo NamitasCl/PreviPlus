@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15.3
+    restart: always
+    container_name: previplus-db
+    environment:
+      POSTGRES_USER: namas
+      POSTGRES_PASSWORD: namas
+      POSTGRES_DB: previplus
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./docker-init:/docker-entrypoint-initdb.d

@@ -97,6 +97,12 @@ const InformacionPersonal = memo(() => {
       </Flex>
 
       <Flex direction={['column', 'row']} gap={4}>
+        <SwitchField
+          id="personalInfo.isExtranjero"
+          label="¿Es extranjero?"
+          
+          style={{ width: '200px' }}
+        />
         <AutocompleteNacionalidad
           id="personalInfo.nationality"
           label="Nacionalidad"

@@ -71,6 +71,8 @@
 /frontend/.vite/
 /backend-ts/.vite/
 /backend-ts/.idea/
+/backend/data/
+/backend/docker-init/
 
 # Archivos de logs globales
 logs

@@ -29,6 +29,7 @@ export default function FormularioEmpleado({ negocioId, onTrabajadorAdded }) {
         genero: '',
         fechaNacimiento: '',
         direccion: '',
+        isExtranjero: false,
         nationality: '',
         telefono: '',
         numeroCuenta: '',

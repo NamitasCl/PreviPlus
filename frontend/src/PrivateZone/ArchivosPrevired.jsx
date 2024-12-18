@@ -32,7 +32,7 @@ const DashboardNegocios = () => {
     const generarArchivoPrevired = async (idNegocio) => {
         // Lógica para generar archivos Previred por negocio
         console.log(`Generar archivo Previred para el negocio con ID: ${idNegocio}`);
-        await axios.post('http://localhost:3000/api/archprev/generate', { idNegocio, userId: user.id }, { withCredentials: true })
+        await axios.post('http://localhost:3000/api/archivosprevired/', { negocioId: idNegocio, userId: user.id }, { withCredentials: true })
         .then(response => console.log("Archivo Previred generado exitosamente:", response.data))
         .catch(error => console.error("Error al generar Archivo Previred:", error));
     };
@@ -96,7 +96,7 @@ const DashboardNegocios = () => {
                                                         bg={buttonBgColor}
                                                         color={buttonTextColor}
                                                         onClick={() => generarArchivoPrevired(negocio.id)}
-                                                        disabled={true}
+                                                        disabled={!user.isMembershipActive} 
                                                     >
                                                         Generar Archivos Previred
                                                     </Button>

@@ -39,6 +39,7 @@ export const UserContextProvider = ({ children }) => {
                 withCredentials: true,
             });
             setUser(response.data);
+            console.log(response.data)
         } catch (error) {
             console.log(error);
             throw error;
@@ -55,7 +56,7 @@ export const UserContextProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, loading, login, logout, checkAuth }}>
+        <UserContext.Provider value={{ user, loading, login, logout, checkAuth, setUser }}>
             {children}
         </UserContext.Provider>
     );
