@@ -53,13 +53,11 @@ export class TrabajadorService {
 
       // Obtener las entidades relacionadas
       const saludEntity = await this.obtenerEntidad(this.saludRepository, "codigoSalud", previsionalInfo.salud, "Institución de Salud");
-      console.log("Codigo de salud:", previsionalInfo.salud);
-      console.log("Salud obtenida:", saludEntity);
-      console.log("Codigo de AFP:", previsionalInfo.afp);
+      
       const afpEntity = await this.obtenerEntidad(this.afpRepository, "codigoAfp", previsionalInfo.afp, "AFP");
-      console.log("AFP obtenida:", afpEntity);
+      
       const negocioObtenido = await this.obtenerEntidad(this.negocioRepository, "id", negocioId, "Negocio");
-      console.log("Negocio obtenido:", negocioObtenido);
+      
 
       // Crear la información laboral
       const informacionLaboral = this.informacionLaboralRepository.create({
@@ -99,8 +97,6 @@ export class TrabajadorService {
         afp: afpEntity,
         informacionLaboral: [informacionLaboral],
       });
-
-      console.log("Datos de trabajador guardados:", nuevoTrabajador);
 
 
       // Guardar el trabajador

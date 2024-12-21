@@ -61,9 +61,9 @@ const HistorialArchivosPrevired = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.post('http://localhost:3000/api/archprev/info', 
+            axios.post('http://localhost:3000/api/archivosprevired/filtrado', 
                 { 
-                    idNegocio: filtroNegocio,
+                    negocioId: filtroNegocio,
                     mes: filtroMes,
                     anio: filtroAno
                 },
@@ -71,8 +71,8 @@ const HistorialArchivosPrevired = () => {
                     withCredentials: true 
                 })
                 .then(response => {
-                    setArchivos(response.data);
-                    console.log(response.data)
+                    setArchivos(response.data.archivosPrevired);
+                    console.log(response.data.archivosPrevired)
                 })
         }
 
@@ -82,28 +82,28 @@ const HistorialArchivosPrevired = () => {
     }, [filtroAno, filtroMes, filtroNegocio]);
 
   
-  const descargarArchivo = async (archivoId) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/api/archprev/descarga/${archivoId}`, {
-        responseType: 'Blob',
-        withCredentials: true
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `archivo_previred_${archivoId}.txt`);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error('Error al descargar el archivo:', error);
-    }
+    const descargarArchivo = async (archivoId) => {
+      try {
+          const response = await axios.get(`http://localhost:3000/api/archivosprevired/descargar/${archivoId}`, {
+              responseType: 'blob',
+              withCredentials: true
+          });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `archivo_previred_${archivoId}.txt`);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+      } catch (error) {
+          console.error('Error al descargar el archivo:', error);
+      }
   };
 
   const borrarArchivo = async (archivoId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/archprev/descarga/${archivoId}`, { withCredentials: true });
-      setArchivos(archivos.filter(archivo => archivo.id !== archivoId));
+      await axios.delete(`http://localhost:3000/api/archivosprevired/borrar/${archivoId}`, { withCredentials: true });
+       setArchivos(archivos.filter(archivo => archivo.id !== archivoId));
     } catch (error) {
       console.error('Error al borrar el archivo:', error);
     }

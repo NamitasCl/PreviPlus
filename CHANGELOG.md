@@ -2,87 +2,142 @@
 
 ## [Unreleased]
 
-## [v1.2.0] - 2024-10-17
-### Backend
-- **Actualización de entidades `Negocio` y `Usuario`:**
-  - Renombramiento de campos en la entidad `Negocio` para reflejar nombres más adecuados: `nombre` a `name`, `direccion` a `address`, `rut_empresa` a `businessRut`.
-  - Se agrega un campo `isActive` para controlar el estado de los negocios.
-  - Ajustes en servicios y controladores para reflejar estos cambios.
-  - Optimización de consultas para obtener negocios por usuario autenticado.
-  
-- **Integración completa del manejo de autenticación con JWT:**
-  - Implementación del login con JWT almacenado en una cookie HTTP-Only para mayor seguridad.
-  - Verificación del token JWT en las rutas protegidas.
-  - Creación de middleware que valida el JWT en cada solicitud y verifica la sesión del usuario.
+---
 
-- **Servicios de manejo de créditos y generación de archivos Previred:**
-  - Implementación del sistema de compra de créditos y su gestión en la base de datos.
-  - Creación de un sistema para generar archivos TXT de Previred a partir de la información almacenada.
+## [v1.3.0] - 2024-12-18
+
+### Backend
+
+- **Migración Completa a TypeScript:**
+  - Transición del backend de JavaScript a TypeScript para mejor tipificación y mantenibilidad.
+  - Refactorización de controladores, servicios y entidades para aprovechar el tipado estático.
+  - Eliminación de archivos legacy de JavaScript.
+
+- **Mejoras en la Arquitectura:**
+  - Implementación de un servicio centralizado `AppDataSource` para la conexión y gestión de PostgreSQL.
+  - Introducción de `docker-compose` para configurar entornos de desarrollo con base de datos.
+  - Refactorización de lógica en servicios para simplificar controladores.
+
+- **Nueva Configuración de Pruebas:**
+  - Integración de Jest para pruebas unitarias e integración en TypeScript.
+  - Configuración de `jest.config.ts` para soporte de transformaciones y alias.
+  - Pruebas automatizadas para `UsuarioService` y `ArchivoPreviredService`.
+
+- **Actualización en la Generación de Archivos Previred:**
+  - Creación de una clase de servicio para gestionar la generación de archivos Previred.
+  - Validaciones exhaustivas para garantizar la calidad de los datos.
+  - Registro y trazabilidad de archivos generados.
 
 ### Frontend
-- **Modificación de la lógica del `UserContext`:**
-  - Implementación de persistencia de sesión del usuario usando `localStorage` y verificación del JWT al refrescar la página.
-  - Validación de la autenticación del usuario al acceder a las rutas protegidas del dashboard.
 
-- **Mejoras en el `Dashboard`:**
-  - Rediseño de las vistas de `Perfil` y `Negocios` para mostrar información más detallada de los negocios y archivos Previred.
-  - Uso de componentes `StatGroup` de Chakra UI para mostrar estadísticas de créditos disponibles, negocios activos y archivos Previred generados.
-  - Mejoras en el estilo y la estructura de las tablas para listar negocios y archivos.
+- **Mejoras en el Dashboard:**
+  - Interfaz actualizada para reflejar nuevas funcionalidades, como generación de archivos y estadísticas detalladas.
+  - Validación en tiempo real en formularios para mejorar la experiencia del usuario.
+  - Inclusión de mensajes de error descriptivos y guías durante el uso.
 
-- **Optimización de rutas y protección de las mismas:**
-  - Sistema robusto para proteger las rutas usando React Router DOM y el contexto de usuario.
-  - Redirección automática al login si el usuario no está autenticado.
+- **Nueva Sección de Generación de Archivos:**
+  - Rediseño completo de la vista para facilitar la generación de archivos Previred.
+  - Función de previsualización de datos antes de la generación.
+
+### Infraestructura
+
+- **Docker:**
+  - Configuración de `docker-compose` para manejar contenedores de desarrollo.
+  - Mapeo de volúmenes para persistencia de datos entre reinicios.
+
+### Seguridad
+
+- **Optimización de Autenticación JWT:**
+  - Uso de cookies HTTP-Only para almacenar tokens de sesión, mejorando la seguridad.
+  - Validaciones adicionales para prevenir entradas maliciosas.
+
+---
+
+## [v1.2.0] - 2024-10-17
+
+### Backend
+
+- **Actualización de Entidades:**
+  - Renombramiento de campos en la entidad `Negocio`:
+    - `nombre` a `name`.
+    - `direccion` a `address`.
+    - `rut_empresa` a `businessRut`.
+  - Adición del campo `isActive` para gestionar el estado de los negocios.
+
+- **Gestión de Créditos y Archivos Previred:**
+  - Implementación de compra de créditos y deducción automática al generar archivos.
+  - Generación de archivos TXT conforme a los 105 campos requeridos.
+
+- **Mejoras en la Autenticación:**
+  - Uso de cookies HTTP-Only para el almacenamiento de tokens JWT.
+  - Middleware para validar tokens JWT en rutas protegidas.
+
+### Frontend
+
+- **Persistencia de Sesión:**
+  - Uso de `localStorage` para mantener la sesión activa y verificar JWT al recargar.
+  - Validación de autenticación en rutas protegidas.
+
+- **Dashboard Mejorado:**
+  - Nuevas vistas para `Perfil` y `Negocios`, incluyendo estadísticas detalladas.
+  - Componentes de Chakra UI para un diseño más profesional.
+
+- **Protección de Rutas:**
+  - Sistema para proteger rutas privadas y redirigir al login si no hay autenticación.
 
 ---
 
 ## [v1.1.0] - 2024-10-15
+
 ### Backend
-- **Sistema de gestión de usuarios y negocios:**
-  - Operaciones CRUD para usuarios y negocios usando TypeORM.
-  - Relación entre `Usuario` y `Negocio` permitiendo que un usuario tenga varios negocios asociados.
-  - Endpoints para autenticación y manejo de negocios.
 
-- **Autenticación con JWT y manejo de cookies:**
-  - Implementación de autenticación con JWT.
-  - El token se almacena en una cookie HTTP-Only.
-  - Verificación del token en cada solicitud protegida.
+- **Sistema de Gestión de Usuarios y Negocios:**
+  - CRUD para `Usuario` y `Negocio`.
+  - Relación uno-a-muchos entre usuarios y negocios.
 
-- **Gestión de trabajadores y archivos Previred:**
-  - CRUD para la entidad `Trabajador`.
-  - Generación de archivos Previred con datos de trabajadores, siguiendo el formato específico de 105 campos.
+- **Autenticación con JWT:**
+  - Implementación inicial de autenticación con JSON Web Tokens.
+  - Uso de cookies HTTP-Only para mayor seguridad.
+
+- **Gestión de Trabajadores y Archivos:**
+  - CRUD para trabajadores.
+  - Generación de archivos Previred en formato estándar.
 
 ### Frontend
-- **Implementación inicial del dashboard:**
-  - Creación de componentes reutilizables para la interfaz del dashboard.
-  - Vistas para el manejo de negocios, trabajadores y créditos.
-  - Uso de Chakra UI para maquetación y diseño.
 
-- **Manejo de autenticación en el frontend:**
-  - Implementación del contexto `UserContext` para gestionar la sesión del usuario.
-  - Redirección automática al login si el usuario no está autenticado.
-  - Uso de React Router DOM para manejar rutas privadas.
+- **Inicio del Dashboard:**
+  - Creación de componentes para manejo de negocios, trabajadores y créditos.
+  - Layout inicial con Chakra UI.
+
+- **Autenticación:**
+  - Gestión de sesión con `UserContext`.
+  - Protección de rutas privadas con React Router DOM.
 
 ---
 
 ## [v1.0.0] - 2024-10-10
-### Backend
-- **Configuración inicial del proyecto:**
-  - Instalación y configuración de TypeORM con PostgreSQL.
-  - Definición de entidades: `Usuario`, `Negocio`, `Trabajador`, `HistorialRemuneracion`, entre otras.
-  - Implementación de servicios y controladores para gestionar las operaciones CRUD de cada entidad.
-  - Configuración de JWT para manejo de autenticación y sesiones de usuario.
 
-- **Relaciones entre entidades:**
+### Backend
+
+- **Configuración Inicial:**
+  - Instalación y configuración de TypeORM con PostgreSQL.
+  - Definición de entidades base (`Usuario`, `Negocio`, `Trabajador`).
+  - Configuración de autenticación con JWT.
+
+- **Relaciones entre Entidades:**
   - Relación uno-a-muchos entre `Usuario` y `Negocio`.
   - Relación uno-a-muchos entre `Negocio` y `Trabajador`.
 
 ### Frontend
-- **Creación de la landing page y el sistema de login:**
-  - Desarrollo de la página principal con opciones de login y registro.
-  - Implementación del formulario de login y validación con el backend.
-  - Rutas privadas para restringir el acceso a usuarios autenticados.
 
-- **Interfaz de usuario inicial:**
-  - Uso de Chakra UI para diseño de la interfaz.
-  - Implementación del layout del dashboard con secciones de perfil y negocios.
-  - Configuración inicial del routing.
+- **Landing Page y Login:**
+  - Desarrollo de la página principal con opciones de login y registro.
+  - Formulario de login inicial.
+
+- **Interfaz de Usuario:**
+  - Uso de Chakra UI para diseño inicial.
+  - Configuración de rutas privadas para acceso al dashboard.
+
+---
+
+Este changelog detalla la evolución de **PreviPlus** desde su creación hasta la versión más reciente, destacando mejoras significativas en funcionalidad, seguridad y experiencia de usuario.

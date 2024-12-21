@@ -51,6 +51,11 @@ export class NegocioService {
       isActive,
     } = negocioData;
 
+    const existingNegocio = await this.negocioRepository.findOneBy({ rut });
+    if (existingNegocio) {
+      throw new Error("Negocio con este RUT ya existe.");
+    }
+
     // Parsear los códigos de mutualidad y CCAF
     const codigoMutual = parseInt(mutualNombre.split("-")[0], 10);
     const codigoCcaf = parseInt(ccafNombre.split("-")[0], 10);
@@ -111,7 +116,6 @@ export class NegocioService {
       relations: ["usuario"],
     });
 
-    console.log("Respuesta obtenida:", respuesta);
     return respuesta;
   }
 
@@ -123,6 +127,9 @@ export class NegocioService {
    */
   async actualizarNegocio(id: number, datosActualizados: Partial<Negocio>): Promise<Negocio> {
     const negocio = await this.negocioRepository.findOneBy({ id });
+
+    console.log("Datos actualizados:", datosActualizados);
+
     if (negocio) {
       Object.assign(negocio, datosActualizados); // Actualizar con los nuevos datos
       return await this.negocioRepository.save(negocio);
@@ -136,12 +143,22 @@ export class NegocioService {
    * @param id - ID del negocio.
    * @returns Mensaje de confirmación.
    */
-  async eliminarNegocio(id: number): Promise<string> {
-    const resultado = await this.negocioRepository.delete(id);
-    if (resultado.affected && resultado.affected > 0) {
-      return "Negocio eliminado con éxito";
-    } else {
-      throw new Error("Negocio no encontrado");
+  async eliminarNegocio(negocioId: number): Promise<void> {
+    try {
+      const negocio = await this.negocioRepository.findOne({
+        where: { id: negocioId },
+        relations: ['informacionLaboral', 'archivosPreviredGenerado'],
+      });
+  
+      if (!negocio) {
+        throw new Error("Negocio no encontrado");
+      }
+  
+      // Elimina el negocio y los datos relacionados
+      await this.negocioRepository.remove(negocio);
+      console.log("Negocio y datos relacionados eliminados");
+    } catch (error: any) {
+      console.error("Error al eliminar el negocio:", error.message);
     }
   }
 }

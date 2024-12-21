@@ -47,7 +47,7 @@ export class Negocio {
 
   // Relaciones
 
-  @OneToMany(() => InformacionLaboral, informacionLaboral => informacionLaboral.negocio)
+  @OneToMany(() => InformacionLaboral, informacionLaboral => informacionLaboral.negocio, {cascade: true, onDelete: 'CASCADE'})
   informacionLaboral: InformacionLaboral[];
 
   @ManyToOne(() => Mutualidad, mutualidad => mutualidad.id)
@@ -58,10 +58,11 @@ export class Negocio {
   @JoinColumn({ name: "ccaf_id" })
   ccaf: CCAF | null;
 
-  @OneToMany(() => ArchivosPreviredGenerado, archivosPreviredGenerado => archivosPreviredGenerado.negocio)
+  @OneToMany(() => ArchivosPreviredGenerado, archivosPreviredGenerado => archivosPreviredGenerado.negocio, {cascade: true, onDelete: 'CASCADE'})
   archivosPreviredGenerado: ArchivosPreviredGenerado[];
 
   @ManyToOne(() => Usuario, usuario => usuario.id)
   @JoinColumn({ name: "usuario_id" })
   usuario: Usuario;
+    mockNegocio: { id: number; codigomutual: number; nombre: string; };
 }

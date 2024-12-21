@@ -1,4 +1,4 @@
-# Previplus - Release Notes v1.0.0 (MVP)
+# Previplus - Release Notes v1.1.0
 
 **Fecha de Lanzamiento:** [Fecha]
 
@@ -6,97 +6,96 @@
 
 ## Descripción General
 
-La versión inicial de **Previplus** introduce una solución innovadora para la automatización de la generación de archivos Previred, con un enfoque en seguridad, confiabilidad y alta disponibilidad. Este MVP garantiza la protección de datos sensibles mediante la implementación de estándares avanzados de encriptación y control de acceso.
+La versión v1.1.0 de **Previplus** presenta mejoras significativas sobre el MVP inicial, ampliando las funcionalidades, optimizando la seguridad y refinando la experiencia de usuario. Este lanzamiento incorpora nuevas capacidades de gestión, así como ajustes en el backend y frontend para mejorar la eficiencia y la integración del sistema.
 
 ---
 
 ## Nuevas Funcionalidades
 
-1. **Gestión de Múltiples Negocios:**
+### 1. Gestión Avanzada de Negocios
+- **Actualización de Negocios:** 
+  - Inclusión de campos adicionales para especificar detalles de las mutualidades y CCAF asociadas.
+  - Opciones para activar o desactivar negocios sin necesidad de eliminarlos.
+- **Optimización de Consultas:** Mejoras en la carga de datos de negocios vinculados al usuario autenticado.
 
-   - Los usuarios pueden registrar y gestionar varios negocios desde una misma cuenta.
-   - Configuraciones independientes para cada negocio:
-     - Códigos de CCAF, mutualidades y regímenes previsionales.
-     - Control individual sobre datos sensibles asociados.
+### 2. Generación de Archivos Previred Mejorada
+- **Validaciones Extensivas:** 
+  - Implementación de reglas automáticas para verificar datos obligatorios antes de la generación del archivo.
+  - Nuevas alertas que guían al usuario en caso de errores en los datos ingresados.
+- **Historial de Archivos:** Registro de los archivos generados, incluyendo fechas y negocios asociados.
 
-2. **Generación Automática de Archivos Previred:**
+### 3. Sistema de Créditos Refinado
+- **Monitoreo de Créditos:**
+  - Se muestra el saldo de créditos en tiempo real en el panel de usuario.
+  - Alertas automáticas al alcanzar un saldo crítico.
+- **Proceso de Compra Mejorado:** 
+  - Integración de flujos más simples para adquirir créditos desde el frontend.
 
-   - Creación de archivos listos para ser subidos al portal Previred.
-   - Manejo de información de trabajadores, como:
-     - RUT, días trabajados y cotizaciones previsionales.
-     - Cálculo automático de asignación familiar y otros beneficios.
-
-3. **Sistema de Seguridad Avanzado:**
-
-   - **Encriptación AES:** Protección de información sensible, como datos de trabajadores, credenciales y configuraciones, utilizando el algoritmo de cifrado simétrico AES de 256 bits.
-   - **Autenticación:** Sistema de acceso basado en credenciales, con roles definidos por usuario.
-   - **Almacenamiento Seguro:** Datos sensibles cifrados antes de ser almacenados en la base de datos.
-
-4. **Validaciones Automáticas:**
-
-   - Verificación de campos obligatorios y reglas específicas antes de generar archivos.
-   - Alertas sobre errores y sugerencias de corrección.
-
-5. **Sistema de Membresías:**
-
-   - Gestión basada en membresías activas para acceder a las funcionalidades premium.
-   - Notificaciones automáticas sobre el estado y renovación de las membresías.
-
-6. **Interfaz Amigable y Accesible:**
-   - Diseño intuitivo y responsivo para facilitar la navegación.
-   - Campos claramente etiquetados para simplificar la entrada de datos.
+### 4. Seguridad Mejorada
+- **Autenticación JWT Refinada:** 
+  - Incorporación de tiempos de expiración ajustables y verificación periódica del estado del token.
+- **Cifrado Avanzado:**
+  - Mejoras en la encriptación de datos sensibles, cumpliendo con los estándares más recientes de seguridad.
+  
+### 5. Experiencia de Usuario
+- **Frontend Optimizado:**
+  - Rediseño del dashboard con secciones más claras y accesibles.
+  - Navegación responsiva optimizada para dispositivos móviles.
+- **Soporte a Usuarios:** Incorporación de un sistema de ayuda con tutoriales básicos para el uso del sistema.
 
 ---
 
-## Limitaciones del MVP
+## Limitaciones y Áreas de Desarrollo
 
-1. **Integraciones Pendientes:**
+### Limitaciones
+1. **Integraciones de Terceros:** 
+   - No incluye soporte directo para sincronización con ERP o sistemas contables externos.
+2. **Reportes Avanzados:** 
+   - Las vistas gráficas de estadísticas están planeadas para próximas versiones.
+3. **Seguridad Avanzada:** 
+   - Autenticación multifactor (MFA) sigue en desarrollo.
 
-   - Sin soporte para sincronización directa con sistemas ERP o software contable.
-   - Las importaciones masivas de datos desde hojas de cálculo están en desarrollo.
-
-2. **Funcionalidades de Seguridad Adicionales:**
-
-   - La autenticación multifactor (MFA) y auditoría detallada de accesos están planeadas para próximas versiones.
-
-3. **Reportes Avanzados:**
-   - No se incluyen reportes visuales en tiempo real; están en desarrollo para la próxima fase.
+### Áreas en Desarrollo
+1. **Optimización de Pruebas:** Cobertura ampliada con Jest para pruebas de extremo a extremo.
+2. **Soporte Multilingüe:** En progreso para ampliar el alcance de la plataforma.
 
 ---
 
 ## Próximos Pasos
 
-1. **Optimización del Sistema de Seguridad:**
+### 1. Mejoras de Funcionalidades
+- **Reportes Visuales:**
+  - Incorporar estadísticas gráficas para facilitar la interpretación del uso del sistema.
+- **Gestión de Archivos:**
+  - Añadir la opción de descargar y eliminar archivos generados desde el historial.
 
-   - Implementación de autenticación multifactor (MFA) para mayor control.
-   - Auditoría detallada de accesos para trazabilidad completa.
+### 2. Expansión de Seguridad
+- **Autenticación Multifactor (MFA):**
+  - Implementación de MFA para cuentas administradoras.
+- **Auditorías de Accesos:** 
+  - Log detallado de todas las operaciones realizadas por usuarios.
 
-2. **Mejoras en el Sistema de Membresías:**
-
-   - Personalización avanzada de planes de membresía.
-   - Soporte para membresías empresariales.
-
-3. **Integraciones Directas:**
-
-   - Sincronización con bases de datos externas y sistemas ERP.
-   - Importación/exportación de datos desde y hacia formatos estándar.
-
-4. **Soporte Multilingüe:**
-   - Ampliación de la plataforma a otros idiomas y normativas internacionales.
+### 3. Sincronización con Sistemas Externos
+- **Importación y Exportación:** 
+  - Compatibilidad con formatos CSV y XLSX para una carga masiva de datos.
+- **Integración con ERP:** Planificada para permitir la sincronización bidireccional.
 
 ---
 
 ## Notas Técnicas
 
 - **Lenguaje:** TypeScript.
-- **Framework:** Node.js con TypeORM para la gestión de bases de datos.
-- **Base de Datos:** PostgreSQL con cifrado de datos sensibles usando AES.
-- **Infraestructura:** Implementación inicial en entornos locales, con planes para migración a la nube.
-- **Seguridad:** Cifrado AES de 256 bits para datos sensibles, asegurando que ninguna información crítica quede expuesta.
-- **Pruebas:** Cobertura inicial con Jest, enfocada en los flujos críticos del sistema.
+- **Frameworks:**
+  - **Backend:** Node.js con TypeORM.
+  - **Frontend:** React con Vite y Chakra UI.
+- **Base de Datos:** PostgreSQL con cifrado AES.
+- **Pruebas:** Ampliación de cobertura de pruebas automatizadas para flujos críticos con Jest.
+- **Infraestructura:** Listo para despliegue en entornos locales y en la nube.
 
 ---
 
 ## Comentarios y Feedback
 
-Invitamos a los usuarios a probar esta versión inicial y a proporcionar feedback para priorizar las funcionalidades más relevantes en las próximas iteraciones. Tu opinión nos ayuda a transformar la gestión laboral en una experiencia más segura y eficiente.
+Tu opinión sigue siendo clave en nuestra misión de mejorar **Previplus**. Invitamos a todos los usuarios a probar esta versión y proporcionar sugerencias que nos permitan priorizar nuevas funcionalidades y mejoras en futuras versiones.
+
+¡Gracias por confiar en **Previplus** para la gestión de tus cotizaciones previsionales!

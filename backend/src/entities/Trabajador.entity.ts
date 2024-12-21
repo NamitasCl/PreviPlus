@@ -10,6 +10,7 @@ import { AFP } from "./AFP.entity";
 import { Salud } from "./Salud.entity";
 import { InformacionLaboral } from "./InformacionLaboral.entity";
 import { AsignacionFamiliar } from "./AsignacionFamiliar.entity";
+import { Negocio } from "./Negocio.entity";
 
 
 @Entity("trabajador")
@@ -51,7 +52,7 @@ export class Trabajador {
   @JoinColumn({ name: "codigo_salud" })
   salud: Salud;
 
-  @OneToMany(() => InformacionLaboral, infoLaboral => infoLaboral.trabajador, {cascade: true})
+  @OneToMany(() => InformacionLaboral, infoLaboral => infoLaboral.trabajador, {onDelete: 'CASCADE'})
   informacionLaboral: InformacionLaboral[];
 
   @OneToMany(() => AsignacionFamiliar, asignacionFamiliar => asignacionFamiliar.id, {

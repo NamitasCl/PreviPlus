@@ -72,6 +72,16 @@ export default function FormularioEmpleado({ negocioId, onTrabajadorAdded }) {
 
   const onSubmit = async (data) => {
     console.log(data)
+
+    const datosBasicosTrabajador = {
+      names: data.personalInfo.names,
+      patlastname: data.personalInfo.patlastname,
+      matlastname: data.personalInfo.matlastname,
+      rut: data.personalInfo.rut,
+      dv: data.personalInfo.dv,
+      genero: data.personalInfo.genero,
+    }
+
     try {
       await axios.post(
         'http://localhost:3000/api/trabajadores',
@@ -79,7 +89,7 @@ export default function FormularioEmpleado({ negocioId, onTrabajadorAdded }) {
         { withCredentials: true }
       );
       console.log('Formulario enviado exitosamente');
-      onTrabajadorAdded(data);
+      onTrabajadorAdded(datosBasicosTrabajador);
     } catch (err) {
       console.error('Error al enviar el formulario:', err);
       // Maneja el error según tus necesidades

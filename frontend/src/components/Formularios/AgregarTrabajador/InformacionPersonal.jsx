@@ -71,8 +71,8 @@ const InformacionPersonal = memo(() => {
           id="personalInfo.genero"
           label="Género"
           options={[
-            { value: 'masculino', label: 'Masculino' },
-            { value: 'femenino', label: 'Femenino' },
+            { value: 'M', label: 'Masculino' },
+            { value: 'F', label: 'Femenino' },
           ]}
           placeholder="Seleccionar género"
           validationRules={{ required: 'Este campo es obligatorio' }}

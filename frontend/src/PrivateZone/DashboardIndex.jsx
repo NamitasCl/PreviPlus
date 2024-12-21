@@ -97,7 +97,7 @@ const DashboardIndex = () => {
                             color={statTextColor}
                         >
                             <StatLabel fontSize={'lg'}>Membresía</StatLabel>
-                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.isMembershipActive ? "Activa" : <span style={{color: "red"}}>Inactiva</span>}</StatNumber>
+                            <StatNumber fontSize={'5xl'} fontWeight={'bold'}>{user.rol === 'administrador' ? <span style={{color: 'blue', fontSize: '2rem'}}>Administrador</span> : user.isMembershipActive ? 'Activo' : 'Inactivo'}</StatNumber> 
                             <StatHelpText fontSize={'md'} fontWeight={'semibold'}>Estado de su membresía al sistema.</StatHelpText>
                         </Stat>
                     </StatGroup>

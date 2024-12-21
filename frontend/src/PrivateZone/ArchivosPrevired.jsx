@@ -15,7 +15,7 @@ const DashboardNegocios = () => {
     const tableBgColor = useColorModeValue('gray.50', 'gray.800');
     const tableTextColor = useColorModeValue('gray.900', 'gray.50');
 
-    console.log(user)
+    
     useEffect(() => {
         const fetchNegocios = async () => {
             try {
@@ -79,7 +79,7 @@ const DashboardNegocios = () => {
                                         </Td>
                                         <Td>
                                             {
-                                                parseInt(user.credits,10) === 0 ? (
+                                                (user.rol === 'administrador' || user.isMembershipActive) ? (
                                                     <Button
                                                         colorScheme="teal"
                                                         size="sm"
@@ -96,7 +96,7 @@ const DashboardNegocios = () => {
                                                         bg={buttonBgColor}
                                                         color={buttonTextColor}
                                                         onClick={() => generarArchivoPrevired(negocio.id)}
-                                                        disabled={!user.isMembershipActive} 
+                                                        disabled={true} 
                                                     >
                                                         Generar Archivos Previred
                                                     </Button>

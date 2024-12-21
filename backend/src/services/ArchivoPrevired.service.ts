@@ -7,6 +7,10 @@ import { AsignacionFamiliar } from "../entities/AsignacionFamiliar.entity";
 import { Negocio } from "../entities/Negocio.entity";
 import { Trabajador } from "../entities/Trabajador.entity";
 
+
+interface RespuestaEliminarArchivoPrevired {
+  message: string;
+}
 export class ArchivoPreviredService {
   
   
@@ -270,6 +274,71 @@ export class ArchivoPreviredService {
       }
     );
   }
+
+  // Obtener archivos previred
+  async obtenerArchivosPrevired(negocioId: number): Promise<ArchivosPreviredGenerado[]> {
+    // Obtener todos los archivos previred de un negocio
+    const data = await this.dataSource.manager.find(ArchivosPreviredGenerado, {
+      where: { negocio: { id: negocioId } },
+      relations: ["negocio"],
+      select: ["id", "archivo", "fecha", "mes", "anio", "negocio"]
+    });
+
+    return data;
+  }
+
+  // Obtener archivos previred por negocio, filtrando opcionalmente por mes y anio
+  async obtenerArchivosPreviredPorNegocio(negocioId: number, mes?: number, anio?: number): Promise<ArchivosPreviredGenerado[]> {
+    // Obtener los archivos previred de un negocio para luego aplicar filtros
+    const archivosPrevired = await this.obtenerArchivosPrevired(negocioId);
+
+    // Filtrar por mes si se especifica, si no se especifica, devolver todos los archivos
+    if (mes) {
+      const data = archivosPrevired.filter(archivo => (archivo.mes === mes));
+      return data;
+    }
+    if (anio) {
+      const data = archivosPrevired.filter(archivo => (archivo.anio === anio));
+      return data;
+    }
+
+    console.log(archivosPrevired);
+    return archivosPrevired;
+  }
+
+  async descargarArchivo(id: number): Promise<string> {
+    const archivoPrevired = await this.dataSource.manager.findOne(ArchivosPreviredGenerado, {
+        where: { id },
+        select: ["archivo"]
+    });
+
+    if (!archivoPrevired) {
+        throw new Error("Archivo previred no encontrado");
+    }
+
+    return archivoPrevired.archivo;
+}
+
+  async borrarArchivo(id: number): Promise<RespuestaEliminarArchivoPrevired> {
+    // Eliminar el archivo previred
+    const archivoPrevired = await this.dataSource.manager.findOne(ArchivosPreviredGenerado, {
+        where: { id },
+        relations: ["negocio"]
+    });
+
+    if (!archivoPrevired) {
+        throw new Error("Archivo previred no encontrado");
+    }
+
+    try {
+        await this.dataSource.manager.remove(archivoPrevired);
+        return { message: "Archivo previred eliminado" };
+    } catch (error) {
+        throw new Error("Error al eliminar el archivo previred");
+    } 
+  }
+
+
 
   // Métodos auxiliares
 

@@ -4,13 +4,13 @@ import { InformacionLaboral } from "../entities/InformacionLaboral.entity";
 export class InformacionLaboralService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async activarContrato(trabajadorId: number, negocioId: number, contratoId: number) {
+  /* async activarContrato(trabajadorId: number, negocioId: number, contratoId: number) {
     await this.dataSource.manager.transaction(async (manager: EntityManager) => {
       // Desactivar otros contratos activos
       await manager.update(
         InformacionLaboral,
-        { trabajador: { id: trabajadorId }, negocio: { id: negocioId }, isContratoActivo: true },
-        { isContratoActivo: false }
+        { trabajador: { id: trabajadorId }, negocio: { id: negocioId },  },
+        { isActive: false }
       );
 
       // Activar el nuevo contrato
@@ -20,5 +20,5 @@ export class InformacionLaboralService {
 
   async finiquitarContrato(contratoId: number) {
     await this.dataSource.manager.update(InformacionLaboral, { id: contratoId }, { isContratoActivo: false });
-  }
+  } */
 }

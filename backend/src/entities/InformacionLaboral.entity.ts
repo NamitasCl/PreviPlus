@@ -144,11 +144,11 @@ export class InformacionLaboral {
   isPensionado?: boolean;
 
   // Relaciones
-  @ManyToOne(() => Trabajador, trabajador => trabajador.informacionLaboral)
+  @ManyToOne(() => Trabajador, trabajador => trabajador.informacionLaboral, {cascade: true, onDelete: 'CASCADE'})
   @JoinColumn({ name: "trabajador_id" })
   trabajador: Trabajador;
 
-  @ManyToOne(() => Negocio, negocio => negocio.informacionLaboral)
+  @ManyToOne(() => Negocio, negocio => negocio.informacionLaboral, {onDelete: 'CASCADE'})
   @JoinColumn({ name: "negocio_id" })
   negocio: Negocio;
  

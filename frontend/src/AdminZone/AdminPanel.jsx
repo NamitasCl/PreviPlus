@@ -26,6 +26,7 @@ import {
   Td,
   Text,
   VStack,
+  useToast,
 } from '@chakra-ui/react'
 import {
   ResponsiveContainer,
@@ -85,6 +86,7 @@ export default function AdminPanel() {
   const [userStats, setUserStats] = useState([]); // Estadísticas usuarios registrados por mes
   const [businessStats, setBusinessStats] = useState([]); // Estadística cantidad de negocios y trabajadores ingresados al sistema
 
+  const toast = useToast();
   // Obtener lista de usuarios
   useEffect(() => {
     const fetchUsers = async () => {
@@ -145,12 +147,33 @@ export default function AdminPanel() {
   const COLORS = ['#0088FE', '#00C49F']
 
   // Funciones para manejar acciones de usuarios
-  const handleResetPassword = (userId) => {
-    console.log(`Resetear contraseña para usuario ${userId}`)
+  const handleResetPassword = async (userId) => {
+    const user = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
+    console.log(user);
+    
+    toast({
+      title: "Contraseña Restablecida",
+      description: `La contraseña de ${user.name} ${user.firstlastname} ${user.secondlastname} ha sido restablecida correctamente y se ha enviado a su correo electrónico.`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
     // Implementar lógica para resetear contraseña
   }
 
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = async (userId) => {
+
+    const user = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
+    console.log(user);
+    
+    toast({
+      title: "Usuario Eliminado",
+      description: `El usuario ${user.name} ${user.firstlastname} ${user.secondlastname} ha sido eliminado correctamente.`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+
     setUsers(users.filter(user => user.id !== userId))
     // Implementar lógica para eliminar usuario en el backend
   }
@@ -166,9 +189,18 @@ export default function AdminPanel() {
 
   // Nueva función para cambiar el rol del usuario
   const handleToggleUserRole = (userId) => {
+    
+    toast({
+      title: "Rol Cambiado",
+      description: `El rol de ${user.name} ${user.firstlastname} ${user.secondlastname} ha sido cambiado correctamente.`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    
     setUsers(users.map(user =>
       user.id === userId
-        ? { ...user, rol: user.rol === 'admin' ? 'usuario' : 'admin' }
+        ? { ...user, rol: user.rol === 'administrador' ? 'usuario' : 'administrador' }
         : user
     ))
     // Implementar lógica para cambiar rol en el backend
@@ -387,10 +419,22 @@ export default function AdminPanel() {
               </CardHeader>
               <CardBody>
                 <form>
-                  <VStack spacing={4} align="stretch">
+                  <VStack spacing={4} align="stretch" w={'md'}>
                     <FormControl>
                       <FormLabel htmlFor="name">Nombre</FormLabel>
                       <Input id="name" placeholder="Nombre completo" required />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="name">Apellido Paterno</FormLabel>
+                      <Input id="firstlastname" placeholder="Apellido Paterno" required />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="name">Apellido Materno</FormLabel>
+                      <Input id="secondlastname" placeholder="Apellido Materno" required />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="name">Nombre de usuario</FormLabel>
+                      <Input id="username" placeholder="Nombre de usuario" required />
                     </FormControl>
                     <FormControl>
                       <FormLabel htmlFor="email">Email</FormLabel>

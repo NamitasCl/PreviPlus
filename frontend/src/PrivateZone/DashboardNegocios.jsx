@@ -101,8 +101,8 @@ const DashboardNegocio = () => {
     }
 
     const handleUpdate = async () => {
-        const { name, rut, address } = negocioEditado;
-        await axios.put(`http://localhost:3000/api/negocios/${negocioEditado.id}`, { name, rut, address }, { withCredentials: true })
+        const { negocioName, rut, address } = negocioEditado;
+        await axios.put(`http://localhost:3000/api/negocios/${negocioEditado.id}`, { negocioName, rut, address }, { withCredentials: true })
             .then(res => {
                 if (res.status === 200) {
                     toast({
@@ -242,8 +242,8 @@ const DashboardNegocio = () => {
                             <FormControl>
                                 <FormLabel>Nombre</FormLabel>
                                 <Input
-                                    name="name"
-                                    value={negocioEditado?.name || ''}
+                                    name="negocioName"
+                                    value={negocioEditado?.negocioName || ''}
                                     onChange={handleInputChange}
                                 />
                             </FormControl>

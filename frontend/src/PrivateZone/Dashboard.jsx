@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer, FcSettings, FcLinux } from 'react-icons/fc'
+import { FcBusiness, FcDocument, FcHome, FcMoneyTransfer, FcLinux } from 'react-icons/fc'
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
@@ -33,7 +33,7 @@ const LinkItems = [
     { name: 'Descarga Archivo Previred', icon: FcMoneyTransfer, href: 'historialPrevired', },   
     /* { name: 'Creditos', icon: FcMoneyTransfer, href: 'creditos' }, */
     { name: 'Perfil', icon: BsFillPeopleFill, href: 'perfil' },
-    { name: 'Configuracion', icon: FcSettings, href: 'configuracion' },
+    /* { name: 'Configuracion', icon: FcSettings, href: 'configuracion' }, */
     /* { name: 'Admin', icon: FcSettings, href: 'admin' }, */
 ]
 

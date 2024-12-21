@@ -57,7 +57,7 @@ export const initializeBasicData = async () => {
       await afpRepository.save([
           { codigoAfp: 5, nombreAfp: "Habitat", tasaCotizacion: 0.10 },
           { codigoAfp: 33, nombreAfp: "Capital", tasaCotizacion: 0.115 },
-          { codigoAfp: 3, nombreAfp: "Cuprum", tasaCotizacion: 0.11 },
+          { codigoAfp: 3, nombreAfp: "Cuprum", tasaCotizacion: 0.1144 },
           { codigoAfp: 29, nombreAfp: "PlanVital", tasaCotizacion: 0.09 },
           { codigoAfp: 8, nombreAfp: "Provida", tasaCotizacion: 0.10 },
           { codigoAfp: 34, nombreAfp: "Modelo", tasaCotizacion: 0.10 },
