@@ -12,8 +12,9 @@ import {
 } from '@chakra-ui/react'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import ImagenLogo from './assets/imagen-logo.png'
+import PropTypes from 'prop-types'
 
-const Logo = (props) => {
+const Logo = () => {
     return (
         <>
             <Image src={ImagenLogo} width={50} />
@@ -48,6 +49,12 @@ const SocialButton = ({
     )
 }
 
+SocialButton.propTypes = {
+    children: PropTypes.node.isRequired,
+    label: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+}
+
 export default function Footer() {
     return (
         <Box
@@ -61,20 +68,6 @@ export default function Footer() {
                 justify={'center'}
                 align={'center'}>
                 <Logo />
-                <Stack direction={'row'} spacing={6}>
-                    <Box as="a" href={'#'}>
-                        Home
-                    </Box>
-                    <Box as="a" href={'#'}>
-                        About
-                    </Box>
-                    <Box as="a" href={'#'}>
-                        Blog
-                    </Box>
-                    <Box as="a" href={'#'}>
-                        Contact
-                    </Box>
-                </Stack>
             </Container>
 
             <Box

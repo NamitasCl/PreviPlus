@@ -1,10 +1,12 @@
 # Ignorar node_modules en ambas carpetas
-/frontend/node_modules
-/backend/node_modules
+/frontend/node_modules/
+/backend/node_modules/
+/backend-ts/node_modules/
 
 # Ignorar package-lock.json si no deseas subirlo (opcional)
 /frontend/package-lock.json
 /backend/package-lock.json
+/backend-ts/package-lock.json
 
 # Ignorar logs en ambas carpetas
 /frontend/npm-debug.log*
@@ -13,6 +15,9 @@
 /backend/npm-debug.log*
 /backend/yarn-debug.log*
 /backend/yarn-error.log*
+/backend-ts/npm-debug.log*
+/backend-ts/yarn-debug.log*
+/backend-ts/yarn-error.log*
 
 # Ignorar archivos de entorno
 /frontend/.env
@@ -25,12 +30,19 @@
 /backend/.env.development.local
 /backend/.env.test.local
 /backend/.env.production.local
+/backend-ts/.env
+/backend-ts/.env.local
+/backend-ts/.env.development.local
+/backend-ts/.env.test.local
+/backend-ts/.env.production.local
 
 # Ignorar directorios de compilación o producción (puede variar según tu configuración)
-/frontend/dist
-/frontend/build
-/backend/dist
-/backend/build
+/frontend/dist/
+/frontend/build/
+/backend/dist/
+/backend/build/
+/backend-ts/dist/
+/backend-ts/build/
 
 # Ignorar caches de compilación y herramientas (como Webpack, Parcel)
 /frontend/.cache
@@ -39,28 +51,52 @@
 /backend/.cache
 /backend/webpack-cache
 /backend/.parcel-cache
+/backend-ts/.cache
+/backend-ts/webpack-cache
+/backend-ts/.parcel-cache
 
 # Ignorar cobertura de tests (Jest, nyc)
 /frontend/coverage
 /frontend/.nyc_output
 /backend/coverage
 /backend/.nyc_output
+/backend-ts/coverage
+/backend-ts/.nyc_output
 
 # Ignorar configuraciones específicas de los editores
 /frontend/.vscode/
 /frontend/.idea/
 /backend/.vscode/
 /backend/.idea/
+/frontend/.vite/
+/backend-ts/.vite/
+/backend-ts/.idea/
+/backend/data/
+/backend/docker-init/
 
 # Archivos de logs globales
 logs
 *.log
 logs/**/*.log
 
+
 # Ignorar archivos del sistema operativo
 .DS_Store
 Thumbs.db
+/backend-ts/.DS_Store
+/backend-ts/Thumbs.db
+/frontend/.DS_Store
+/backend/.DS_Store
+
 
 # Ignorar archivos temporales
 *.tmp
 *.swp
+
+# Ignorar archivos de archivos de pruebas
+*.test.js
+*.test.ts
+
+/backend-ts/__tests__/
+
+*.txt

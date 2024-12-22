@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Checkbox,
     Flex,
     FormControl,
     FormLabel,
@@ -10,10 +9,10 @@ import {
     Stack,
     Text,
     useColorModeValue,
-    useToast,
+    useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
 
 export default function Ingreso() {
@@ -29,7 +28,7 @@ export default function Ingreso() {
 
     useEffect(() => {
         if (user) navigate("/dashboard")
-    }, [])
+    }, [navigate, user])
 
     const handleChange = (e) => {
         setFormData(prevState => ({
@@ -85,8 +84,12 @@ export default function Ingreso() {
                                 direction={{ base: 'column', sm: 'column' }}
                                 align={'start'}
                                 justify={'space-between'}>
-                                <Checkbox>Recuérdame</Checkbox>
                                 <Text color={'blue.400'}>Olvidó su contraseña?</Text>
+                                <NavLink to={'/registro'}>
+                                    <Text>
+                                        ¿ Aún no tienes cuenta? <Text as={'span'} color={'blue.400'}>¡Regístrate ahora!</Text>
+                                    </Text>
+                                </NavLink>
                             </Stack>
                             <Button
                                 onClick={handleSubmit}

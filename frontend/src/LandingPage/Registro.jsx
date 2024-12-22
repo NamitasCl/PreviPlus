@@ -19,7 +19,14 @@ import { NavLink } from 'react-router-dom'
 
 export default function Registro() {
     const [showPassword, setShowPassword] = useState(false)
-    const [formData, setFormData] = useState({ username: '', email: '', password: '' })
+    const [formData, setFormData] = useState({
+        name: '',
+        firstlastname: '',
+        secondlastname: '',
+        username: '',
+        email: '',
+        password: ''
+    })
     const toast = useToast()
 
     const handleChange = (e) => {
@@ -30,7 +37,7 @@ export default function Registro() {
     }
 
     const handleSubmit = async () => {
-        const response = await fetch('http://localhost:3000/api/usuarios', {
+        const response = await fetch('/api/usuarios', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -58,11 +65,7 @@ export default function Registro() {
                 duration: 5000,
                 isClosable: true,
             })
-
-
         }
-
-
     }
 
     return (
@@ -76,7 +79,6 @@ export default function Registro() {
                     <Heading fontSize={'4xl'} textAlign={'center'}>
                         Registrate en PreviPlus
                     </Heading>
-
                 </Stack>
                 <Box
                     rounded={'lg'}
@@ -84,7 +86,19 @@ export default function Registro() {
                     boxShadow={'lg'}
                     p={8}>
                     <Stack spacing={4}>
-                        <FormControl id='username'>
+                        <FormControl id='name'>
+                            <FormLabel>Nombre</FormLabel>
+                            <Input name='name' type='text' value={formData.name} onChange={handleChange} />
+                        </FormControl>
+                        <FormControl id='firstlastname'>
+                            <FormLabel>Primer apellido</FormLabel>
+                            <Input name='firstlastname' type='text' value={formData.firstlastname} onChange={handleChange} />
+                        </FormControl>
+                        <FormControl id='secondlastname'>
+                            <FormLabel>Segundo apellido</FormLabel>
+                            <Input name='secondlastname' type='text' value={formData.secondlastname} onChange={handleChange} />
+                        </FormControl>
+                        <FormControl id='username' isRequired>
                             <FormLabel>Nombre de usuario</FormLabel>
                             <Input name='username' type='text' value={formData.username} onChange={handleChange} />
                         </FormControl>
@@ -121,6 +135,9 @@ export default function Registro() {
                         <Stack pt={6}>
                             <Text align={'center'}>
                                 Estás registrado? <NavLink to={'/ingreso'}>Ingresar</NavLink>
+                            </Text>
+                            <Text align={'center'}>
+                                Volver al <NavLink to={'/'}>Inicio</NavLink>
                             </Text>
                         </Stack>
                     </Stack>

@@ -6,10 +6,18 @@ import Ingreso from './LandingPage/Ingreso'
 import LandingPage from './LandingPage/LandingPage'
 import LandingPageSections from './LandingPage/LandingPageSections'
 import Registro from './LandingPage/Registro'
+import ArchivosPrevired from './PrivateZone/ArchivosPrevired'
+import ComprarCreditos from './PrivateZone/ComprarCreditos'
+import Creditos from './PrivateZone/Creditos'
 import Dashboard from './PrivateZone/Dashboard'
 import DashboardIndex from './PrivateZone/DashboardIndex'
 import DashboardNegocio from './PrivateZone/DashboardNegocios'
-import Perfil from './PrivateZone/Perfil'
+import HistorialComprasCredito from './PrivateZone/HistorialComprasCredito'
+import NegocioView from './PrivateZone/NegocioView'
+import Perfil from './PrivateZone/Perfil/Perfil'
+import ConfiguracionCotizaciones from './components/ConfiguracionCotizaciones'
+import AdminPanel from './AdminZone/AdminPanel'
+import HistorialArchivosPrevired from './PrivateZone/HistorialArchivosPrevired'
 
 
 const router = createBrowserRouter(
@@ -24,7 +32,19 @@ const router = createBrowserRouter(
       <Route path='/dashboard' element={<RutaProtegida element={Dashboard} />}>
         <Route index element={<DashboardIndex />} />
         <Route path='perfil' element={<RutaProtegida element={Perfil} />} />
-        <Route path='negocios' element={<RutaProtegida element={DashboardNegocio} />} />
+        <Route path='negocios' element={<RutaProtegida element={DashboardNegocio} />}>
+          <Route path=':id' element={<RutaProtegida element={NegocioView} />} />
+        </Route>
+        <Route path='previred' element={<RutaProtegida element={ArchivosPrevired} />} />
+        <Route path='historialPrevired' element={<RutaProtegida element={HistorialArchivosPrevired} />} />
+        <Route path='creditos' element={<RutaProtegida element={Creditos} />}>
+          <Route index element={<RutaProtegida element={ComprarCreditos} />} />
+          <Route path='historial-compras' element={<RutaProtegida element={HistorialComprasCredito} />} />
+        </Route>
+        <Route path='configuracion' element={<RutaProtegida element={ConfiguracionCotizaciones} />} />
+        <Route path='admin' element={<RutaProtegida element={AdminPanel} />} />
+
+
       </Route>
       <Route path='*' element={<ErrorPage />} />
     </>

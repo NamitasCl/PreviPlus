@@ -1,29 +1,71 @@
-import { Box, Button, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Heading, Image, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 import MujerHero from './assets/persona-feliz-landing.png';
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export default function HeroSection() {
+
+    const textColor = useColorModeValue('gray.700', 'gray.100')
+    const highlightColor = useColorModeValue('red.500', 'red.300')
+
     return (
-        <Container maxW={'1280px'} px={0}>
-            <Flex justifyContent={'space-between'}>
-                <Flex alignItems={'center'} flexDirection={'column'} justifyContent={'center'} ml={10}>
-                    <Heading
-                        fontWeight={800}
-                        fontSize={'6xl'}
+        <Container maxW={'1280px'}px={0} pt={16}>
+                <Flex 
+                    direction={{ base: 'column', md: 'row' }} 
+                    align="center" 
+                    justify="space-between"
+                    gap={{ base: 8, md: 0 }}
+                >
+                    <VStack 
+                        align={{ base: 'center', md: 'flex-start' }} 
+                        spacing={6} 
+                        maxW={{ base: 'full', md: '50%' }}
+                        textAlign={{ base: 'center', md: 'left' }}
+                        pr={{ base: 0, md: 8 }}
                     >
-                        <Text as={'span'}>
-                            <span style={{ color: 'red' }}>Nos preocupamos...</span><br />
-                            para que te ocupes<br />
-                            de tu empresa.
-                        </Text>
-                    </Heading>
-                    <Button alignSelf={'flex-start'} colorScheme='blue' width={250} height={12} mt={10}>
-                        Comienza ya!
-                    </Button>
+                        <Heading
+                            as="h1"
+                            fontWeight={800}
+                            fontSize={{ base: '4xl', md: '5xl', lg: '6xl' }}
+                            lineHeight={1.2}
+                            color={textColor}
+                        >
+                            <Text as="span" color={highlightColor} display="block">
+                                Nos preocupamos...
+                            </Text>
+                            para que te ocupes
+                            <Text as="span" display="block">
+                                de tu empresa.
+                            </Text>
+                        </Heading>
+                        <Button 
+                            colorScheme='blue' 
+                            size="lg"
+                            width={{ base: 'full', sm: 'auto' }}
+                            height={12} 
+                            rightIcon={<ArrowForwardIcon />}
+                            _hover={{
+                                transform: 'translateY(-2px)',
+                                boxShadow: 'lg',
+                            }}
+                        >
+                            Comienza ya!
+                        </Button>
+                    </VStack>
+                    <Flex 
+                        maxW={{ base: '100%', md: '50%' }}
+                        mt={{ base: 8, md: 0 }}
+                        justifyContent={{ base: 'center', md: 'flex-end' }}
+                    >
+                        <Image 
+                            src={MujerHero}
+                            alt="Persona feliz usando nuestra plataforma"
+                            height="auto"
+                            width="60%"
+                            maxW="none"
+                            objectFit="cover"
+                        />
+                    </Flex>
                 </Flex>
-                <Box minW={'50%'}>
-                    <Image src={MujerHero} mr={0} ml={'auto'} height={'auto'} width={400} display={'block'} />
-                </Box>
-            </Flex>
-        </Container>
+            </Container>
     )
 }
