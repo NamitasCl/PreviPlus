@@ -2,10 +2,7 @@
 /frontend/node_modules/
 /backend/node_modules/
 
-# Ignorar package-lock.json si no deseas subirlo (opcional)
-/frontend/package-lock.json
-/backend/package-lock.json
-/backend-ts/package-lock.json
+
 
 # Ignorar logs en ambas carpetas
 /frontend/npm-debug.log*
