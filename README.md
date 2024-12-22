@@ -164,6 +164,8 @@ Principales endpoints disponibles:
 4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
 5. Crea un Pull Request en el repositorio principal.
 
+## Despliegue en DigitalOcean
+
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
