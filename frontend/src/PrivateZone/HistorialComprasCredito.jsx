@@ -25,7 +25,7 @@ const HistorialComprasCredito = () => {
     useEffect(() => {
         const fetchHistorial = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/historial-compras', { withCredentials: true });
+                const response = await axios.get('/api/historial-compras', { withCredentials: true });
                 setCompras(response.data);
             } catch (error) {
                 console.error("Error al obtener el historial de compras:", error);

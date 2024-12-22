@@ -19,7 +19,7 @@ const DashboardNegocios = () => {
     useEffect(() => {
         const fetchNegocios = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/negocios/${user.id}`, { withCredentials: true });
+                const response = await axios.get(`/api/negocios/${user.id}`, { withCredentials: true });
                 setNegocios(response.data);
             } catch (error) {
                 console.error('Error al obtener los negocios:', error);
@@ -32,7 +32,7 @@ const DashboardNegocios = () => {
     const generarArchivoPrevired = async (idNegocio) => {
         // Lógica para generar archivos Previred por negocio
         console.log(`Generar archivo Previred para el negocio con ID: ${idNegocio}`);
-        await axios.post('http://localhost:3000/api/archivosprevired/', { negocioId: idNegocio, userId: user.id }, { withCredentials: true })
+        await axios.post('/api/archivosprevired/', { negocioId: idNegocio, userId: user.id }, { withCredentials: true })
         .then(response => console.log("Archivo Previred generado exitosamente:", response.data))
         .catch(error => console.error("Error al generar Archivo Previred:", error));
     };

@@ -37,7 +37,7 @@ export default function Registro() {
     }
 
     const handleSubmit = async () => {
-        const response = await fetch('http://localhost:3000/api/usuarios', {
+        const response = await fetch('/api/usuarios', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

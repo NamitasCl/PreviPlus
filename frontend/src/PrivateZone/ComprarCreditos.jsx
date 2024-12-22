@@ -45,7 +45,7 @@ const ComprarCreditos = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/api/comprar-creditos', {
+            const response = await axios.post('/api/comprar-creditos', {
                 cantidad: parseInt(cantidad),
                 metodoPago
             }, { withCredentials: true });

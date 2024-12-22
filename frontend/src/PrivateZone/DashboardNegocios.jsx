@@ -65,7 +65,7 @@ const DashboardNegocio = () => {
 
     useEffect(() => {
         const fetchNegocios = async () => {
-            await axios.get(`http://localhost:3000/api/negocios/${user.id}`, { withCredentials: true })
+            await axios.get(`/api/negocios/${user.id}`, { withCredentials: true })
                 .then(response => {
                     setNegocios(response.data);
                 })

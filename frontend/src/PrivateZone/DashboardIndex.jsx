@@ -16,7 +16,7 @@ const DashboardIndex = () => {
     useEffect(() => {
         const fetchUserStats = async () => {
             if (user && user.id) {  // Solo intentamos obtener las estadísticas si 'user.id' está disponible
-                await axios.get(`http://localhost:3000/api/usuarios/stats/${user.id}`, {withCredentials: true})
+                await axios.get(`/api/usuarios/stats/${user.id}`, {withCredentials: true})
                 .then(response => {
                     setUserStats(prev => setUserStats({
                         ...prev,

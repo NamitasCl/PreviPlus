@@ -84,7 +84,7 @@ export default function FormularioEmpleado({ negocioId, onTrabajadorAdded }) {
 
     try {
       await axios.post(
-        'http://localhost:3000/api/trabajadores',
+        '/api/trabajadores',
         { ...data, negocioId },
         { withCredentials: true }
       );

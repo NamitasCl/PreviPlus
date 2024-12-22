@@ -91,7 +91,7 @@ export default function AdminPanel() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/stats/usuarios/list', { withCredentials: true });
+        const response = await axios.get('/api/stats/usuarios/list', { withCredentials: true });
         setUsers(response.data);
       } catch (error) {
         console.error("Error al obtener lista de usuarios:", error);
@@ -105,7 +105,7 @@ export default function AdminPanel() {
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/stats/usuarios/mes', { withCredentials: true });
+        const response = await axios.get('/api/stats/usuarios/mes', { withCredentials: true });
         setUserStats(response.data);
       } catch (error) {
         console.error("Error al obtener estadísticas de usuarios:", error);
@@ -119,7 +119,7 @@ export default function AdminPanel() {
   useEffect(() => {
     const fetchBusinessStats = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/stats/negocios/', { withCredentials: true });
+        const response = await axios.get('/api/stats/negocios/', { withCredentials: true });
         setBusinessStats(response.data);
       } catch (error) {
         console.error("Error al obtener estadísticas de negocios:", error);
@@ -133,7 +133,7 @@ export default function AdminPanel() {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/stats/negocios/list', { withCredentials: true });
+        const response = await axios.get('/api/stats/negocios/list', { withCredentials: true });
         setBusinesses(response.data);
         console.log(response.data)
       } catch (error) {
@@ -148,7 +148,7 @@ export default function AdminPanel() {
 
   // Funciones para manejar acciones de usuarios
   const handleResetPassword = async (userId) => {
-    const user = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
+    const user = await axios.get(`/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
     console.log(user);
     
     toast({
@@ -163,7 +163,7 @@ export default function AdminPanel() {
 
   const handleDeleteUser = async (userId) => {
 
-    const user = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
+    const user = await axios.get(`/api/usuarios/${userId}`, { withCredentials: true }).then(response => response.data);
     console.log(user);
     
     toast({

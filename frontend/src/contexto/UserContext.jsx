@@ -2,8 +2,11 @@
 // UserContext.js
 
 import axios from "axios";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
+
+// Obtén la URL base desde las variables de entorno
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "/api"; // Valor predeterminado en caso de que no esté definido
 
 const UserContext = createContext();
 
@@ -13,13 +16,13 @@ export const UserContextProvider = ({ children }) => {
 
     const checkAuth = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/usuarios/me', {
-                withCredentials: true
+            const response = await axios.get(`${BASE_URL}/usuarios/me`, {
+                withCredentials: true, // Incluye cookies para autenticación
             });
             setUser(response.data);
         } catch (error) {
             setUser(null);
-            console.log(error);
+            console.error("Error verificando autenticación:", error);
         } finally {
             setLoading(false); // Indicamos que la carga ha terminado
         }
@@ -32,16 +35,16 @@ export const UserContextProvider = ({ children }) => {
     const login = async (userData) => {
         setLoading(true); // Iniciamos la carga
         try {
-            const response = await axios.post('http://localhost:3000/api/usuarios/login', userData, {
+            const response = await axios.post(`${BASE_URL}/usuarios/login`, userData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json",
                 },
                 withCredentials: true,
             });
             setUser(response.data);
-            console.log(response.data)
+            console.log("Usuario autenticado:", response.data);
         } catch (error) {
-            console.log(error);
+            console.error("Error durante el login:", error);
             throw error;
         } finally {
             setLoading(false); // Termina la carga después del login
@@ -49,10 +52,14 @@ export const UserContextProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        await axios.post('http://localhost:3000/api/usuarios/logout', {}, {
-            withCredentials: true,
-        });
-        setUser(null);
+        try {
+            await axios.post(`${BASE_URL}/usuarios/logout`, {}, {
+                withCredentials: true,
+            });
+            setUser(null);
+        } catch (error) {
+            console.error("Error cerrando sesión:", error);
+        }
     };
 
     return (
@@ -63,7 +70,7 @@ export const UserContextProvider = ({ children }) => {
 };
 
 UserContextProvider.propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
 };
 
 export const useUserAuth = () => useContext(UserContext);

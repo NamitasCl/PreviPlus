@@ -77,7 +77,7 @@ import {
   
       try {
         const response = await axios.post(
-          'http://localhost:3000/api/negocios',
+          '/api/negocios',
           { ...formData, userId: user.id },
           { withCredentials: true }
         );

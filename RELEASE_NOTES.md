@@ -1,101 +1,153 @@
-# Previplus - Release Notes v1.1.0
+# Release Notes
 
-**Fecha de Lanzamiento:** [Fecha]
+## Versión 1.0.0 - Lanzamiento Inicial
 
----
+- **Fecha:** 15 de octubre de 2024
 
-## Descripción General
+### Lo nuevo
+- Lanzamiento inicial de **Previplus**, una plataforma para la gestión de cotizaciones previsionales.
+- **Backend**:
+  - Configuración inicial con **TypeORM** y **PostgreSQL**.
+  - CRUD para entidades clave: `Usuario`, `Negocio`, y `Trabajador`.
+  - Autenticación segura utilizando **JWT**.
+  - Generación de archivos Previred en formato estándar.
+- **Frontend**:
+  - Landing Page con opciones de registro e inicio de sesión.
+  - Dashboard inicial para gestión de datos.
+  - Protección de rutas privadas con **React Router DOM**.
 
-La versión v1.1.0 de **Previplus** presenta mejoras significativas sobre el MVP inicial, ampliando las funcionalidades, optimizando la seguridad y refinando la experiencia de usuario. Este lanzamiento incorpora nuevas capacidades de gestión, así como ajustes en el backend y frontend para mejorar la eficiencia y la integración del sistema.
+### Bug fixes
+- No aplica, ya que es el lanzamiento inicial.
 
----
+### How to upgrade
+- No aplica, ya que es el lanzamiento inicial.
 
-## Nuevas Funcionalidades
-
-### 1. Gestión Avanzada de Negocios
-- **Actualización de Negocios:** 
-  - Inclusión de campos adicionales para especificar detalles de las mutualidades y CCAF asociadas.
-  - Opciones para activar o desactivar negocios sin necesidad de eliminarlos.
-- **Optimización de Consultas:** Mejoras en la carga de datos de negocios vinculados al usuario autenticado.
-
-### 2. Generación de Archivos Previred Mejorada
-- **Validaciones Extensivas:** 
-  - Implementación de reglas automáticas para verificar datos obligatorios antes de la generación del archivo.
-  - Nuevas alertas que guían al usuario en caso de errores en los datos ingresados.
-- **Historial de Archivos:** Registro de los archivos generados, incluyendo fechas y negocios asociados.
-
-### 3. Sistema de Créditos Refinado
-- **Monitoreo de Créditos:**
-  - Se muestra el saldo de créditos en tiempo real en el panel de usuario.
-  - Alertas automáticas al alcanzar un saldo crítico.
-- **Proceso de Compra Mejorado:** 
-  - Integración de flujos más simples para adquirir créditos desde el frontend.
-
-### 4. Seguridad Mejorada
-- **Autenticación JWT Refinada:** 
-  - Incorporación de tiempos de expiración ajustables y verificación periódica del estado del token.
-- **Cifrado Avanzado:**
-  - Mejoras en la encriptación de datos sensibles, cumpliendo con los estándares más recientes de seguridad.
-  
-### 5. Experiencia de Usuario
-- **Frontend Optimizado:**
-  - Rediseño del dashboard con secciones más claras y accesibles.
-  - Navegación responsiva optimizada para dispositivos móviles.
-- **Soporte a Usuarios:** Incorporación de un sistema de ayuda con tutoriales básicos para el uso del sistema.
+### Deprecated
+- No hay elementos marcados como obsoletos en esta versión.
 
 ---
 
-## Limitaciones y Áreas de Desarrollo
+## Versión 1.1.0 - Mejoras de Seguridad y Gestión
 
-### Limitaciones
-1. **Integraciones de Terceros:** 
-   - No incluye soporte directo para sincronización con ERP o sistemas contables externos.
-2. **Reportes Avanzados:** 
-   - Las vistas gráficas de estadísticas están planeadas para próximas versiones.
-3. **Seguridad Avanzada:** 
-   - Autenticación multifactor (MFA) sigue en desarrollo.
+- **Fecha:** 17 de octubre de 2024
 
-### Áreas en Desarrollo
-1. **Optimización de Pruebas:** Cobertura ampliada con Jest para pruebas de extremo a extremo.
-2. **Soporte Multilingüe:** En progreso para ampliar el alcance de la plataforma.
+### Lo nuevo
+- **Backend**:
+  - Refuerzo en las relaciones entre entidades para mejorar la trazabilidad.
+  - Validaciones iniciales en la generación de archivos Previred.
+  - Manejo seguro de JWT mediante cookies HTTP-Only.
+- **Frontend**:
+  - Persistencia de sesión utilizando `localStorage`.
+  - Nuevas vistas para gestión de perfiles y negocios.
+  - Mejoras en la usabilidad del dashboard mediante componentes reutilizables.
 
----
+### Bug fixes
+- Corrección de errores en el proceso de autenticación para evitar sesiones expiradas prematuramente.
+- Resolución de inconsistencias en el manejo de datos de trabajadores en el dashboard.
 
-## Próximos Pasos
+### How to upgrade
+1. Actualiza las dependencias del proyecto utilizando `npm install`.
+2. Ejecuta las migraciones de la base de datos para aplicar los cambios en las relaciones:
+   ```bash
+   npm run typeorm migration:run
+   ```
+3. Reinicia los servicios del backend y frontend.
 
-### 1. Mejoras de Funcionalidades
-- **Reportes Visuales:**
-  - Incorporar estadísticas gráficas para facilitar la interpretación del uso del sistema.
-- **Gestión de Archivos:**
-  - Añadir la opción de descargar y eliminar archivos generados desde el historial.
-
-### 2. Expansión de Seguridad
-- **Autenticación Multifactor (MFA):**
-  - Implementación de MFA para cuentas administradoras.
-- **Auditorías de Accesos:** 
-  - Log detallado de todas las operaciones realizadas por usuarios.
-
-### 3. Sincronización con Sistemas Externos
-- **Importación y Exportación:** 
-  - Compatibilidad con formatos CSV y XLSX para una carga masiva de datos.
-- **Integración con ERP:** Planificada para permitir la sincronización bidireccional.
+### Deprecated
+- El esquema anterior de persistencia de JWT mediante encabezados, reemplazado por cookies HTTP-Only.
 
 ---
 
-## Notas Técnicas
+## Versión 1.2.0 - Créditos y Métricas
 
-- **Lenguaje:** TypeScript.
-- **Frameworks:**
-  - **Backend:** Node.js con TypeORM.
-  - **Frontend:** React con Vite y Chakra UI.
-- **Base de Datos:** PostgreSQL con cifrado AES.
-- **Pruebas:** Ampliación de cobertura de pruebas automatizadas para flujos críticos con Jest.
-- **Infraestructura:** Listo para despliegue en entornos locales y en la nube.
+- **Fecha:** 19 de octubre de 2024
+
+### Lo nuevo
+- **Backend**:
+  - Implementación de un sistema de créditos para controlar la generación de archivos Previred.
+  - Optimización de consultas SQL para mejorar el rendimiento con usuarios autenticados.
+- **Frontend**:
+  - Sección de métricas y estadísticas en el dashboard: créditos, negocios activos y archivos generados.
+  - Rediseño de componentes del dashboard con **Chakra UI** para mejorar la experiencia de usuario.
+
+### Bug fixes
+- Solución de errores en la validación de datos para la generación de archivos Previred.
+- Corrección de fallos en la carga de gráficos estadísticos en el dashboard.
+
+### How to upgrade
+1. Actualiza las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+2. Asegúrate de que las migraciones estén sincronizadas:
+   ```bash
+   npm run typeorm migration:run
+   ```
+3. Reinicia los servicios del sistema.
+
+### Deprecated
+- El sistema de créditos será reemplazado por un sistema de membresía en versiones futuras.
 
 ---
 
-## Comentarios y Feedback
+## Versión 1.3.0 - Ajustes y Mejoras Continuas
 
-Tu opinión sigue siendo clave en nuestra misión de mejorar **Previplus**. Invitamos a todos los usuarios a probar esta versión y proporcionar sugerencias que nos permitan priorizar nuevas funcionalidades y mejoras en futuras versiones.
+- **Fecha:** 15 de noviembre de 2024
 
-¡Gracias por confiar en **Previplus** para la gestión de tus cotizaciones previsionales!
+### Lo nuevo
+- **Backend**:
+  - Incorporación de validaciones adicionales en el sistema de generación de archivos Previred.
+  - Mejora en la estructura de la base de datos, con nuevas relaciones y normalización de tablas.
+  - Inclusión de servicios para actualizar trabajadores por RUT y manejar datos más dinámicos.
+- **Frontend**:
+  - Ajuste en las vistas del historial de archivos Previred para incluir filtros por negocio y mes.
+  - Mejoras en la experiencia del usuario al navegar entre secciones protegidas.
+  - Actualización de estilos para componentes clave del dashboard.
+
+### Bug fixes
+- Resolución de problemas menores en el manejo de sesiones expuestas al refrescar la página.
+- Corrección de errores en los cálculos previsionales para casos límite.
+
+### How to upgrade
+1. Actualiza las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+2. Asegúrate de que las migraciones estén sincronizadas:
+   ```bash
+   npm run typeorm migration:run
+   ```
+3. Reinicia los servicios del sistema.
+
+### Deprecated
+- El antiguo sistema de validaciones manuales de datos ha sido reemplazado por validaciones automáticas y más robustas.
+
+---
+
+## Versión 1.4.0 - Transición a Membresías
+
+- **Fecha:** 8 de diciembre de 2024
+
+### Lo nuevo
+- **Backend**:
+  - Eliminación completa del sistema de créditos.
+  - Implementación inicial del sistema de membresías, utilizando un controlador provisional.
+  - Nuevas migraciones para manejar estados de membresías en la base de datos.
+- **Frontend**:
+  - Ajustes en la interfaz para reflejar el cambio a membresías.
+  - Inclusión de un banner informativo sobre el sistema de membresías y sus beneficios.
+
+### Bug fixes
+- Solución de errores en el flujo de validación de datos durante la transición de créditos a membresías.
+- Ajustes en la interfaz de usuario para manejar dinámicamente los mensajes de error relacionados con membresías.
+
+### How to upgrade
+1. Elimina cualquier dato relacionado con créditos en la base de datos.
+2. Aplica las nuevas migraciones para manejar estados de membresía:
+   ```bash
+   npm run typeorm migration:run
+   ```
+3. Reinicia los servicios y prueba el flujo completo de membresías.
+
+### Deprecated
+- El sistema de créditos ha sido completamente eliminado en favor de las membresías.

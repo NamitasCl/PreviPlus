@@ -21,12 +21,13 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useUserAuth } from '../../contexto/UserContext';
 import { MembershipStatus } from "./EstadoMembresia";
-import { set } from "react-hook-form";
+
 
 
 const Perfil = () => {
-    const { user, checkAuth, setUser } = useUserAuth(); // Asegúrate de tener un método para actualizar el usuario
+    const { user, setUser } = useUserAuth(); // Asegúrate de tener un método para actualizar el usuario
     const toast = useToast();
+    // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const intervalRef = useRef(null); // Referencia para el intervalo
 
@@ -34,12 +35,12 @@ const Perfil = () => {
      * Función para activar la membresía.
      * Abre Flow en una nueva pestaña y inicia el polling para verificar el estado de la membresía.
      */
-    const handleActivarMembresia = async () => {
+    /* const handleActivarMembresia = async () => {
         try {
             setLoading(true);
             // Llama al backend para iniciar el proceso de membresía
             const response = await axios.post(
-                "http://localhost:3000/api/membresia/create",
+                "/api/membresia/create",
                 { userId: user.id }, // Asegúrate de enviar el userId correcto
                 { withCredentials: true } // Enviar cookies si es necesario
             ).catch(error => console.log("Se produjo aqui un error:", error));
@@ -57,7 +58,7 @@ const Perfil = () => {
                 intervalRef.current = setInterval(async () => {
                     try {
                         const statusResponse = await axios.get(
-                            "http://localhost:3000/api/membresia/status",
+                            "/api/membresia/status",
                             { withCredentials: true }
                         );
 
@@ -97,13 +98,13 @@ const Perfil = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }; */
 
     /**
      * Función para desactivar la membresía.
      * Envía una solicitud al backend para desactivar la membresía del usuario.
      */
-    const handleDesactivarMembresia = async () => {
+    /* const handleDesactivarMembresia = async () => {
         try {
             setLoading(true);
             // Llama al backend para desactivar la membresía
@@ -138,7 +139,7 @@ const Perfil = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }; */
 
     /**
      * Limpia el intervalo cuando el componente se desmonta para evitar memory leaks.
@@ -181,7 +182,7 @@ const Perfil = () => {
     };
 
     const handleMembresiaFake = async () => {
-        axios.post('http://localhost:3000/api/usuarios/membresiafake', { userId: user.id }, { withCredentials: true })
+        axios.post('/api/usuarios/membresiafake', { userId: user.id }, { withCredentials: true })
         .then((r) => setUser(r.data.user))
         .catch(error => console.error("Error al activar membresía:", error));
 

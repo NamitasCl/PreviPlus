@@ -29,6 +29,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import FormularioEmpleado from '../components/Formularios/AgregarTrabajador/FormularioAddTrabajador';
+import EditarTrabajador from './EditarTrabajador';
 
 const TrabajadoresList = ({ negocioId }) => {
 
@@ -36,15 +37,17 @@ const TrabajadoresList = ({ negocioId }) => {
     // Usa useColorModeValue en el nivel superior del componente
     const bgColorThead = useColorModeValue('gray.200', 'gray.700');
     const bgColorHover = useColorModeValue('gray.50', 'gray.800');
+    const [trabajadorSeleccionado, setTrabajadorSeleccionado] = useState(null);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen: isOpenAgregar, onOpen: onOpenAgregar, onClose: onCloseAgregar } = useDisclosure();
+    const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure();
 
     const toast = useToast();
 
     useEffect(() => {
         const fetchTrabajadores = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/trabajadores/business/${negocioId}`, { withCredentials: true });
+                const response = await axios.get(`/api/trabajadores/business/${negocioId}`, { withCredentials: true });
                 const trabajadoresNuevos = response.data.map(data => data.trabajador);
                 setTrabajadores(trabajadoresNuevos); // Reemplaza el estado en lugar de agregar
                 
@@ -64,12 +67,45 @@ const TrabajadoresList = ({ negocioId }) => {
     
     
 
-    const onView = () => { }
-    const onEdit = () => { }
-    const onDelete = () => { }
+    const onView = (trabajador) => {
+        // Lógica para ver detalles del trabajador
+        console.log('Detalles del trabajador:', trabajador);
+    };
+
+    const onEdit = (trabajador) => {
+        // Lógica para editar los datos del trabajador
+        setTrabajadorSeleccionado(trabajador);
+        onOpenEditar();
+    };
+
+    const onDelete = async (id) => {
+        try {
+            await axios.delete(`/api/trabajadores/${id}`, { withCredentials: true });
+            setTrabajadores(prev => prev.filter(t => t.id !== id));
+            toast({
+                title: "Trabajador eliminado",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (error) {
+            console.error("Error al eliminar el trabajador:", error);
+            toast({
+                title: "Error",
+                description: "No se pudo eliminar el trabajador.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
 
     const handleTrabajadorAdded = (newTrabajador) => {
         setTrabajadores(prevTrabajadores => [...prevTrabajadores, newTrabajador]);
+    };
+
+    const handleActualizarTrabajador = (trabajadorActualizado) => {
+        setTrabajadores(prev => prev.map(t => t.id === trabajadorActualizado.id ? trabajadorActualizado : t));
     };
 
     return (
@@ -84,7 +120,7 @@ const TrabajadoresList = ({ negocioId }) => {
                 <Heading as="h2" size="lg" fontWeight="bold">
                     Trabajadores del Negocio
                 </Heading>
-                <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={onOpen}>
+                <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={onOpenAgregar}>
                     Añadir trabajador
                 </Button>
                 
@@ -119,7 +155,7 @@ const TrabajadoresList = ({ negocioId }) => {
                                             size="sm"
                                             colorScheme="blue"
                                             mr={2}
-                                            onClick={() => onView(trabajador.id)}
+                                            onClick={() => onView(trabajador)}
                                             aria-label="Ver"
                                         />
                                     </Tooltip>
@@ -129,7 +165,7 @@ const TrabajadoresList = ({ negocioId }) => {
                                             size="sm"
                                             colorScheme="yellow"
                                             mr={2}
-                                            onClick={() => onEdit(trabajador.id)}
+                                            onClick={() => onEdit(trabajador)}
                                             aria-label="Editar"
                                         />
                                     </Tooltip>
@@ -148,7 +184,7 @@ const TrabajadoresList = ({ negocioId }) => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <Modal isOpen={isOpen} onClose={onClose} size={'6xl'}>
+            <Modal isOpen={isOpenAgregar} onClose={onCloseAgregar} size={'6xl'}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
@@ -157,10 +193,17 @@ const TrabajadoresList = ({ negocioId }) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+                    <Button variant="ghost" onClick={onCloseAgregar}>Cancelar</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
+            <EditarTrabajador
+                isOpen={isOpenEditar}
+                onClose={onCloseEditar}
+                trabajador={trabajadorSeleccionado}
+                onActualizar={handleActualizarTrabajador}
+            />
         </Box>
     );
 };

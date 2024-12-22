@@ -17,7 +17,7 @@ const isTest = process.env.NODE_ENV === "test";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
+  host: "db",
   port: 5432,
   username: "namas",
   password: "namas",
