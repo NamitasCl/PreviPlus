@@ -11,7 +11,7 @@ import {
     useColorModeValue,
     useToast
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useUserAuth } from '../contexto/UserContext'
 
@@ -24,11 +24,7 @@ export default function Ingreso() {
 
     const navigate = useNavigate()
     const toast = useToast()
-    const { user, login } = useUserAuth();
-
-    useEffect(() => {
-        if (user) navigate("/dashboard")
-    }, [navigate, user])
+    const { login } = useUserAuth();
 
     const handleChange = (e) => {
         setFormData(prevState => ({
@@ -39,7 +35,11 @@ export default function Ingreso() {
 
     const handleSubmit = async () => {
 
-        const response = login(formData)
+        const response = await login(formData).then(response => {
+            if (response.status === 200) {
+                navigate('/dashboard')
+            }
+        })
 
         if (!response) {
             toast({
