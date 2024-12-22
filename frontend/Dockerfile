@@ -22,9 +22,8 @@ FROM nginx:alpine
 # Copia los archivos compilados al directorio de Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia configuración personalizada de Nginx (si tienes)
-# Asegúrate de tener un archivo nginx.conf en frontend/ si lo usas
-# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# Copiar la configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expone el puerto 80
 EXPOSE 80
